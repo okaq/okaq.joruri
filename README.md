@@ -7,11 +7,11 @@ AQ <aq@okaq.com>
 
 drawing with data
 
-Canvas2DRendering Context
-with server side backing store
+Canvas2DRendering Context   
+with server side backing store   
 
-Utilized to generate
-bitmap art assets
-across okaq nano games
+Utilized to generate   
+bitmap art assets   
+across okaq nano games   
 
 
