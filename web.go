@@ -5,25 +5,25 @@ package main
 
 import (
 	"fmt"
-    "log"
-    "net/http"
+	"log"
+	"net/http"
 )
 
 const (
-    HTML = "joruri.html"
-    PORT = ":8008"
+	HTML = "joruri.html"
+	PORT = ":8008"
 )
 
 func JoruriServer(w http.ResponseWriter, req *http.Request) {
-    fmt.Println(req)
-    http.ServeFile(w, req, HTML)
+	fmt.Println(req)
+	http.ServeFile(w, req, HTML)
 }
 
 func main() {
 	fmt.Printf("okaq.jouri starting on port %s", PORT)
-    http.HandleFunc("/", JoruriServer)
-    err := http.ListenAndServe(PORT, nil)
-    if err != nil {
-        log.Fatal("ListenAndServe: " , err)
-    }
+	http.HandleFunc("/", JoruriServer)
+	err := http.ListenAndServe(PORT, nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }

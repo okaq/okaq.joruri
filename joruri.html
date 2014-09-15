@@ -22,6 +22,58 @@ var g = {
     "init": function(e) {
         console.log(e);
         console.log("ready to draw...");
+        x.init();
+        d.init();
+        b.init();
+        c.init();
+    }
+}
+// xhr
+var x = {
+    "init": function() {
+        console.log("xhr init...");
+        x.xhr = new XMLHttpRequest();
+        console.log(x.xhr);
+    }
+}
+// dom
+var d = {
+    "init": function() {
+        console.log("dom init...");
+    }
+}
+// db
+var b = {
+    "init": function() {
+        console.log("db init...");
+        // number of grey scales
+        // b.grey = 4;
+    }
+}
+// color
+var c = {
+    "init": function() {
+        console.log("color init...");
+        c.scale();
+    },
+    "scale": function() {
+        // grey scales length
+        c.grey = 2;
+        // gradient data
+        c.grad = []; // rgba css 
+        c.mid = [];
+        c.edge = [];
+        // midpoint of partition
+        // eg. [127],[63,190]
+        var c0 = (256 / c.grey) >>> 0;
+        console.log(c0);
+        // edges of partition
+        for (var i = 0; i <= c.grey; i++) {
+            c.grad[i] = c0 * i;
+        }
+        console.log(c.mid);
+        console.log(c.edge);
+        console.log(c.grad);
     }
 }
 </script>
