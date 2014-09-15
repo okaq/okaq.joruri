@@ -11,6 +11,7 @@ import (
 
 const (
     HTML = "joruri.html"
+    PORT = ":8008"
 )
 
 func JoruriServer(w http.ResponseWriter, req *http.Request) {
@@ -19,9 +20,9 @@ func JoruriServer(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	fmt.Println("okaq.jouri starting...")
+	fmt.Printf("okaq.jouri starting on port %s", PORT)
     http.HandleFunc("/", JoruriServer)
-    err := http.ListenAndServe(":8008", nil)
+    err := http.ListenAndServe(PORT, nil)
     if err != nil {
         log.Fatal("ListenAndServe: " , err)
     }
