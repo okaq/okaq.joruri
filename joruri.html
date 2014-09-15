@@ -26,6 +26,9 @@ var g = {
         d.init();
         b.init();
         c.init();
+        r.init();
+        d.grey();
+        r.grey();
     }
 }
 // xhr
@@ -40,6 +43,40 @@ var x = {
 var d = {
     "init": function() {
         console.log("dom init...");
+        d.w = 1920;
+        d.h = 1080;
+        d.alpha = document.getElementById("alpha");
+    },
+    "grey": function() {
+        d.gs = [];
+        d.gh = (d.h / c.grad.length) >>> 0;
+        d.gw = d.gh;
+        for (var i = 0; i < c.grad.length; i++) {
+            var l0 = 0;
+            var t0 = (i * d.gh) >>> 0;
+            d.gs[i] = {};
+            d.gs[i].can = document.createElement("canvas");
+            d.gs[i].con = d.gs[i].can.getContext("2d");
+            d.gs[i].can.width = d.gw;
+            d.gs[i].can.height = d.gh;
+            d.gs[i].can.style.position = "absolute";
+            d.gs[i].can.style.left = l0 + "px";
+            d.gs[i].can.style.top = t0 + "px";
+            d.alpha.appendChild(d.gs[i].can);
+        }
+    }
+}
+// render
+var r = {
+    "init": function() {
+        console.log("render init...");
+    },
+    "grey": function() {
+        for (var i = 0; i < d.gs.length; i++) {
+            d.gs[i].con.fillStyle = c.grad[i];
+            d.gs[i].con.fillRect(0, 0, d.gw, d.gh);
+            console.log(d.gs[i],c.grad[i],d.gh,d.gw);
+        }
     }
 }
 // db
@@ -99,8 +136,10 @@ var c = {
 </script>
     </head>
     <body id="alpha">
+        <!--
         <h1 style="color:rgba(64,128,255,1.0)">okaq joruri</h1>
         <h2 style="color:rgba(64,64,128,1.0)">json bitmap draw tool</h2>
+        -->
     </body>
 
 </html>
