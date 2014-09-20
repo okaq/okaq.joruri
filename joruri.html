@@ -23,9 +23,9 @@ var g = {
         console.log(e);
         console.log("ready to draw...");
         x.init();
-        d.init();
         b.init();
         c.init();
+        d.init();
         r.init();
         d.grey();
         r.grey();
@@ -51,6 +51,7 @@ var d = {
         d.gs = [];
         d.gh = (d.h / c.grad.length) >>> 0;
         d.gw = d.gh;
+        d.head = 0;
         for (var i = 0; i < c.grad.length; i++) {
             var l0 = 0;
             var t0 = (i * d.gh) >>> 0;
@@ -62,8 +63,14 @@ var d = {
             d.gs[i].can.style.position = "absolute";
             d.gs[i].can.style.left = l0 + "px";
             d.gs[i].can.style.top = t0 + "px";
+            d.gs[i].can.addEventListener("click", d.click, false);
             d.alpha.appendChild(d.gs[i].can);
         }
+    },
+    "click": function(e) {
+        console.log(e);
+        d.head = (e.y / d.gh) >>> 0;
+        r.grey();
     }
 }
 // render
@@ -73,9 +80,14 @@ var r = {
     },
     "grey": function() {
         for (var i = 0; i < d.gs.length; i++) {
-            d.gs[i].con.fillStyle = c.grad[i];
+            d.gs[i].can = d.gs[i].can;
+            var i0 = d.head + i;
+            if (i0 >= d.gs.length) {
+                i0 = i0 - d.gs.length;
+            }
+            d.gs[i].con.fillStyle = c.grad[i0];
             d.gs[i].con.fillRect(0, 0, d.gw, d.gh);
-            console.log(d.gs[i],c.grad[i],d.gh,d.gw);
+            // console.log(d.gs[i],c.grad[i],d.gh,d.gw);
         }
     }
 }
@@ -84,7 +96,7 @@ var b = {
     "init": function() {
         console.log("db init...");
         // number of grey scales
-        b.grey = 4;
+        b.grey = 8;
     }
 }
 // color
@@ -133,6 +145,9 @@ var c = {
         return "rgba(" + c0 + "," + c0 + "," + c0 + ",1.0)";
     }
 }
+// abstraction arch
+// entities - data driven engine
+// domain specific logic
 </script>
     </head>
     <body id="alpha">
