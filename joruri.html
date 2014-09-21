@@ -69,7 +69,7 @@ var d = {
     },
     "click": function(e) {
         console.log(e);
-        d.head = (e.y / d.gh) >>> 0;
+        d.head = (e.pageY / d.gh) >>> 0;
         r.grey();
     }
 }
@@ -80,11 +80,16 @@ var r = {
     },
     "grey": function() {
         for (var i = 0; i < d.gs.length; i++) {
-            d.gs[i].can = d.gs[i].can;
-            var i0 = d.head + i;
-            if (i0 >= d.gs.length) {
-                i0 = i0 - d.gs.length;
+            d.gs[i].can.width = d.gw;
+            var i0 = i - d.head;
+            if (i0 < 0) {
+                i0 = d.gs.length + i0;
             }
+            // i = 0,1,2,3,4
+            // grad = 0,1,2,3,4
+            // head = 2 
+            // i0 = 3,4,0,1,2
+            // console.log(i,i0,d.head);
             d.gs[i].con.fillStyle = c.grad[i0];
             d.gs[i].con.fillRect(0, 0, d.gw, d.gh);
             // console.log(d.gs[i],c.grad[i],d.gh,d.gw);
