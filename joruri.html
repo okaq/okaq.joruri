@@ -29,6 +29,7 @@ var g = {
         r.init();
         d.grey();
         r.grey();
+        d.grid();
     }
 }
 // xhr
@@ -71,6 +72,36 @@ var d = {
         console.log(e);
         d.head = (e.pageY / d.gh) >>> 0;
         r.grey();
+    },
+    "grid": function() {
+        d.sq = [];
+        d.sqx = 2;
+        d.sqy = 2;
+        d.sqt = (d.sqx * d.sqy) >>> 0;
+        d.sqw = 32;
+        d.sqh = 32;
+        d.sqt = 128;
+        d.sql = 256;
+        for (var y = 0; y < d.sqy; y++) {
+            for (var x = 0; x < d.sqx; x++) {
+                var x0 = (d.sqw * x) >>> 0;
+                var y0 = (d.sqh * y) >>> 0;
+                var i0 = ((y * d.sqx) >>> 0) + x;
+                d.sq[i0] = d.canvas(d.sqw, d.sqh, d.sqt + y0, d.sql + x0);
+                d.alpha.appendChild(d.sq[i0].can);
+            }
+        }
+    },
+    "canvas": function(w0, h0, t0, l0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = w0;
+        c0.can.height = h0;
+        c0.can.style.position = "absolute";
+        c0.can.style.top = t0 + "px";
+        c0.can.style.left = l0 + "px";
+        return c0;
     }
 }
 // render
