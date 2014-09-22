@@ -30,6 +30,7 @@ var g = {
         d.grey();
         r.grey();
         d.grid();
+        r.grid();
     }
 }
 // xhr
@@ -75,11 +76,11 @@ var d = {
     },
     "grid": function() {
         d.sq = [];
-        d.sqx = 2;
-        d.sqy = 2;
+        d.sqx = 4;
+        d.sqy = 4;
         d.sqt = (d.sqx * d.sqy) >>> 0;
-        d.sqw = 32;
-        d.sqh = 32;
+        d.sqw = 128;
+        d.sqh = 128;
         d.sqt = 128;
         d.sql = 256;
         for (var y = 0; y < d.sqy; y++) {
@@ -124,6 +125,15 @@ var r = {
             d.gs[i].con.fillStyle = c.grad[i0];
             d.gs[i].con.fillRect(0, 0, d.gw, d.gh);
             // console.log(d.gs[i],c.grad[i],d.gh,d.gw);
+        }
+    },
+    "grid": function() {
+        for (var i = 0; i < d.sq.length; i++) {
+            var c0 = ((255 / d.sq.length) * i) >>> 0;
+            var c1 = "rgba(" + c0 + "," + c0 + "," + c0 + ",1.0)";
+            console.log(c1);
+            d.sq[i].con.fillStyle = c1;
+            d.sq[i].con.fillRect(0, 0, d.sqw, d.sqh);
         }
     }
 }
