@@ -74,6 +74,22 @@ var d = {
         d.head = (e.pageY / d.gh) >>> 0;
         r.grey();
     },
+    "click2": function(e) {
+        console.log(e.target.getContext("2d"));
+        // re-obtain index from e.x, e.y
+        var x0 = e.x - d.sql;
+        var x1 = (x0 / d.sqw) >>> 0;
+        var y0 = e.y - d.sqt;
+        var y1 = (y0 / d.sqh) >>> 0;
+        var i0 = (y1 * d.sqx) + x1;
+        console.log(x0,x1,y0,y1,i0);
+
+        // implicit method
+        var can = e.target;
+        var con = can.getContext("2d");
+        con.fillStyle = "rgba(255,128,64,1.0)";
+        con.fillRect(0,0,can.width,can.height);
+    },
     "grid": function() {
         d.sq = [];
         d.sqx = 4;
@@ -89,6 +105,7 @@ var d = {
                 var y0 = (d.sqh * y) >>> 0;
                 var i0 = ((y * d.sqx) >>> 0) + x;
                 d.sq[i0] = d.canvas(d.sqw, d.sqh, d.sqt + y0, d.sql + x0);
+                d.sq[i0].can.addEventListener("click", d.click2, false); 
                 d.alpha.appendChild(d.sq[i0].can);
             }
         }
@@ -103,7 +120,7 @@ var d = {
         c0.can.style.top = t0 + "px";
         c0.can.style.left = l0 + "px";
         return c0;
-    }
+    },
 }
 // render
 var r = {
@@ -131,7 +148,7 @@ var r = {
         for (var i = 0; i < d.sq.length; i++) {
             var c0 = ((255 / d.sq.length) * i) >>> 0;
             var c1 = "rgba(" + c0 + "," + c0 + "," + c0 + ",1.0)";
-            console.log(c1);
+            // console.log(c1);
             d.sq[i].con.fillStyle = c1;
             d.sq[i].con.fillRect(0, 0, d.sqw, d.sqh);
         }

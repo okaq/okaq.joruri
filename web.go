@@ -20,7 +20,7 @@ func JoruriServer(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	fmt.Printf("okaq.jouri starting on port %s", PORT)
+	fmt.Printf("okaq.jouri starting on port %s\n", PORT)
 	http.HandleFunc("/", JoruriServer)
 	err := http.ListenAndServe(PORT, nil)
 	if err != nil {
