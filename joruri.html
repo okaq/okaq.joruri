@@ -39,6 +39,27 @@ var x = {
         console.log("xhr init...");
         x.xhr = new XMLHttpRequest();
         console.log(x.xhr);
+        x.xhr.addEventListener("progress", x.progress, false);
+        x.xhr.addEventListener("load", x.load, false);
+        x.xhr.addEventListener("error", x.error, false);
+        x.xhr.addEventListener("abort", x.abort, false);
+        // x.xhr.open("POST", "www.okaq.com/sc", true);
+        // x.xhr.requestType = "arraybuffer";
+        // x.xhr.send();
+    },
+    "progress": function(e) {
+        console.log(e);
+    },
+    "load": function(e) {
+        console.log(e);
+        // x.xhr.data0 = x.xhr.response; // arraybuffer
+        // x.xhr.data1 = x.xhr.responseText; // plain text
+    },
+    "error": function(e) {
+        console.log(e);
+    },
+    "abort": function(e) {
+        console.log(e);
     }
 }
 // dom
@@ -47,7 +68,15 @@ var d = {
         console.log("dom init...");
         d.w = 1920;
         d.h = 1080;
+        
+        // query string parsing in JS is done via regex
+        // console.log(window.location.search);
+
+        // layout
+        d.w0 = 128; // left-hand border of color pick
+        d.w1 = 1024; // border of grid
         d.alpha = document.getElementById("alpha");
+        // init scene
     },
     "grey": function() {
         d.gs = [];
@@ -92,8 +121,8 @@ var d = {
     },
     "grid": function() {
         d.sq = [];
-        d.sqx = 4;
-        d.sqy = 4;
+        d.sqx = 8;
+        d.sqy = 8;
         d.sqt = (d.sqx * d.sqy) >>> 0;
         d.sqw = 128;
         d.sqh = 128;
@@ -126,6 +155,7 @@ var d = {
 var r = {
     "init": function() {
         console.log("render init...");
+        // render scene
     },
     "grey": function() {
         for (var i = 0; i < d.gs.length; i++) {
