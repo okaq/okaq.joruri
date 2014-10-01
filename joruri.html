@@ -15,7 +15,7 @@
         console.log("okaq.joruri ok!");
         // async load
         (function() {
-         window.addEventListener("load", function(e){g.init(e);}, false);
+         window.addEventListener("load", function(e){g.start(e);}, false);
          })();
 // game
 var g = {
@@ -31,6 +31,32 @@ var g = {
         r.grey();
         d.grid();
         r.grid();
+        // custom events
+        // start palette (5 greyscales)
+        // start grid (16x16)
+        // start xhr (save blank json)
+        // json data struct
+        // (id, (name), datetime, #greyscales, grid [])
+    },
+    "start": function(e) {
+        console.log(e);
+        // palette layout data
+        // palette greyscales data
+        // palette chooser list
+        // palette event handlers
+        // palette renderer
+
+        // grid layout
+        // grid bitmap data
+        // grid state history
+        // grid event handlers
+        // grid renderer
+
+        // xhr layout
+        // xhr state
+
+        // server layout
+        // server state
     }
 }
 // xhr
