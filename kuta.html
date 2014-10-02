@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head id="zeta">
+        <title>okaq</title>
+        <meta http-equiv="Content-Type" contains="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=1920,height=1080,initial-scale=1" />
+        <meta name="source" content="https://github.com/okaq/okaq.joruri" />
+        <meta name="creator" content="AQ <aq@okaq.com>" />
+        <meta name="date" content="2014-09-12" />
+        <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGL5/0yOgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//F0ECRujA188AAAAASUVORK5CYII=" />
+    <style type="text/css">
+        html,body{width:1920px;height:1080px;margin:0px;border:0px;padding:0px;background-color:rgba(255,255,255,1.0);}
+    </style>
+    <script type="text/javascript">
+        console.log("okaq.joruri ok!");
+        // async load
+        (function() {
+         window.addEventListener("load", function(e){g.start(e);}, false);
+         })();
+// game
+var g = {
+    "init": function(e) {
+        console.log(e);
+        console.log("ready to draw...");
+        x.init();
+        b.init();
+        c.init();
+        d.init();
+        r.init();
+        d.grey();
+        r.grey();
+        d.grid();
+        r.grid();
+        // custom events
+        // start palette (5 greyscales)
+        // start grid (16x16)
+        // start xhr (save blank json)
+        // json data struct
+        // (id, (name), datetime, #greyscales, grid [])
+    },
+    "start": function(e) {
+        console.log(e);
+        // palette layout data
+        // palette greyscales data
+        // palette chooser list
+        // palette event handlers
+        // palette renderer
+
+        // grid layout
+        // grid bitmap data
+        // grid state history
+        // grid event handlers
+        // grid renderer
+
+        // xhr layout
+        // xhr state
+
+        // server layout
+        // server state
+    }
+}
+// xhr
+var x = {
+    "init": function() {
+        console.log("xhr init...");
+        x.xhr = new XMLHttpRequest();
+        console.log(x.xhr);
+        x.xhr.addEventListener("progress", x.progress, false);
+        x.xhr.addEventListener("load", x.load, false);
+        x.xhr.addEventListener("error", x.error, false);
+        x.xhr.addEventListener("abort", x.abort, false);
+        // x.xhr.open("POST", "www.okaq.com/sc", true);
+        // x.xhr.requestType = "arraybuffer";
+        // x.xhr.send();
+
+        // HTML5 Encoding API
+        console.log(new window.TextDecoder("utf-8"));
+    },
+    "progress": function(e) {
+        console.log(e);
+    },
+    "load": function(e) {
+        console.log(e);
+        // x.xhr.data0 = x.xhr.response; // arraybuffer
+        // x.xhr.data1 = x.xhr.responseText; // plain text
+    },
+    "error": function(e) {
+        console.log(e);
+    },
+    "abort": function(e) {
+        console.log(e);
+    }
+}
+// dom
+var d = {
+    "init": function() {
+        console.log("dom init...");
+        d.w = 1920;
+        d.h = 1080;
+        
+        // query string parsing in JS is done via regex
+        // console.log(window.location.search);
+
+        // layout
+        d.w0 = 128; // left-hand border of color pick
+        d.w1 = 1024; // border of grid
+        d.alpha = document.getElementById("alpha");
+        // init scene
+    },
+    "grey": function() {
+        d.gs = [];
+        d.gh = (d.h / c.grad.length) >>> 0;
+        d.gw = d.gh;
+        d.head = 0;
+        for (var i = 0; i < c.grad.length; i++) {
+            var l0 = 0;
+            var t0 = (i * d.gh) >>> 0;
+            d.gs[i] = {};
+            d.gs[i].can = document.createElement("canvas");
+            d.gs[i].con = d.gs[i].can.getContext("2d");
+            d.gs[i].can.width = d.gw;
+            d.gs[i].can.height = d.gh;
+            d.gs[i].can.style.position = "absolute";
+            d.gs[i].can.style.left = l0 + "px";
+            d.gs[i].can.style.top = t0 + "px";
+            d.gs[i].can.addEventListener("click", d.click, false);
+            d.alpha.appendChild(d.gs[i].can);
+        }
+    },
+    "click": function(e) {
+        console.log(e);
+        d.head = (e.pageY / d.gh) >>> 0;
+        r.grey();
+    },
+    "click2": function(e) {
+        console.log(e.target.getContext("2d"));
+        // re-obtain index from e.x, e.y
+        var x0 = e.x - d.sql;
+        var x1 = (x0 / d.sqw) >>> 0;
+        var y0 = e.y - d.sqt;
+        var y1 = (y0 / d.sqh) >>> 0;
+        var i0 = (y1 * d.sqx) + x1;
+        console.log(x0,x1,y0,y1,i0);
+
+        // implicit method
+        var can = e.target;
+        var con = can.getContext("2d");
+        con.fillStyle = "rgba(255,128,64,1.0)";
+        con.fillRect(0,0,can.width,can.height);
+    },
+    "grid": function() {
+        d.sq = [];
+        d.sqx = 8;
+        d.sqy = 8;
+        d.sqt = (d.sqx * d.sqy) >>> 0;
+        d.sqw = 128;
+        d.sqh = 128;
+        d.sqt = 128;
+        d.sql = 256;
+        for (var y = 0; y < d.sqy; y++) {
+            for (var x = 0; x < d.sqx; x++) {
+                var x0 = (d.sqw * x) >>> 0;
+                var y0 = (d.sqh * y) >>> 0;
+                var i0 = ((y * d.sqx) >>> 0) + x;
+                d.sq[i0] = d.canvas(d.sqw, d.sqh, d.sqt + y0, d.sql + x0);
+                d.sq[i0].can.addEventListener("click", d.click2, false); 
+                d.alpha.appendChild(d.sq[i0].can);
+            }
+        }
+    },
+    "canvas": function(w0, h0, t0, l0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = w0;
+        c0.can.height = h0;
+        c0.can.style.position = "absolute";
+        c0.can.style.top = t0 + "px";
+        c0.can.style.left = l0 + "px";
+        return c0;
+    },
+}
+// render
+var r = {
+    "init": function() {
+        console.log("render init...");
+        // render scene
+    },
+    "grey": function() {
+        for (var i = 0; i < d.gs.length; i++) {
+            d.gs[i].can.width = d.gw;
+            var i0 = i - d.head;
+            if (i0 < 0) {
+                i0 = d.gs.length + i0;
+            }
+            // i = 0,1,2,3,4
+            // grad = 0,1,2,3,4
+            // head = 2 
+            // i0 = 3,4,0,1,2
+            // console.log(i,i0,d.head);
+            d.gs[i].con.fillStyle = c.grad[i0];
+            d.gs[i].con.fillRect(0, 0, d.gw, d.gh);
+            // console.log(d.gs[i],c.grad[i],d.gh,d.gw);
+        }
+    },
+    "grid": function() {
+        for (var i = 0; i < d.sq.length; i++) {
+            var c0 = ((255 / d.sq.length) * i) >>> 0;
+            var c1 = "rgba(" + c0 + "," + c0 + "," + c0 + ",1.0)";
+            // console.log(c1);
+            d.sq[i].con.fillStyle = c1;
+            d.sq[i].con.fillRect(0, 0, d.sqw, d.sqh);
+        }
+    }
+}
+// db
+var b = {
+    "init": function() {
+        console.log("db init...");
+        // number of grey scales
+        b.grey = 8;
+    }
+}
+// color
+var c = {
+    "init": function() {
+        console.log("color init...");
+        c.scale(b.grey);
+    },
+    "scale": function(n0) {
+        // grey scales length
+        c.grey = n0;
+        c.gradient();
+    },
+    "gradient": function() {
+        // gradient data
+        c.grad = []; // rgba css 
+        c.mid = [];
+        c.edge = [];
+        // partition factor
+        var p0 = (256 / c.grey) >>> 0;
+        console.log(p0);
+        // midpoint of partition
+        // eg. [127],[63,190]
+        for (var i = 0; i < c.grey; i++) {
+            c.mid[i] = p0 * (i + 0.5);
+        }
+        // edges of partition
+        c.edge[0] = 0;
+        for (var i = 0; i <= c.grey; i++) {
+            c.edge[i] = p0 * i;
+        }
+        c.edge[c.grey] = 255;
+        // gradient fill
+        c.grad[0] = c.rgba(c.edge[0]);
+        for (var i = 0; i < c.grey; i++) {
+            c.grad[2*i+1] = c.rgba(c.mid[i]);
+            c.grad[2*i+2] = c.rgba(c.edge[i+1]);
+        }
+        console.log(c.mid);
+        console.log(c.edge);
+        console.log(c.rgba(c.mid[0]));
+        console.log(c.grad);
+    },
+    "rgba": function(c0) {
+        // valid css greyscale component
+        return "rgba(" + c0 + "," + c0 + "," + c0 + ",1.0)";
+    }
+}
+// abstraction arch
+// entities - data driven engine
+// domain specific logic
+// palette
+var p = {
+}
+// grid
+var g = {
+}
+// data
+var db = {
+}
+// conn
+var conn = {
+}
+</script>
+    </head>
+    <body id="alpha">
+        <!--
+        <h1 style="color:rgba(64,128,255,1.0)">okaq joruri</h1>
+        <h2 style="color:rgba(64,64,128,1.0)">json bitmap draw tool</h2>
+        -->
+    </body>
+
+</html>
+
