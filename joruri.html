@@ -15,17 +15,60 @@
         console.log("okaq.joruri ok!");
         // async load
         (function() {
+         console.log("async load");
          window.addEventListener("load", function(e){g.start(e);}, false);
          })();
 // game
 var g = {
     "start": function(e) {
         console.log(e);
+        console.log("game init...");
+        // subsystems
+        // (dom, palette, canvas, data, conn)
+        g.subs = [d,p,c,db,conn];
+        g.init_all();
+    },
+    "init_all": function() {
+        // start all subsystems
+        g.subs.forEach(function(el){el.init();});
+    }
+}
+// dom
+var d = {
+    "init": function() {
+        console.log("dom init...");
+        d.alpha = document.getElementById("alpha");
+        console.log(d.alpha);
+    }
+}
+// palette
+var p = {
+    "init": function() {
+        console.log("palette init...");
+    }
+}
+// canvas
+var c = {
+    "init": function() {
+        console.log("canvas init...");
+    }
+}
+// data
+var db = {
+    "init": function() {
+        console.log("data init...");
+    }
+}
+// xhr
+var conn = {
+    "init": function() {
+        console.log("conn init...");
+        conn.xhr = new XMLHttpRequest();
+        console.log(conn.xhr);
     }
 }
      </script>
  </head>
  <body id="alpha">
-     okaq gira joruri is live!
  </body>
 </html>
