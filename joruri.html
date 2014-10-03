@@ -35,6 +35,7 @@ var g = {
     },
     "render": function() {
         p.render();
+        c.render();
     }
 }
 // dom
@@ -65,10 +66,10 @@ var p = {
     "init": function() {
         console.log("palette init...");
         // render, clear (bkgd, context)
-        p.w = 96;
-        p.h = 96;
-        p.mx = 16;
-        p.my = 16;
+        p.w = 80;
+        p.h = 80;
+        p.mx = 32;
+        p.my = 64;
         p.t = 6;
         p.ent = [];
 
@@ -82,7 +83,7 @@ var p = {
     },
     "render": function() {
         for (var i = 0; i < p.t; i++) {
-            rgb.shuffle();
+            rgb.shuffle(1.0);
             p.ent[i].con.fillStyle = rgb.css(rgb.rand);
             p.ent[i].con.fillRect(0,0,p.w,p.h);
         }
@@ -92,6 +93,35 @@ var p = {
 var c = {
     "init": function() {
         console.log("canvas init...");
+        c.w = 96;
+        c.h = 96;
+        c.mx = 196;
+        c.my = 32;
+        c.nx = 8;
+        c.ny = 8;
+        c.ent = [];
+
+        for (var y = 0; y < c.ny; y++) {
+            for (var x = 0; x < c.nx; x++) {
+                var x0 = (c.mx + (x * c.w)) >>> 0;
+                var y0 = (c.my + (y * c.h)) >>> 0;
+                var i0 = ((y * c.nx) + x) >>> 0;
+                c.ent[i0] = d.canvas(c.w, c.h, x0, y0);
+                d.add(c.ent[i0].can);
+            }
+        }
+
+        console.log(c.ent);
+    },
+    "render": function() {
+        for (var y = 0; y < c.ny; y++) {
+            for (var x = 0; x < c.nx; x++) {
+                var i0 = ((y * c.nx) + x) >>> 0;
+                rgb.shuffle(1.0);
+                c.ent[i0].con.fillStyle = rgb.css(rgb.rand);
+                c.ent[i0].con.fillRect(0,0,c.w,c.h);
+            }
+        }
     }
 }
 // data
