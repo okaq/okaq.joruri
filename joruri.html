@@ -42,6 +42,11 @@ var d = {
     },
     "add": function(el) {
         d.alpha.appendChild(el);
+    },
+    "canvas": function(w,h,x,y) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
     }
 }
 // palette
@@ -69,6 +74,7 @@ var conn = {
         console.log("conn init...");
         conn.xhr = new XMLHttpRequest();
         console.log(conn.xhr);
+        conn.url = "www.okaq.com/aa";
     }
 }
 // rgb
