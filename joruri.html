@@ -75,9 +75,21 @@ var conn = {
 var rgb = {
     "init": function() {
         console.log("colors init...");
+        rgb.rand = [0,0,0,0];
+        rgb.shuffle(1.0);
+        console.log(rgb.css(rgb.rand));
     },
-    "byte": function() {
+    "bytes": function() {
         return (Math.random() * 255) >>> 0;
+    },
+    "shuffle": function(a0) {
+        for (var i = 0; i < 3; i++) {
+            rgb.rand[i] = rgb.bytes();
+        }
+        rgb.rand[3] = a0 || Math.random();
+    },
+    "css": function(a0) {
+        return "rgba(" + a0.join(",") + ")";
     }
 }
      </script>
