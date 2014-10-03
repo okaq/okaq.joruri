@@ -25,7 +25,7 @@ var g = {
         console.log("game init...");
         // subsystems
         // (dom, palette, canvas, data, conn)
-        g.subs = [d,p,c,db,conn];
+        g.subs = [d,p,c,db,conn,rgb];
         g.init_all();
     },
     "init_all": function() {
@@ -39,12 +39,16 @@ var d = {
         console.log("dom init...");
         d.alpha = document.getElementById("alpha");
         console.log(d.alpha);
+    },
+    "add": function(el) {
+        d.alpha.appendChild(el);
     }
 }
 // palette
 var p = {
     "init": function() {
         console.log("palette init...");
+        // render, clear (bkgd, context)
     }
 }
 // canvas
@@ -65,6 +69,15 @@ var conn = {
         console.log("conn init...");
         conn.xhr = new XMLHttpRequest();
         console.log(conn.xhr);
+    }
+}
+// rgb
+var rgb = {
+    "init": function() {
+        console.log("colors init...");
+    },
+    "byte": function() {
+        return (Math.random() * 255) >>> 0;
     }
 }
      </script>
