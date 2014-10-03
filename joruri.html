@@ -27,10 +27,14 @@ var g = {
         // (dom, palette, canvas, data, conn)
         g.subs = [d,p,c,db,conn,rgb];
         g.init_all();
+        g.render();
     },
     "init_all": function() {
         // start all subsystems
         g.subs.forEach(function(el){el.init();});
+    },
+    "render": function() {
+        p.render();
     }
 }
 // dom
@@ -47,6 +51,13 @@ var d = {
         var c0 = {};
         c0.can = document.createElement("canvas");
         c0.con = c0.can.getContext("2d");
+        c0.can.width = w;
+        c0.can.height = h;
+        c0.can.style.position = "absolute";
+        c0.can.style.left = x + "px";
+        c0.can.style.top = y + "px";
+
+        return c0;
     }
 }
 // palette
@@ -54,6 +65,27 @@ var p = {
     "init": function() {
         console.log("palette init...");
         // render, clear (bkgd, context)
+        p.w = 96;
+        p.h = 96;
+        p.mx = 16;
+        p.my = 16;
+        p.t = 6;
+        p.ent = [];
+
+        for (var i = 0; i < p.t; i++) {
+            var y0 = (p.my + (i * p.h)) >>> 0;
+            p.ent[i] = d.canvas(p.w, p.h, p.mx, y0); 
+            d.add(p.ent[i].can);
+        }
+
+        console.log(p.ent);
+    },
+    "render": function() {
+        for (var i = 0; i < p.t; i++) {
+            rgb.shuffle();
+            p.ent[i].con.fillStyle = rgb.css(rgb.rand);
+            p.ent[i].con.fillRect(0,0,p.w,p.h);
+        }
     }
 }
 // canvas
