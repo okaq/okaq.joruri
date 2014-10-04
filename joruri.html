@@ -120,7 +120,7 @@ var p = {
     },
     "click": function(e) {
         console.log(e);
-        var y0 = ((e.y - p.my) / p.h) >>> 0;
+        var y0 = ((e.y - p.my + window.pageYOffset) / p.h) >>> 0;
         console.log(y0);
         p.chosen = y0;
 
@@ -173,10 +173,10 @@ var c = {
     },
     "click": function(e) {
         console.log(e);
-        var x0 = ((e.x - c.mx) / c.w) >>> 0;
-        var y0 = ((e.y - c.my) / c.h) >>> 0;
+        var x0 = ((e.x - c.mx + window.pageXOffset) / c.w) >>> 0;
+        var y0 = ((e.y - c.my + window.pageYOffset) / c.h) >>> 0;
         var i0 = ((y0 * c.nx) + x0) >>> 0;
-        console.log(x0, y0, i0);
+        console.log(x0, y0, i0, window.pageYOffset);
         rgb.grids[i0] = rgb.greys[p.chosen];
 
         c.render();
