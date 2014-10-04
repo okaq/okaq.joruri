@@ -59,6 +59,10 @@ var d = {
         c0.can.style.top = y + "px";
 
         return c0;
+    },
+    "clear": function(c0) {
+        // clear canvas context
+        c0.can.width = c0.can.width;
     }
 }
 // palette
@@ -99,12 +103,15 @@ var p = {
         for (var i = 0; i < p.t; i++) {
             // rgb.shuffle(1.0);
             // p.ent[i].con.fillStyle = rgb.css(rgb.rand);
+            d.clear(p.ent[i]);
             p.ent[i].con.fillStyle = rgb.css(rgb.greys[i]);
             p.ent[i].con.fillRect(0,0,p.w,p.h);
         }
         // chosen
-        rgb.shuffle(0.25);
-        p.ent[p.chosen].con.fillStyle = rgb.css(rgb.rand);
+        // rgb.shuffle(0.25);
+        // p.ent[p.chosen].con.fillStyle = rgb.css(rgb.rand);
+        var c0 = [255,255,0,0.4];
+        p.ent[p.chosen].con.fillStyle = rgb.css(c0);
         var m0 = 8;
         var m1 = 2 * m0;
         var x0 = p.w - m1;
@@ -130,7 +137,11 @@ var c = {
         c.my = 32;
         c.nx = 8;
         c.ny = 8;
+        c.nt = (c.nx * c.ny) >>> 0;
         c.ent = [];
+
+        rgb.grid(c.nt, 1.0);
+        console.log(rgb.grids);
 
         for (var y = 0; y < c.ny; y++) {
             for (var x = 0; x < c.nx; x++) {
@@ -148,8 +159,9 @@ var c = {
         for (var y = 0; y < c.ny; y++) {
             for (var x = 0; x < c.nx; x++) {
                 var i0 = ((y * c.nx) + x) >>> 0;
-                rgb.shuffle(1.0);
-                c.ent[i0].con.fillStyle = rgb.css(rgb.rand);
+                // rgb.shuffle(1.0);
+                // c.ent[i0].con.fillStyle = rgb.css(rgb.rand);
+                c.ent[i0].con.fillStyle = rgb.css(rgb.grids[i0]);
                 c.ent[i0].con.fillRect(0,0,c.w,c.h);
                 // add event listener
                 // handler updates color to chooser greyscale
@@ -201,6 +213,17 @@ var rgb = {
             g0[0] = g0[1] = g0[2] = (c0 * i) >>> 0;
             g0[3] = a0 || 1.0;
             rgb.greys[i] = g0;
+        }
+    },
+    "grid": function(n0, a0) {
+        rgb.grids = [];
+        for (var i = 0; i < n0; i++) {
+            var g0 = [];
+            for (var j = 0; j < 3; j++) {
+                g0[j] = rgb.bytes();
+            }
+            g0[3] = a0 || 1.0;
+            rgb.grids[i] = g0;
         }
     }
 }
