@@ -150,6 +150,7 @@ var c = {
                 var i0 = ((y * c.nx) + x) >>> 0;
                 c.ent[i0] = d.canvas(c.w, c.h, x0, y0);
                 d.add(c.ent[i0].can);
+                c.ent[i0].can.addEventListener("click", c.click, false);
             }
         }
 
@@ -161,6 +162,7 @@ var c = {
                 var i0 = ((y * c.nx) + x) >>> 0;
                 // rgb.shuffle(1.0);
                 // c.ent[i0].con.fillStyle = rgb.css(rgb.rand);
+                d.clear(c.ent[i0]);
                 c.ent[i0].con.fillStyle = rgb.css(rgb.grids[i0]);
                 c.ent[i0].con.fillRect(0,0,c.w,c.h);
                 // add event listener
@@ -168,6 +170,16 @@ var c = {
                 // save dumps grid colors to json
             }
         }
+    },
+    "click": function(e) {
+        console.log(e);
+        var x0 = ((e.x - c.mx) / c.w) >>> 0;
+        var y0 = ((e.y - c.my) / c.h) >>> 0;
+        var i0 = ((y0 * c.nx) + x0) >>> 0;
+        console.log(x0, y0, i0);
+        rgb.grids[i0] = rgb.greys[p.chosen];
+
+        c.render();
     }
 }
 // data
