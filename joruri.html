@@ -72,21 +72,48 @@ var p = {
         p.my = 64;
         p.t = 6;
         p.ent = [];
+        p.chosen = 0;
 
         for (var i = 0; i < p.t; i++) {
             var y0 = (p.my + (i * p.h)) >>> 0;
             p.ent[i] = d.canvas(p.w, p.h, p.mx, y0); 
             d.add(p.ent[i].can);
+            // add event listener
+            // handler assigns "active" flag to entity
+            // render transparent yellow square on active entity (chooser)
+            // will need to re-render entire palette
+            // for canvas, only dirty square needs to be cleared
+            // p.chosen global var
+            // determined from x-y click
+            // p.ent[i].choosen = false;
+            p.ent[i].can.addEventListener("click", p.click, false);
         }
 
         console.log(p.ent);
     },
     "render": function() {
+        // refactor rgb for greyscale data
         for (var i = 0; i < p.t; i++) {
             rgb.shuffle(1.0);
             p.ent[i].con.fillStyle = rgb.css(rgb.rand);
             p.ent[i].con.fillRect(0,0,p.w,p.h);
         }
+        // chosen
+        rgb.shuffle(0.25);
+        p.ent[p.chosen].con.fillStyle = rgb.css(rgb.rand);
+        var m0 = 8;
+        var m1 = 2 * m0;
+        var x0 = p.w - m1;
+        var y0 = p.h - m1;
+        p.ent[p.chosen].con.fillRect(m0,m0,x0,y0);
+    },
+    "click": function(e) {
+        console.log(e);
+        var y0 = ((e.y - p.my) / p.h) >>> 0;
+        console.log(y0);
+        p.chosen = y0;
+
+        p.render();
     }
 }
 // canvas
@@ -120,6 +147,9 @@ var c = {
                 rgb.shuffle(1.0);
                 c.ent[i0].con.fillStyle = rgb.css(rgb.rand);
                 c.ent[i0].con.fillRect(0,0,c.w,c.h);
+                // add event listener
+                // handler updates color to chooser greyscale
+                // save dumps grid colors to json
             }
         }
     }
