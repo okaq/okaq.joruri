@@ -74,6 +74,9 @@ var p = {
         p.ent = [];
         p.chosen = 0;
 
+        rgb.grey(p.t);
+        console.log(rgb.greys);
+
         for (var i = 0; i < p.t; i++) {
             var y0 = (p.my + (i * p.h)) >>> 0;
             p.ent[i] = d.canvas(p.w, p.h, p.mx, y0); 
@@ -94,8 +97,9 @@ var p = {
     "render": function() {
         // refactor rgb for greyscale data
         for (var i = 0; i < p.t; i++) {
-            rgb.shuffle(1.0);
-            p.ent[i].con.fillStyle = rgb.css(rgb.rand);
+            // rgb.shuffle(1.0);
+            // p.ent[i].con.fillStyle = rgb.css(rgb.rand);
+            p.ent[i].con.fillStyle = rgb.css(rgb.greys[i]);
             p.ent[i].con.fillRect(0,0,p.w,p.h);
         }
         // chosen
@@ -188,6 +192,16 @@ var rgb = {
     },
     "css": function(a0) {
         return "rgba(" + a0.join(",") + ")";
+    },
+    "grey": function(n0, a0) {
+        rgb.greys = [];
+        var c0 = (255 / (n0 - 1)) >>> 0;
+        for (var i = 0; i < n0; i++) {
+            var g0 = [];
+            g0[0] = g0[1] = g0[2] = (c0 * i) >>> 0;
+            g0[3] = a0 || 1.0;
+            rgb.greys[i] = g0;
+        }
     }
 }
      </script>
