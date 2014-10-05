@@ -163,7 +163,8 @@ var c = {
                 // rgb.shuffle(1.0);
                 // c.ent[i0].con.fillStyle = rgb.css(rgb.rand);
                 d.clear(c.ent[i0]);
-                c.ent[i0].con.fillStyle = rgb.css(rgb.grids[i0]);
+                // c.ent[i0].con.fillStyle = rgb.css(rgb.grids[i0]);
+                c.ent[i0].con.fillStyle = rgb.css(rgb.greys[rgb.grids[i0]]);
                 c.ent[i0].con.fillRect(0,0,c.w,c.h);
                 // add event listener
                 // handler updates color to chooser greyscale
@@ -177,7 +178,8 @@ var c = {
         var y0 = ((e.clientY - c.my + window.pageYOffset) / c.h) >>> 0;
         var i0 = ((y0 * c.nx) + x0) >>> 0;
         console.log(x0, y0, i0, window.pageYOffset);
-        rgb.grids[i0] = rgb.greys[p.chosen];
+        // rgb.grids[i0] = rgb.greys[p.chosen];
+        rgb.grids[i0] = p.chosen;
 
         c.render();
     }
@@ -230,12 +232,16 @@ var rgb = {
     "grid": function(n0, a0) {
         rgb.grids = [];
         for (var i = 0; i < n0; i++) {
+            /*
             var g0 = [];
             for (var j = 0; j < 3; j++) {
                 g0[j] = rgb.bytes();
             }
             g0[3] = a0 || 1.0;
             rgb.grids[i] = g0;
+             */
+            var r0 = (Math.random() * p.t) >>> 0;
+            rgb.grids[i] = r0;
         }
     }
 }
