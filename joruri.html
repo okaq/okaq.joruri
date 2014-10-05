@@ -201,11 +201,17 @@ var db = {
         // entity
         db.ent = d.canvas(db.w, db.h, db.mx, db.my);
         d.add(db.ent.can);
+        db.ent.can.addEventListener("click", db.click, false);
     },
     "render": function() {
         rgb.shuffle(1.0);
         db.ent.con.fillStyle = rgb.css(rgb.rand);
         db.ent.con.fillRect(0,0,db.w,db.h);
+    },
+    "click": function(e) {
+        console.log(e);
+        d.clear(db.ent);
+        db.render();
     }
 }
 // xhr
@@ -225,11 +231,17 @@ var conn = {
         // entity
         conn.ent = d.canvas(conn.w, conn.h, conn.mx, conn.my);
         d.add(conn.ent.can);
+        conn.ent.can.addEventListener("click", conn.click, false);
     },
     "render": function() {
         rgb.shuffle(1.0);
         conn.ent.con.fillStyle = rgb.css(rgb.rand);
         conn.ent.con.fillRect(0,0,conn.w,conn.h);
+    },
+    "click": function(e) {
+        console.log(e);
+        d.clear(conn.ent);
+        conn.render();
     }
 }
 // rgb
