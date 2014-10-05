@@ -36,6 +36,8 @@ var g = {
     "render": function() {
         p.render();
         c.render();
+        conn.render();
+        db.render();
     }
 }
 // dom
@@ -171,6 +173,7 @@ var c = {
                 // save dumps grid colors to json
             }
         }
+        console.log(rgb.grids);
     },
     "click": function(e) {
         console.log(e);
@@ -188,6 +191,21 @@ var c = {
 var db = {
     "init": function() {
         console.log("data init...");
+
+        // layout
+        db.w = 256;
+        db.h = 128;
+        db.mx = 1152;
+        db.my = 512;
+
+        // entity
+        db.ent = d.canvas(db.w, db.h, db.mx, db.my);
+        d.add(db.ent.can);
+    },
+    "render": function() {
+        rgb.shuffle(1.0);
+        db.ent.con.fillStyle = rgb.css(rgb.rand);
+        db.ent.con.fillRect(0,0,db.w,db.h);
     }
 }
 // xhr
@@ -197,6 +215,21 @@ var conn = {
         conn.xhr = new XMLHttpRequest();
         console.log(conn.xhr);
         conn.url = "www.okaq.com/aa";
+
+        // layout
+        conn.w = 256;
+        conn.h = 256;
+        conn.mx = 1152;
+        conn.my = 128;
+        
+        // entity
+        conn.ent = d.canvas(conn.w, conn.h, conn.mx, conn.my);
+        d.add(conn.ent.can);
+    },
+    "render": function() {
+        rgb.shuffle(1.0);
+        conn.ent.con.fillStyle = rgb.css(rgb.rand);
+        conn.ent.con.fillRect(0,0,conn.w,conn.h);
     }
 }
 // rgb
@@ -240,7 +273,11 @@ var rgb = {
             g0[3] = a0 || 1.0;
             rgb.grids[i] = g0;
              */
-            var r0 = (Math.random() * p.t) >>> 0;
+            // var r0 = (Math.random() * p.t) >>> 0;
+            var r0 = 0;
+            if (i % 2 == 0) {
+                r0 = 1;
+            }
             rgb.grids[i] = r0;
         }
     }
