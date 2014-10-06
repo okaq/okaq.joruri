@@ -25,7 +25,7 @@ var g = {
         console.log("game init...");
         // subsystems
         // (dom, palette, canvas, data, conn)
-        g.subs = [d,p,c,db,conn,rgb];
+        g.subs = [d,rgb,p,c,db,conn];
         g.init_all();
         g.render();
     },
@@ -232,6 +232,12 @@ var conn = {
         conn.ent = d.canvas(conn.w, conn.h, conn.mx, conn.my);
         d.add(conn.ent.can);
         conn.ent.can.addEventListener("click", conn.click, false);
+
+        // progress
+        conn.xhr.addEventListener("progress", conn.progress, false);
+        conn.xhr.addEventListener("load", conn.load, false);
+        conn.xhr.addEventListener("error", conn.error, false);
+        conn.xhr.addEventListener("abort", conn.abort, false);
     },
     "render": function() {
         rgb.shuffle(1.0);
@@ -242,6 +248,18 @@ var conn = {
         console.log(e);
         d.clear(conn.ent);
         conn.render();
+    },
+    "progress": function(e) {
+        console.log(e);
+    },
+    "load": function(e) {
+        console.log(e);
+    },
+    "error": function(e) {
+        console.log(e);
+    },
+    "abort": function(e) {
+        console.log(e);
     }
 }
 // rgb
@@ -251,6 +269,9 @@ var rgb = {
         rgb.rand = [0,0,0,0];
         rgb.shuffle(1.0);
         console.log(rgb.css(rgb.rand));
+        rgb.red = [255,0,0,1.0];
+        rgb.yellow = [255,255,0,1.0];
+        rgb.green = [0,255,0,1.0];
     },
     "bytes": function() {
         return (Math.random() * 255) >>> 0;
