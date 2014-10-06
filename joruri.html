@@ -220,7 +220,7 @@ var conn = {
         console.log("conn init...");
         conn.xhr = new XMLHttpRequest();
         console.log(conn.xhr);
-        conn.url = "www.okaq.com/aa";
+        conn.url = "http://localhost:8008/aa";
 
         // layout
         conn.w = 256;
@@ -238,6 +238,11 @@ var conn = {
         conn.xhr.addEventListener("load", conn.load, false);
         conn.xhr.addEventListener("error", conn.error, false);
         conn.xhr.addEventListener("abort", conn.abort, false);
+
+        // open
+        conn.xhr.open("GET", conn.url, true);
+        conn.xhr.requestType = "json";
+        conn.xhr.send();
     },
     "render": function() {
         rgb.shuffle(1.0);
@@ -254,6 +259,7 @@ var conn = {
     },
     "load": function(e) {
         console.log(e);
+        console.log(conn.xhr.response);
     },
     "error": function(e) {
         console.log(e);
