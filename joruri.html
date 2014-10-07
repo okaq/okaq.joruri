@@ -239,18 +239,25 @@ var conn = {
         conn.xhr.addEventListener("error", conn.error, false);
         conn.xhr.addEventListener("abort", conn.abort, false);
 
+        // state
+        conn.rgb = rgb.red;
+    },
+    "open": function() {
         // open
         conn.xhr.open("GET", conn.url, true);
         conn.xhr.requestType = "json";
         conn.xhr.send();
     },
     "render": function() {
-        rgb.shuffle(1.0);
-        conn.ent.con.fillStyle = rgb.css(rgb.rand);
+        // rgb.shuffle(1.0);
+        // conn.ent.con.fillStyle = rgb.css(rgb.rand);
+        conn.ent.con.fillStyle = rgb.css(conn.rgb);
         conn.ent.con.fillRect(0,0,conn.w,conn.h);
     },
     "click": function(e) {
         console.log(e);
+        conn.rgb = rgb.yellow;
+        conn.open();
         d.clear(conn.ent);
         conn.render();
     },
@@ -260,6 +267,9 @@ var conn = {
     "load": function(e) {
         console.log(e);
         console.log(conn.xhr.response);
+        conn.rgb = rgb.green;
+        d.clear(conn.ent);
+        conn.render();
     },
     "error": function(e) {
         console.log(e);
