@@ -215,7 +215,7 @@ var db = {
         db.data.grids = rgb.grids;
         db.json = JSON.stringify(db.data);
         console.log(db.json);
-        // conn.post();
+        conn.post();
         d.clear(db.ent);
         db.render();
     }
@@ -227,6 +227,7 @@ var conn = {
         conn.xhr = new XMLHttpRequest();
         console.log(conn.xhr);
         conn.url = "http://localhost:8008/aa";
+        conn.save = "http://localhost:8008/ab"
 
         // layout
         conn.w = 256;
@@ -255,9 +256,9 @@ var conn = {
         conn.xhr.send();
     },
     "post": function() {
-        // conn.xhr.open("POST", "/aa");
-        // conn.xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        // conn.xhr.send(db.json);
+        conn.xhr.open("POST", conn.save, true);
+        conn.xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        conn.xhr.send(db.json);
     },
     "render": function() {
         // rgb.shuffle(1.0);
