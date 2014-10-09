@@ -8,7 +8,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-    // "time"
+    "os"
+    "time"
 )
 
 const (
@@ -44,7 +45,7 @@ func OpenServer(w http.ResponseWriter, req *http.Request) {
 }
 
 type Bitmap struct {
-    Grayscales int
+    Greyscales int
     Grids []int
 }
 
@@ -68,13 +69,33 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     }
     w.Write([]byte("json file stored"))
     */
+    var err error
     dec := json.NewDecoder(req.Body)
     var bm Bitmap
-    err := dec.Decode(&bm)
+    err = dec.Decode(&bm)
     if err != nil {
         fmt.Println(err)
     }
     fmt.Println(bm)
+    // timestamp
+    now := time.Now()
+    stamp := now.Format(time.RFC3339)
+    filename := "data/" + stamp + ".json"
+    fmt.Println(filename)
+    // os file
+    var f0 *os.File
+    f0, err = os.Create(filename)
+    if err != nil {
+        fmt.Println(err)
+    }
+    // json encoder
+    enc := json.NewEncoder(f0)
+    enc.Encode(bm)
+    // cleanup
+    err = f0.Close()
+    if err != nil {
+        fmt.Println(err)
+    }
     w.Write([]byte("json file decoded and stored"))
 }
 

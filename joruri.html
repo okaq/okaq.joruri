@@ -211,8 +211,8 @@ var db = {
     "click": function(e) {
         console.log(e);
         db.data = {};
-        db.data.greyscales = p.t;
-        db.data.grids = rgb.grids;
+        db.data.Greyscales = p.t;
+        db.data.Grids = rgb.grids;
         db.json = JSON.stringify(db.data);
         console.log(db.json);
         conn.post();
