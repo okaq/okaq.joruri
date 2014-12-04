@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	HTML = "joruri.html"
-	PORT = ":8008"
+    HTML = "mota.html"
+	// HTML = "joruri.html"
+	PORT = ":8080"
 )
 
 var (
