@@ -25,8 +25,12 @@ var t = {
         console.log("tool init...");
 
         // globals
-        t.stride = 64;
+        t.stride = 32;
         t.size = (t.stride * t.stride) >>> 0; // 64*64=4096
+        t.clicked = {}; // currently focused canvas
+        t.clicked.grid = null;
+        t.clicked.pick = null;
+        t.rgb = null;
 
         // init canvas objects
         co.init();
@@ -35,6 +39,14 @@ var t = {
     "click": function(e) {
         console.log(e);
         console.log(e.target.dataset.x);
+    },
+    "gclick": function(e) {
+        console.log("grid click handler called!");
+        t.click(e);
+    },
+    "pclick": function(e) {
+        console.log("pick click handler called!");
+        t.click(e);
     }
 }
 // canvas objects
@@ -46,10 +58,18 @@ var co = {
         // originX,Y cellX,Y sizeX,Y 
         // domGenerator
         co.lay = {};
+        // grid
         co.lay.grid = {};
         co.lay.grid.id = "grid";
-        co.lay.grid.metric = [386,64,16,16,t.stride,t.stride];
+        co.lay.grid.metric = [386,64,28,28,t.stride,t.stride];
         co.lay.grid.gen = dom.grid;
+        co.lay.grid.click = t.gclick;
+        // pick
+        co.lay.pick = {}
+        co.lay.pick.id = "pick";
+        co.lay.pick.metric = [64,64,106,106,1,8];
+        co.lay.pick.gen = dom.grid;
+        co.lay.pick.click = t.pclick;
 
         // database
         co.db = {};
@@ -98,7 +118,7 @@ var dom = {
                 var can0 = dom.canvas(x1, y1, x3, y3);
                 dom.add(can0);
                 can0.can.dataset.x = k0;
-                can0.can.addEventListener("click", t.click, false);
+                can0.can.addEventListener("click", lay0.click, false);
                 co.db[k0].c = can0;
             }
         }
