@@ -1,17 +1,15 @@
 okaq.joruri
 ===========
+2014-12-04
+
+Bitmap drawing tool.
+
+Simple web interface used to create
+square blocks of greyscale values.
+
+Images are then encoded to JSON
+on the server, to be used in 
+art asset generation.
 
 AQ <aq@okaq.com>
-
-2014-09-12
-
-drawing with data
-
-Canvas2DRendering Context   
-with server side backing store   
-
-Utilized to generate   
-bitmap art assets   
-across okaq nano games   
-
 
