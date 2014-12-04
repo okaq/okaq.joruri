@@ -23,6 +23,43 @@ var t = {
     "init": function(e) {
         console.log(e);
         console.log("tool init...");
+
+        // globals
+        t.stride = 64;
+        t.size = (t.stride * t.stride) >>> 0; // 64*64=4096
+
+        // init canvas objects
+        co.init();
+    }
+}
+// canvas objects
+var co = {
+    "init": function() {
+        console.log("canvas object init");
+
+        // layout
+        // originX,Y cellX,Y sizeX,Y 
+        // domGenerator
+        co.lay = {};
+        co.lay.grid = {};
+        co.lay.grid.id = "grid";
+        co.lay.grid.metric = [386,64,16,16,t.stride,t.stride];
+        co.lay.grid.gen = dom.grid;
+
+        // database
+        co.db = {};
+
+        // generate dom
+        for (var k in co.lay) {
+            co.lay[k].gen(co.lay[k]); 
+        }
+    }
+}
+// dom
+var d = {
+    "grid": function(lay0) {
+        // input canvas layout object
+        // add X/Y grid of canvas objects to DOM
     }
 }
       </script>
