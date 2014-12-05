@@ -28,12 +28,13 @@ var t = {
         t.stride = 32;
         t.size = (t.stride * t.stride) >>> 0; // 64*64=4096
         t.clicked = {}; // currently focused canvas
-        t.clicked.grid = null;
-        t.clicked.pick = null;
-        t.rgb = null;
+        t.clicked.grid = []; // use list for history / undo
+        t.clicked.pick = [];
+        t.rgb = [];
 
         // init canvas objects
         co.init();
+        xhr.init();
         ren.test();
     },
     "click": function(e) {
@@ -43,10 +44,12 @@ var t = {
     "gclick": function(e) {
         console.log("grid click handler called!");
         t.click(e);
+        t.clicked.grid.push(e.target.dataset.x);
     },
     "pclick": function(e) {
         console.log("pick click handler called!");
         t.click(e);
+        t.clicked.grid.push(e.target.dataset.x);
     }
 }
 // canvas objects
@@ -141,6 +144,28 @@ var dom = {
         can0.can.style.top = y + "px";
 
         return can0;
+    }
+}
+// net
+var xhr = {
+    "init": function() {
+        // connection
+        xhr.con = new XMLHttpRequest();
+        xhr.con.addEventListener("load", xhr.load, false);
+        xhr.urls = [
+            "http://localhost:8080/test",
+            null
+                ];
+        xhr.test();
+    },
+    "test": function() {
+        xhr.con.open("GET", xhr.urls[0], true);
+        xhr.con.requestType = "json";
+        xhr.con.send();
+    },
+    "load": function(e) {
+        console.log(e);
+        console.log(xhr.con.response.length);
     }
 }
 // render
