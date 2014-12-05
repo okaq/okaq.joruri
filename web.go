@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
     "os"
+    "strings"
     "time"
 )
 
@@ -100,6 +101,29 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     w.Write([]byte("json file decoded and stored"))
 }
 
+func TestHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    // w.Write([]byte("[\"test\",\"ok\"]"))
+    const s0 = `{"Id": "test", "Data": "ok!"}`
+    type Test struct {
+        Id, Data string
+    }
+    s1 := strings.NewReader(s0)
+    dec := json.NewDecoder(s1)
+    enc := json.NewEncoder(w)
+    var t0 Test
+    var err error
+    err = dec.Decode(&t0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    // fmt.Println(t0)
+    err = enc.Encode(&t0)
+    if err != nil {
+        fmt.Println(err)
+    }
+}
+
 // view archive
 // on init, pre load data filenames
 
@@ -112,6 +136,7 @@ func main() {
 	http.HandleFunc("/", JoruriServer)
     http.HandleFunc("/aa", OpenServer)
     http.HandleFunc("/ab", SaveHandler)
+    http.HandleFunc("/test", TestHandler)
 	err := http.ListenAndServe(PORT, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
