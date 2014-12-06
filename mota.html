@@ -35,7 +35,8 @@ var t = {
         // init canvas objects
         co.init();
         xhr.init();
-        ren.test();
+        // ren.test();
+        ren.frame();
     },
     "click": function(e) {
         console.log(e);
@@ -94,9 +95,24 @@ var co = {
     "rgb": function() {
         // initial color palette
         var rgb0 = rgb.gs(8);
-        console.log(rgb0);
+        // console.log(rgb0);
         var kp = co.keys("pick");
-        console.log(kp);
+        // console.log(kp);
+        for (var i = 0; i < kp.length; i++) {
+            co.db[kp[i]].rgb = rgb0[i];
+        }
+        var kg = co.keys("grid");
+        // console.log(kg);
+        for (var i = 0; i < kg.length; i++) {
+            var coord0 = co.coord(kg[i]);
+            // console.log(coord0);
+            var m0 = (coord0[0] + coord0[1]) >>> 0;
+            if (m0 % 2 == 0) {
+                co.db[kg[i]].rgb = rgb0[2];
+            } else {
+                co.db[kg[i]].rgb = rgb0[5];
+            }
+        }
     },
     "keys": function(n0) {
         // store keys for quick retrieval
@@ -112,6 +128,13 @@ var co = {
             }
         }
         return r0;
+    },
+    "coord": function(k0) {
+        // return y,x coord from key
+        var k1 = k0.split("_");
+        var y0 = parseInt(k1[1], 10);
+        var x0 = parseInt(k1[2], 10);
+        return [y0,x0];
     }
 }
 // dom
@@ -200,6 +223,14 @@ var ren = {
         // fill rand rgb in canvas object
         can0.con.fillStyle = rgb.rc();
         can0.con.fillRect(0,0,can0.can.width,can0.can.height);
+    },
+    "frame": function() {
+        for (var k in co.db) {
+            var can0 = co.db[k].c;
+            var rgb0 = rgb.css(co.db[k].rgb);
+            can0.con.fillStyle = rgb0;
+            can0.con.fillRect(0,0,can0.can.width,can0.can.height);
+        }
     }
 }
 // color
