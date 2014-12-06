@@ -32,9 +32,10 @@ var t = {
         t.clicked.pick = [];
         t.scales = 8; // greyscales count
         t.rgb = []; // greyscales rgb list
+        t.current = null; // currently selected greyscale 
 
         // json data
-        t.Greyscales = [];
+        t.Greyscales = t.scales;
         t.Grids = [];
 
         // init canvas objects
@@ -51,11 +52,22 @@ var t = {
         console.log("grid click handler called!");
         t.click(e);
         t.clicked.grid.push(e.target.dataset.x);
+        var k0 = e.target.dataset.x;
+        co.db[k0].rgb = t.current;
+        console.log(k0 + " set to: " + t.rgb[t.current]);
+        ren.frame();
     },
     "pclick": function(e) {
         console.log("pick click handler called!");
         t.click(e);
-        t.clicked.grid.push(e.target.dataset.x);
+        t.clicked.pick.push(e.target.dataset.x);
+        var k0 = e.target.dataset.x;
+        var k1 = k0.split("_");
+        t.current = parseInt(k1[1], 10);
+        console.log("Selected greyscale: " + t.rgb[t.current]);
+    },
+    "sync": function() {
+        // t.Grids data extraction from grid canvas object
     }
 }
 // canvas objects
