@@ -86,11 +86,32 @@ var co = {
             co.lay[k].gen(co.lay[k]); 
         }
 
+        // generate colors
+        co.rgb();
+
         console.log(co.db);
     },
+    "rgb": function() {
+        // initial color palette
+        var rgb0 = rgb.gs(8);
+        console.log(rgb0);
+        var kp = co.keys("pick");
+        console.log(kp);
+    },
     "keys": function(n0) {
+        // store keys for quick retrieval
+        if (!co.k) { co.k = {}; }
+        if (co.k[n0]) { return co.k[n0]; }
+ 
         // return list of keys that begin with n0
-
+        var r0 = [];
+        for (var k in co.db) {
+            var n1 = k.lastIndexOf(n0);
+            if (n1 == 0) {
+                r0.push(k);
+            }
+        }
+        return r0;
     }
 }
 // dom
@@ -200,6 +221,20 @@ var rgb = {
     },
     "rc": function(a0) {
         return rgb.css(rgb.shuffle(a0));
+    },
+    "gs": function(n0) {
+        // return n0 evenly distributed greyscales
+        var n1 = n0 - 2;
+        var n2 = n0 - 1;
+        var c0 = (255 / n2) >>> 0;
+        var r0 = [];
+        r0[0] = [0,0,0,1.0];
+        r0[n2] = [255,255,255,1.0];
+        for (var i = 1; i < n2; i++) {
+            var c1 = (i * c0) >>> 0;
+            r0[i] = [c1,c1,c1,1.0];
+        }
+        return r0;
     }
 }
       </script>
