@@ -30,7 +30,12 @@ var t = {
         t.clicked = {}; // currently focused canvas
         t.clicked.grid = []; // use list for history / undo
         t.clicked.pick = [];
-        t.rgb = [];
+        t.scales = 8; // greyscales count
+        t.rgb = []; // greyscales rgb list
+
+        // json data
+        t.Greyscales = [];
+        t.Grids = [];
 
         // init canvas objects
         co.init();
@@ -71,7 +76,7 @@ var co = {
         // pick
         co.lay.pick = {}
         co.lay.pick.id = "pick";
-        co.lay.pick.metric = [64,64,106,106,1,8];
+        co.lay.pick.metric = [64,64,106,106,1,t.scales];
         co.lay.pick.gen = dom.grid;
         co.lay.pick.click = t.pclick;
 
@@ -101,23 +106,25 @@ var co = {
     },
     "rgb": function() {
         // initial color palette
-        var rgb0 = rgb.gs(8);
+        t.rgb = rgb.gs(t.scales);
         // console.log(rgb0);
         var kp = co.keys("pick");
         // console.log(kp);
         for (var i = 0; i < kp.length; i++) {
-            co.db[kp[i]].rgb = rgb0[i];
+            co.db[kp[i]].rgb = i; // t.rgb[i];
         }
         var kg = co.keys("grid");
         // console.log(kg);
+        var fg0 = (Math.random() * t.scales) >>> 0;
+        var bg0 = (Math.random() * t.scales) >>> 0;
         for (var i = 0; i < kg.length; i++) {
             var coord0 = co.coord(kg[i]);
             // console.log(coord0);
             var m0 = (coord0[0] + coord0[1]) >>> 0;
             if (m0 % 2 == 0) {
-                co.db[kg[i]].rgb = rgb0[2];
+                co.db[kg[i]].rgb = fg0; // t.rgb[2];
             } else {
-                co.db[kg[i]].rgb = rgb0[5];
+                co.db[kg[i]].rgb = bg0; // t.rgb[5];
             }
         }
     },
@@ -234,8 +241,10 @@ var ren = {
     "frame": function() {
         for (var k in co.db) {
             var can0 = co.db[k].c;
-            var rgb0 = rgb.css(co.db[k].rgb);
-            can0.con.fillStyle = rgb0;
+            var rgb0 = co.db[k].rgb;
+            var rgb1 = t.rgb[rgb0];
+            var rgb2 = rgb.css(rgb1);
+            can0.con.fillStyle = rgb2;
             can0.con.fillRect(0,0,can0.can.width,can0.can.height);
         }
     }
