@@ -51,6 +51,11 @@ type Bitmap struct {
     Grids []int
 }
 
+type Store struct {
+    Filename string
+    Size int
+}
+
 func SaveHandler(w http.ResponseWriter, req *http.Request) {
     /*
     var b []byte
@@ -125,9 +130,11 @@ func TestHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func UploadHandler(w http.ResponseWriter, req *http.Request) {
+    // output to console
     fmt.Println(req)
     fmt.Println(req.Body)
 
+    // decode post body bitmap data
     var err error
     dec := json.NewDecoder(req.Body)
     var bm Bitmap
@@ -137,9 +144,37 @@ func UploadHandler(w http.ResponseWriter, req *http.Request) {
     }
     // fmt.Println(bm)
 
+    // timestamp
+    now := time.Now()
+    stamp := now.Format(time.RFC3339)
+    filename := "data/" + stamp + ".json"
+    fmt.Println(filename)
 
+    // os file
+    var f0 *os.File
+    f0, err = os.Create(filename)
+    if err != nil {
+        fmt.Println(err)
+    }
 
-    w.Write([]byte("uploaded ok"))
+    // json encoder
+    enc := json.NewEncoder(f0)
+    enc.Encode(&bm)
+
+    // cleanup
+    err = f0.Close()
+    if err != nil {
+        fmt.Println(err)
+    }
+
+    // response
+    s0 := new(Store)
+    s0.Filename = filename
+    s0.Size = int(req.ContentLength)
+    resp := json.NewEncoder(w)
+    resp.Encode(&s0)
+
+    // w.Write([]byte("uploaded ok"))
 }
 
 // view archive
