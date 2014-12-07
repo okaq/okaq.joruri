@@ -124,6 +124,24 @@ func TestHandler(w http.ResponseWriter, req *http.Request) {
     }
 }
 
+func UploadHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    fmt.Println(req.Body)
+
+    var err error
+    dec := json.NewDecoder(req.Body)
+    var bm Bitmap
+    err = dec.Decode(&bm)
+    if err != nil {
+        fmt.Println(err)
+    }
+    // fmt.Println(bm)
+
+
+
+    w.Write([]byte("uploaded ok"))
+}
+
 // view archive
 // on init, pre load data filenames
 
@@ -137,6 +155,7 @@ func main() {
     http.HandleFunc("/aa", OpenServer)
     http.HandleFunc("/ab", SaveHandler)
     http.HandleFunc("/test", TestHandler)
+    http.HandleFunc("/upload", UploadHandler)
 	err := http.ListenAndServe(PORT, nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)

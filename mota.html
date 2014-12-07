@@ -38,7 +38,7 @@ var t = {
         // json data
         t.Greyscales = t.scales;
         t.Grids = [];
-        t.JsonData = {"Greyscale": t.Greyscales, "Grids": t.Grids}
+        t.JsonData = {"Greyscales": t.Greyscales, "Grids": t.Grids}
 
         // init canvas objects
         co.init();
@@ -73,6 +73,7 @@ var t = {
         t.click(e);
         t.clicked.save.push(e.target.dataset.x);
         t.sync();
+        xhr.save();
     },
     "sync": function() {
         // t.Grids data extraction from grid canvas object
@@ -245,7 +246,7 @@ var xhr = {
         xhr.con.addEventListener("load", xhr.load, false);
         xhr.urls = [
             "http://localhost:8080/test",
-            null
+            "http://localhost:8080/upload"
                 ];
         xhr.test();
     },
@@ -257,6 +258,13 @@ var xhr = {
     "load": function(e) {
         console.log(e);
         console.log(xhr.con.response);
+    },
+    "save": function() {
+        console.log("sending data to server store!");
+        xhr.con.open("PUT", xhr.urls[1], true);
+        xhr.con.requestType = "json";
+        xhr.con.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.con.send(JSON.stringify(t.JsonData));
     }
 }
 // render
