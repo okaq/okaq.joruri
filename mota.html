@@ -66,6 +66,9 @@ var t = {
         t.current = parseInt(k1[1], 10);
         console.log("Selected greyscale: " + t.rgb[t.current]);
     },
+    "sclick": function(e) {
+        console.log(e);
+    },
     "sync": function() {
         // t.Grids data extraction from grid canvas object
     }
@@ -86,11 +89,17 @@ var co = {
         co.lay.grid.gen = dom.grid;
         co.lay.grid.click = t.gclick;
         // pick
-        co.lay.pick = {}
+        co.lay.pick = {};
         co.lay.pick.id = "pick";
         co.lay.pick.metric = [64,64,106,106,1,t.scales];
         co.lay.pick.gen = dom.grid;
         co.lay.pick.click = t.pclick;
+        // save
+        co.lay.save = {};
+        co.lay.save.id = "save";
+        co.lay.save.metric = [1340,200,128,128,1,1];
+        co.lay.save.gen = dom.grid;
+        co.lay.save.click = t.sclick;
 
         // database
         co.db = {};
@@ -139,6 +148,8 @@ var co = {
                 co.db[kg[i]].rgb = bg0; // t.rgb[5];
             }
         }
+        var ks = co.keys("save");
+        co.db[ks[0]].rgb = 0;
     },
     "keys": function(n0) {
         // store keys for quick retrieval
