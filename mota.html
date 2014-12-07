@@ -149,14 +149,16 @@ var co = {
         // console.log(kg);
         var fg0 = (Math.random() * t.scales) >>> 0;
         var bg0 = (Math.random() * t.scales) >>> 0;
+        var fg1 = 0;
+        var bg1 = 7;
         for (var i = 0; i < kg.length; i++) {
             var coord0 = co.coord(kg[i]);
             // console.log(coord0);
             var m0 = (coord0[0] + coord0[1]) >>> 0;
             if (m0 % 2 == 0) {
-                co.db[kg[i]].rgb = fg0; // t.rgb[2];
+                co.db[kg[i]].rgb = fg1; // t.rgb[2];
             } else {
-                co.db[kg[i]].rgb = bg0; // t.rgb[5];
+                co.db[kg[i]].rgb = bg1; // t.rgb[5];
             }
         }
         var ks = co.keys("save");
