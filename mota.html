@@ -30,6 +30,7 @@ var t = {
         t.clicked = {}; // currently focused canvas
         t.clicked.grid = []; // use list for history / undo
         t.clicked.pick = [];
+        t.clicked.save = [];
         t.scales = 8; // greyscales count
         t.rgb = []; // greyscales rgb list
         t.current = null; // currently selected greyscale 
@@ -37,6 +38,7 @@ var t = {
         // json data
         t.Greyscales = t.scales;
         t.Grids = [];
+        t.JsonData = {"Greyscale": t.Greyscales, "Grids": t.Grids}
 
         // init canvas objects
         co.init();
@@ -67,10 +69,18 @@ var t = {
         console.log("Selected greyscale: " + t.rgb[t.current]);
     },
     "sclick": function(e) {
-        console.log(e);
+        console.log("save click handler called!");
+        t.click(e);
+        t.clicked.save.push(e.target.dataset.x);
+        t.sync();
     },
     "sync": function() {
         // t.Grids data extraction from grid canvas object
+        var kg = co.keys("grid");
+        for (var i = 0; i < kg.length; i++) {
+            t.Grids[i] = co.db[kg[i]].rgb;
+        }
+        console.log(t.JsonData);
     }
 }
 // canvas objects
