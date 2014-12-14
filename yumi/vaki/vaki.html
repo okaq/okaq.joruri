@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>okaq - vaki</title>
+        <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGJpP/GBgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//7R0Cgi3xzjwAAAAASUVORK5CYII=" />
+        <script type="text/javascript">
+            // ok
+        console.log("ok vaki!");
+        // async load
+        (function() {
+            var async_load = function() {
+            console.log("async on");
+                g.init();
+            }
+            window.addEventListener("load", async_load, false);
+         })();
+// game
+var g = {
+    "init": function() {
+        console.log("g init");
+        g.beta = {};
+        g.gamma = {};
+        g.beta.can = document.getElementById("beta");
+        g.beta.click_handler = function(e) {
+            console.log(e);
+        }
+        g.beta.can.addEventListener("click", g.beta.click_handler, false);
+    }
+}
+        </script>
+    </head>
+    <body>
+        <canvas id="beta" width="512" height="512"></canvas>
+        <canvas id="gamma" width="768" height="768"></canvas>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+okaq dozu yumi tora
+design doc
+AQ <aq@okaq.com>
+2014-11-24
+
+new favicon design for okaq.com
+
+random color palette with three values
+
+block face design
+16x16 square pixels
+two eyes at top, equidistant from center
+one mouth near bottom, centered
+
+

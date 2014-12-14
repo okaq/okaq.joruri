@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head id="zeta">
+        <title>okaq - logo bitmap</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=1920,height=1080,initial-scale=1" />
+        <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGJ5yXCfgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//S1MCC0+bcT4AAAAASUVORK5CYII=" />
+        <script type="text/javascript">
+            // ok
+        console.log("ok unaki!");
+        // xhr
+        var xhr = new XMLHttpRequest();
+        console.log(xhr);
+        xhr.onload = function(e) {
+            console.log(e);
+            console.log(this.responseText);
+        }
+        xhr.open("post", "http://localhost:8080/dis");
+        var fd = new FormData();
+        console.log(fd);
+        var b0 = [];
+        for (var i = 0; i < 8; i++) {
+            // var b1 = (Math.random() >= 0.5) ? true : false;
+            var b1 = Math.random();
+            b0.push(b1);
+            var s0 = "data0" + i;
+            console.log(s0);
+            fd.append(s0, b1);
+        }
+        // console.log(b0);
+        // fd.append("data", b0);
+        xhr.send(fd);
+        // async load
+        (function() {
+            var async_load = function() {
+                console.log("window loaded");
+                g.init();
+            }
+            window.addEventListener("load", async_load, false);
+         })();
+// game
+var g = {
+    "init": function() {
+        console.log("g is on");
+        x.init();
+        g.x = 8;
+        g.y = 8;
+        g.tot = g.x * g.y;
+        g.alpha = {};
+        g.beta = {};
+        g.beta.c = [];
+        g.beta.c[0] = c.rc();
+        g.beta.c[1] = c.rc();
+        g.beta.state = 0;
+        g.beta.click_handler = function(e) {
+            var t0 = g.beta.state;
+            var t1 = (t0 == 0) ? 1 : 0;
+            g.beta.state = t1;
+            render.draw();
+            g.harvest();
+            var fd = new FormData();
+            for (var i = 0; i < g.map.length; i++) {
+                fd.append(i, g.map[i]);
+            }
+            x.req.send(fd);
+            x.init();
+        }
+        lay.init();
+        lay.beta.can.addEventListener("click", g.beta.click_handler, false);
+        g.harvest();
+        render.draw();
+        
+    },
+    "harvest": function() {
+        g.map = [];
+        for (var i = 0; i < lay.gamma.length; i++) {
+            g.map.push(lay.gamma[i].map[0]);
+        }
+    }
+}
+// layout
+var lay = {
+    "init": function() {
+        console.log("lay away");
+        lay.alpha = document.getElementById("alpha");
+        lay.beta = new cell({can0:"beta"});
+        console.log(lay.beta.can);
+        lay.beta.style(96,64);
+        // lay.alpha.appendChild(lay.beta.can);
+        lay.pop();
+    },
+    "pop": function() {
+        lay.gamma = [];
+        var w1 = (908 / g.x) >>> 0;
+        var h1 = (908 / g.y) >>> 0;
+        for (var i = 0; i < g.tot; i++) {
+            var x0 = i % g.x;
+            var y0 = (i / g.x) >>> 0;
+            var x1 = x0 * w1 + 720;
+            var y1 = y0 * h1 + 32;
+            var c0 = new cell({w0:w1,h0:h1});
+            c0.style(x1,y1);
+            lay.gamma.push(c0);
+        }
+    }
+}
+// cell class
+var cell = function(p0) {
+    this.top = 0;
+    this.left = 0;
+    var can1;
+    // console.log(p0);
+    if (p0["can0"] != null) {
+        can1 = document.getElementById(p0["can0"]);
+        this.w = can1.width;
+        this.h = can1.height;
+        this.can = can1;
+    } else {
+        can1 = document.createElement("canvas");
+        this.w = p0["w0"];
+        this.h = p0["h0"];
+        this.can = can1;
+        this.can.width = this.w;
+        this.can.height = this.h;
+    }
+    lay.alpha.appendChild(this.can);
+    this.con = this.can.getContext("2d");
+    var b0 = (Math.random() >= 0.5) ? true : false;
+    this.map = [];
+    this.map.push(b0);
+    this.click_handler = function(e) {
+        var b0 = this.map[0];
+        this.map[0] = !b0;
+        render.draw();
+        }
+    this.can.addEventListener("click", this.click_handler.bind(this), false);
+    this.style = function(x0,y0) {
+        this.can.style.position = "absolute";
+        this.top = y0;
+        this.left = x0;
+        this.can.style.top = this.top + "px";
+        this.can.style.left = this.left + "px";
+    }
+}
+// color class
+var color = function() {
+    this.A = 1.0;
+    this.R = 255;
+    this.G = 255;
+    this.B = 255;
+    this.css = function() {
+        // css string
+    }
+}
+// color
+var c = {
+    "rc": function(a1) {
+        var a0 = a1 || Math.random();
+        var r0 = [c.rb(),c.rb(),c.rb(),a0];
+        var s0 = r0.join(",");
+        var s1 = "rgba(" + s0 + ")";
+        return s1;
+    },
+    "rb": function() {
+        var b0 = (Math.random() * 255) >>> 0;
+        return b0;
+    }
+}
+// xhr
+var x = {
+    "init": function() {
+        console.log("xhr live");
+        x.req = new XMLHttpRequest();
+        x.req.onload = function(e) {
+            console.log(this.responseText);
+        }
+        x.req.open("post", "http://localhost:8080/dis");
+    }
+}
+// render
+var render = {
+    "draw": function() {
+        render.clear();
+        lay.beta.con.fillStyle = g.beta.c[g.beta.state];
+        lay.beta.con.fillRect(0,0,lay.beta.w,lay.beta.h);
+        var c0 = "rgba(0,0,0,1.0)"; // c.rc();
+        for (var i = 0; i < lay.gamma.length; i++) {
+            var c1 = c0;
+            if (!lay.gamma[i].map[0]) {
+                c1 = "rgba(255,255,255,1.0)";
+            }
+            lay.gamma[i].con.fillStyle = c1;
+            lay.gamma[i].con.fillRect(0,0,lay.gamma[i].w,lay.gamma[i].h);
+        }
+    },
+    "clear": function() {
+        lay.beta.can.width = lay.beta.can.width;
+        lay.beta.con.fillStyle = "rgba(255,255,255,1.0)";
+        lay.beta.con.fillRect(0,0,lay.beta.w,lay.beta.height);
+        for (var i = 0; i < lay.gamma.length; i++) {
+            lay.gamma[i].can.width = lay.gamma[i].can.width;
+            lay.gamma[i].con.fillStyle = "rgba(255,255,255,1.0)";
+            lay.gamma[i].con.fillRect(0,0,lay.gamma[i].w,lay.gamma[i].height);
+        }
+    }
+}
+        </script>
+    </head>
+    <body id="alpha">
+        <canvas id="beta" width="512" height="512"></canvas>
+    </body>
+</html>

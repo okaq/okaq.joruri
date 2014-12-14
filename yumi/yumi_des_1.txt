@@ -1,0 +1,21 @@
+favicon encoder
+
+32x32 png 
+32-bit RGBA
+
+saved as image file (png)
+and as JSON base64 string
+for inclusion as data uri
+
+unaki.go
+read json file
+write png logo
+write data uri
+bitmap is js square array
+32x32
+render to pixel data
+
+vaki.go
+font engine
+bitmap sampled 
+from canvas fillText
