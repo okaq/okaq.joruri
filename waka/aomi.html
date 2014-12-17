@@ -21,11 +21,69 @@
             "init": function(e) {
                 console.log(e);
                 var t0 = window.performance.now();
+
+                dom.init();
+                ren.test();
                 
                 var t1 = window.performance.now() - t1;
                 console.log("total running time: " + t1 + " ms");
             }
         }
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+        // render canvas
+        dom.render = dom.canvas([512,512,448,284]);
+        dom.add(dom.render);
+        // sample canvas
+        dom.sample = dom.canvas([512,512,960,284]);
+        dom.add(dom.sample);
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    }
+}
+// render
+var ren = {
+    "test": function() {
+        var c0 = [dom.render, dom.sample];
+        for (var i = 0; i < c0.length; i++) {
+            var c1 = c0[i];
+            c1.con.fillStyle = rgb.rc();
+            c1.con.fillRect(0,0,c1.can.width,c1.can.height);
+        }
+    }
+}
+// colors
+var rgb = {
+    "rand": function() {
+        return [rgb.rb(),rgb.rb(),rgb.rb(),1.0];
+    },
+    "rb": function() {
+        return (Math.random() * 255) >>> 0;
+    },
+    "css": function(c0) {
+        var s0 = "rgba(";
+        s0 += c0.join(",");
+        s0 += ")";
+        return s0;
+    },
+    "rc": function() {
+        return rgb.css(rgb.rand());
+    }
+}
     </script>
 </head>
 <body id="alpha">
