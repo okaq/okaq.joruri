@@ -10,7 +10,8 @@ import (
 )
 
 const (
-    HTML = "aomi.html"
+    // HTML = "aomi.html"
+    HTML = "bome.html"
     PORT = ":8080"
 )
 
