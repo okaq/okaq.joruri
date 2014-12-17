@@ -46,6 +46,7 @@
                 dom.init();
                 ren.test();
                 ren.text();
+                ren.sample();
                 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -100,6 +101,60 @@ var ren = {
         var rgb0 = rgb.css([55,255,255,1.0]);
         c0.con.fillStyle = rgb0;
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "sample": function() {
+        var id0 = dom.render.con.getImageData(0,0,dom.render.can.width,dom.render.can.height);
+        // console.log(id0);
+        // 32x32 grid = 16px stride for 512px img
+        // var id1 = dom.sample.con.getImageData(0,0,dom.sample.can.width,dom.sample.can.height);
+        var id1 = dom.sample.con.createImageData(dom.sample.can.width, dom.sample.can.height);
+        var rgb0 = rgb.rand();
+        var rgb1 = rgb.rand();
+        for (var y = 0; y < 32; y++) {
+            for (var x = 0; x < 32; x++) {
+                var y0 = (y * 16) >>> 0;
+                var x0 = (x * 16) >>> 0;
+                var c0 = ren.count(id0, 16, 16, x0, y0);
+                // console.log(c0, x0, y0);
+                if (c0 > 0) {
+                    ren.fill(id1, 16, 16, x0, y0, rgb0);
+                } else {
+                    ren.fill(id1, 16, 16, x0, y0, rgb1);
+                }
+            }
+        }
+        dom.sample.con.putImageData(id1, 0, 0);
+    },
+    "fill": function(id0, w0, h0, x0, y0, rgb0) {
+         for (var y1 = 0; y1 < h0; y1++) {
+            for (var x1 = 0; x1 < w0; x1++) {
+                var y2 = y1 + y0;
+                var x2 = x1 + x0;
+                var i0 = (((y2 * 512) + x2) * 4) >>> 0;
+                id0.data[i0+0] = rgb0[0];
+                id0.data[i0+1] = rgb0[1];
+                id0.data[i0+2] = rgb0[2];
+                id0.data[i0+3] = 255;
+            }
+         }
+    },
+    "count": function(id0, w0, h0, x0, y0) {
+        // return num of black pixels in image data block
+        var c0 = 0;
+        var rgb1 = [0,0,0,255];
+        // var d0 = id0.data;
+        for (var y1 = 0; y1 < h0; y1++) {
+            for (var x1 = 0; x1 < w0; x1++) {
+                var y2 = y1 + y0;
+                var x2 = x1 + x0;
+                var i0 = (((y2 * 512) + x2) * 4) >>> 0;
+                var rgb0 = [id0.data[i0],id0.data[i0+1],id0.data[i0+2],id0.data[i0+3]];
+                if (rgb.comp(rgb0, rgb1)) {
+                    c0++;
+                }
+            }
+        }
+        return c0;
     }
 }
 // colors
@@ -118,6 +173,14 @@ var rgb = {
     },
     "rc": function() {
         return rgb.css(rgb.rand());
+    },
+    "comp": function(rgb0, rgb1) {
+        for (var i = 0; i < rgb0.length; i++) {
+            if (rgb0[i] != rgb1[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
     </script>
