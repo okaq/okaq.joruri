@@ -15,9 +15,27 @@
             html,body{width:1920px;height:1080px;margin:0px;border:0px;padding:0px;background-color:rgba(255,255,255,1.0);}
             @font-face {
                 font-family: "Kalocsai_Flowers";
+                /*
                 src: url("http://localhost:8080/fonts/Kalocsai_Flowers-webfont.woff");
+                */
+                src: url("/fonts");
             }
         </style>
+        <script src="//ajax.googleapis.com/ajax/libs/webfont/1.5.6/webfont.js"></script>
+        <!--
+        <script type="text/javascript">
+            var f0 = {
+                "custom": {
+                    "families": ["Kalocsai_Flowers"],
+                    "urls": ["/fonts"]
+                },
+                "fontloading": function(familyName, fvd) {
+                    setTimeout(ren.text, 5000);
+                }
+            }
+WebFont.load(f0);
+        </script>
+        -->
          <script type="text/javascript">
             // ok
         console.log("okaq joruri waka go!");
@@ -31,9 +49,29 @@
 
                 dom.init();
                 ren.test();
-                
+                // ren.text();
+                w.font();
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
+            },
+            "font": function() {
+            var f0 = {
+                "custom": {
+                    "families": ["Kalocsai_Flowers"],
+                    "urls": ["/fonts"]
+                },
+                "fontloading": function(familyName, fvd) {
+                    setTimeout(ren.text, 1000);
+                    // ren.text();
+                    // hack: need to load twice
+                    // once with font family
+                    // again with async loader
+                    // and requires timeout delay
+                    // but it works
+                }
+            }
+WebFont.load(f0);
+                // setTimeout(ren.text, 1000);
             }
         }
 // dom
@@ -71,6 +109,41 @@ var ren = {
             c1.con.fillStyle = rgb.rc();
             c1.con.fillRect(0,0,c1.can.width,c1.can.height);
         }
+    },
+    "text": function() {
+        var q0 = "abcdefGH";
+        // unicode string literals from 48-122
+        // parseInt 16
+        var s2 = [];
+        for (var i = 48; i < 122; i++) {
+            if ((i >= 58 && i <= 64) || (i >= 91 && i <= 96)) {
+                continue;
+            }
+            var s0 = "0x"; // "\\u00";
+            var s1 = s0 + i.toString(16);
+            var s3 = String.fromCodePoint(s1);
+            // console.log(s3);
+            s2.push(s3);
+        }
+        var c0 = dom.render;
+        ren.clear(c0);
+        c0.con.fillStyle = rgb.css([0,0,0,1.0]);
+        c0.con.font = "36px Kalocsai_Flowers";
+        // c0.con.fillText(q0, 100, 400); // x-y from alphabet baseline
+        for (var i = 0; i < s2.length; i++) {
+            var t0 = s2[i];
+            var y0 = (i / 16) >>> 0;
+            var y1 = ((y0 * 100) + 64)>>> 0;
+            var x0 = i % 16;
+            var x1 = ((x0 * 30) + 16) >>> 0;
+            c0.con.fillText(t0, x1, y1);
+        }
+    },
+    "clear": function(c0) {
+        // clear color
+        var rgb0 = rgb.css([55,255,255,1.0]);
+        c0.con.fillStyle = rgb0;
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     }
 }
 // colors
