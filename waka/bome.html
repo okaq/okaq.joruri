@@ -18,7 +18,7 @@
                 /*
                 src: url("http://localhost:8080/fonts/Kalocsai_Flowers-webfont.woff");
                 */
-                src: url("/fonts");
+                src: url("/fonts") format("woff");
             }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/webfont/1.5.6/webfont.js"></script>
@@ -62,12 +62,14 @@ WebFont.load(f0);
                     "urls": ["/fonts"]
                 },
                 "fontloading": function(familyName, fvd) {
-                    setTimeout(ren.text, 1000);
+                    // setTimeout(ren.text, 100);
                     // ren.text();
                     // hack: need to load twice
                     // once with font family
                     // again with async loader
                     // and requires timeout delay
+
+                    setTimeout(f.sample, 100);
                 }
             }
 WebFont.load(f0);
@@ -88,6 +90,12 @@ var f = {
             var s2 = String.fromCodePoint(s1);
             f.chars.push(s2);
         }
+        // sample and save hana set to server json
+        // assume 8 shades greyscale
+    },
+    "sample": function() {
+        // cycle through flower data
+        ren.text();
     }
 }
 // dom
