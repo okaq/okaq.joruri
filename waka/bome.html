@@ -51,6 +51,7 @@ WebFont.load(f0);
                 ren.test();
                 // ren.text();
                 w.font();
+                f.init();
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             },
@@ -67,13 +68,28 @@ WebFont.load(f0);
                     // once with font family
                     // again with async loader
                     // and requires timeout delay
-                    // but it works
                 }
             }
 WebFont.load(f0);
                 // setTimeout(ren.text, 1000);
             }
         }
+// flowers
+var f = {
+    "init": function() {
+        f.chars = [];
+        // 74 total alphanumeric
+        for (var i = 48; i < 122; i++) {
+            if ((i >= 58 && i <= 64) || (i >= 91 && i <= 96)) {
+                continue;
+            }
+            var s0 = "0x";
+            var s1 = s0 + i.toString(16);
+            var s2 = String.fromCodePoint(s1);
+            f.chars.push(s2);
+        }
+    }
+}
 // dom
 var dom = {
     "init": function() {
