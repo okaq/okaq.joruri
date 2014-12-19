@@ -5,9 +5,11 @@
 package main
 
 import (
+    "encoding/json"
     "fmt"
     "math/rand"
     "net/http"
+    "strconv"
     "time"
 )
 
@@ -19,6 +21,7 @@ const (
 )
 
 var (
+    Now time.Time
     Source rand.Source
     Rng *rand.Rand
 )
@@ -40,16 +43,28 @@ func ShakeServer(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     w.Header().Set("Content-Type", "application/json")
     type Shake struct {
-        Id, Now string
+        Id, Now, Cipher string
     }
     s0 := new(Shake)
-    fmt.Println(s0) 
+    r0 := Rng.Int()
+    s0.Id = "user_" + strconv.Itoa(r0)
+    t0 := time.Now().UnixNano()
+    s0.Now = strconv.FormatInt(t0, 16)
+    s0.Cipher = "hanafuda"
+    fmt.Println(s0)
+    b, err := json.Marshal(s0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    w.Write(b)
 }
 
 func main() {
-    now := time.Now()
+    Now = time.Now()
     fmt.Printf("okaq.joruri waka starting on port%s\n", PORT)
-    fmt.Printf("Started at: %s.\n", now.Format(time.RFC1123Z))
+    fmt.Printf("Started at: %s.\n", Now.Format(time.RFC1123Z))
+    Source = rand.NewSource(Now.UnixNano())
+    Rng = rand.New(Source)
     http.HandleFunc("/waka", WakaServer)
     http.HandleFunc("/fonts", FontServer)
     // http.Handle("/fonts", http.FileServer(http.Dir("/home/ahmad/Documents/gira/okaq.joruri/fonts")))

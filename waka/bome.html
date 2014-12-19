@@ -126,6 +126,10 @@ var xhr = {
     "load": function(e) {
         console.log(e);
         console.log(xhr.con.response);
+        var r0 = JSON.parse(xhr.con.response);
+        if (r0.Cipher == "hanafuda") {
+            console.log("server conn ok!");
+        }
     }
 }
 // dom
