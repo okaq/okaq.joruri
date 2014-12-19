@@ -92,10 +92,18 @@ var f = {
         }
         // sample and save hana set to server json
         // assume 8 shades greyscale
+
+        // two button xhr, connect and save
+
+        // glyph may not be centered
+        // keyboard (arrow) handler to re-position (x0,y0)
     },
     "sample": function() {
         // cycle through flower data
         ren.text();
+        for (var i = 0; i < f.chars.length; i++) {
+
+        }
     }
 }
 // dom
@@ -108,6 +116,13 @@ var dom = {
         // sample canvas
         dom.sample = dom.canvas([512,512,960,284]);
         dom.add(dom.sample);
+
+        // xhr conn
+        dom.conn = dom.canvas([196,64,32,32]);
+        dom.add(dom.conn);
+        // xhr save
+        dom.save = dom.canvas([196,96,32,128]);
+        dom.add(dom.save);
     },
     "canvas": function(r0) {
         var c0 = {};
@@ -127,7 +142,7 @@ var dom = {
 // render
 var ren = {
     "test": function() {
-        var c0 = [dom.render, dom.sample];
+        var c0 = [dom.render, dom.sample, dom.conn, dom.save];
         for (var i = 0; i < c0.length; i++) {
             var c1 = c0[i];
             c1.con.fillStyle = rgb.rc();
