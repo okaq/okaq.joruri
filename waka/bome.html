@@ -48,6 +48,7 @@ WebFont.load(f0);
                 var t0 = window.performance.now();
 
                 dom.init();
+                xhr.init();
                 ren.test();
                 // ren.text();
                 w.font();
@@ -69,7 +70,7 @@ WebFont.load(f0);
                     // again with async loader
                     // and requires timeout delay
 
-                    setTimeout(f.sample, 100);
+                    setTimeout(f.sample, 1000);
                 }
             }
 WebFont.load(f0);
@@ -106,6 +107,27 @@ var f = {
         }
     }
 }
+// xhr
+var xhr = {
+    "init": function() {
+        xhr.con = new XMLHttpRequest();
+        xhr.con.addEventListener("load", xhr.load, false);
+        xhr.urls = [
+            "http://localhost:8080/shake",
+            "http://localhost:8080/save"
+            ];
+    },
+    "conn": function(e) {
+        console.log(e);
+        xhr.con.open("GET", xhr.urls[0], true);
+        xhr.con.requestType = "json";
+        xhr.con.send();
+    },
+    "load": function(e) {
+        console.log(e);
+        console.log(xhr.con.response);
+    }
+}
 // dom
 var dom = {
     "init": function() {
@@ -120,6 +142,7 @@ var dom = {
         // xhr conn
         dom.conn = dom.canvas([196,64,32,32]);
         dom.add(dom.conn);
+        dom.conn.can.addEventListener("click", xhr.conn, false);
         // xhr save
         dom.save = dom.canvas([196,96,32,128]);
         dom.add(dom.save);
