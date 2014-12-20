@@ -215,7 +215,23 @@ var f = {
             }
         }
         f.json2 = JSON.stringify(f.sd);
-        console.log(f.json2);
+        // console.log(f.json2);
+        var len0 = (f.sd.length / 8) >>> 0; // 8 bits per byte
+        var buf0 = new ArrayBuffer(len0);
+        f.bb  = new Uint8Array(buf0); // byte buffer
+        for (var i = 0; i < len0; i++) {
+            var i0 = (i * 8) >>> 0;
+            // bits
+            var a0 = f.sd.slice(i0,i0+8);
+            var a1 = a0.join("");
+            // console.log(a1);
+            var a2 = parseInt(a1, 2);
+            // console.log(a2);
+            f.bb[i] = a2;
+        }
+        // console.log(buf1);
+        f.json3 = JSON.stringify(f.bb);
+        console.log(f.json3);
     }
 }
 // xhr
@@ -238,9 +254,9 @@ var xhr = {
         // f.pixel();
         f.data();
 
-        xhr.con.open("GET", xhr.urls[1], true);
+        xhr.con.open("POST", xhr.urls[1], true);
         xhr.con.requestType = "json";
-        xhr.con.send();
+        xhr.con.send(f.bb);
     },
     "load": function(e) {
         console.log(e);

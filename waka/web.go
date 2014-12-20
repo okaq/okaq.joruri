@@ -38,10 +38,21 @@ func FontServer(w http.ResponseWriter, req *http.Request) {
     http.ServeFile(w, req, FONT)
 }
 
+// save - xhr conn json disk save
+func SaveHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    Shaker(w, "waka")
+
+}
+
 // handshake - xhr connection test handler
 func ShakeServer(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     w.Header().Set("Content-Type", "application/json")
+    Shaker(w, "hanafuda")
+}
+
+func Shaker(w http.ResponseWriter, m0 string) {
     type Shake struct {
         Id, Now, Cipher string
     }
@@ -50,7 +61,7 @@ func ShakeServer(w http.ResponseWriter, req *http.Request) {
     s0.Id = "user_" + strconv.Itoa(r0)
     t0 := time.Now().UnixNano()
     s0.Now = strconv.FormatInt(t0, 16)
-    s0.Cipher = "hanafuda"
+    s0.Cipher = m0
     fmt.Println(s0)
     b, err := json.Marshal(s0)
     if err != nil {
@@ -70,6 +81,7 @@ func main() {
     // http.Handle("/fonts", http.FileServer(http.Dir("/home/ahmad/Documents/gira/okaq.joruri/fonts")))
     // http.Handle("/", http.FileServer(http.Dir("/home/ahmad/Documents/gira/okaq.joruri")))
     http.HandleFunc("/shake", ShakeServer)
+    http.HandleFunc("/save", SaveHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
