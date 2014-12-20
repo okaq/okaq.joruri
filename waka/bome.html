@@ -53,6 +53,7 @@ WebFont.load(f0);
                 // ren.text();
                 w.font();
                 f.init();
+                document.addEventListener("keydown", w.key, false);
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             },
@@ -75,6 +76,34 @@ WebFont.load(f0);
             }
 WebFont.load(f0);
                 // setTimeout(ren.text, 1000);
+            },
+            "key": function(e) {
+                console.log(e);
+                console.log(e.keyIdentifier);
+                var k0 = e.keyIdentifier;
+                // arrows change x,y, `/1 to zoom font size
+                switch (k0) {
+                    case "Up":
+                        f.pos[1]--;
+                        break;
+                    case "Down":
+                        f.pos[1]++;
+                        break;
+                    case "Right":
+                        f.pos[0]++;
+                        break;
+                    case "Left":
+                        f.pos[0]--;
+                        break;
+                    case "U+00C0":
+                        f.pos[2] = f.pos[2] + 10;
+                        break;
+                    case "U+0031":
+                        f.pos[2] = f.pos[2] - 10;
+                        break;
+                }
+                // ren.chars(f.chars[f.index]);
+                f.sample();
             }
         }
 // flowers
@@ -112,7 +141,7 @@ var f = {
             }
          */
         ren.chars(f.chars[f.index]);
-        f.index++;
+        // f.index++;
     }
 }
 // xhr
@@ -131,12 +160,22 @@ var xhr = {
         xhr.con.requestType = "json";
         xhr.con.send();
     },
+    "save": function(e) {
+        xhr.con.open("GET", xhr.urls[1], true);
+        xhr.con.requestType = "json";
+        xhr.con.send();
+    },
     "load": function(e) {
         console.log(e);
         console.log(xhr.con.response);
         var r0 = JSON.parse(xhr.con.response);
         if (r0.Cipher == "hanafuda") {
             console.log("server conn ok!");
+        }
+        if (r0.Cipher == "waka") {
+            console.log("server saved!");
+            f.index = f.index + 1;
+            f.sample();
         }
     }
 }
@@ -158,6 +197,7 @@ var dom = {
         // xhr save
         dom.save = dom.canvas([196,96,32,128]);
         dom.add(dom.save);
+        dom.save.can.addEventListener("click", xhr.save, false);
     },
     "canvas": function(r0) {
         var c0 = {};
