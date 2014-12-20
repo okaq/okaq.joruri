@@ -146,7 +146,7 @@ var f = {
     "pixel": function() {
         // generate sample data
         f.rid = dom.render.con.getImageData(0,0,dom.render.can.width,dom.render.can.height);
-        f.sid = dom.sample.con.createImageData(dom.sample.can.width,dom.sample.can.height);
+        // f.sid = dom.sample.con.createImageData(dom.sample.can.width,dom.sample.can.height);
         /*
         // 32x32 grid
         f.nx = 32;
@@ -191,6 +191,31 @@ var f = {
             }
         }
         return c0;
+    },
+    "data": function() {
+        f.json = JSON.stringify(f.ca);
+        // console.log(f.json);
+
+        // compress with arraybuffer
+        f.sid = dom.sample.con.getImageData(0,0,dom.sample.can.width,dom.sample.can.height);
+        f.sd = []; // sample block data
+        for (var y = 0; y < f.ny; y++) {
+            for (var x = 0; x < f.nx; x++) {
+                var x0 = (x * f.sx) >>> 0;
+                var y0 = (y * f.sy) >>> 0;
+                var p0 = ((y0 * 512) + x0) >>> 0;
+                var p1 = (p0 * 4) >>> 0;
+                var i0 = ((y * f.nx) + x) >>> 0;
+                var r0 = f.sid.data[p1];
+                if (r0 == 0) {
+                    f.sd[i0] = 1;
+                } else {
+                    f.sd[i0] = 0;
+                }
+            }
+        }
+        f.json2 = JSON.stringify(f.sd);
+        console.log(f.json2);
     }
 }
 // xhr
@@ -211,6 +236,7 @@ var xhr = {
     },
     "save": function(e) {
         // f.pixel();
+        f.data();
 
         xhr.con.open("GET", xhr.urls[1], true);
         xhr.con.requestType = "json";
@@ -323,7 +349,8 @@ var ren = {
         ren.clear(c0);
         var rgb0 = rgb.css([255,0,0,1.0]);
         var rgb1 = rgb.css([0,0,0,1.0]);
-        var th0 = 1; // threshold
+        var fac0 = 0.10; // factor
+        var th0 = (f.sx*f.sy*fac0) >>> 0; // threshold
         for (var i = 0; i < f.ca.length; i++) {
             if (f.ca[i] < th0) {
                 // continue;
