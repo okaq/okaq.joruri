@@ -145,6 +145,41 @@ var f = {
     },
     "pixel": function() {
         // generate sample data
+        f.rid = dom.render.con.getImageData(0,0,dom.render.can.width,dom.render.can.height);
+        f.sid = dom.sample.con.createImageData(dom.sample.can.width,dom.sample.can.height);
+        // 32x32 grid
+        f.nx = 32;
+        f.ny = 32;
+        // 512x512px img, 32x32 grid, 16x16px block
+        f.sx = 16;
+        f.sy = 16;
+        // count array
+        f.ca = [];
+        for (var y = 0; y < f.ny; y++) {
+            for (var x = 0; x < f.nx; x++) {
+                var y0 = (y * f.sy) >>> 0;
+                var x0 = (x * f.sx) >>> 0;
+                var i0 = ((y * f.nx) + x) >>> 0;
+                f.ca[i0] = f.count(f.rid, f.sx, f.sy, x0, y0);
+            }
+        }
+    },
+    "count": function(id0, w0, h0, x0, y0) {
+        // return num of black pixels in image data block
+        var c0 = 0;
+        var rgb1 = [0,0,0,255];
+        for (var y1 = 0; y1 < h0; y1++) {
+            for (var x1 = 0; x1 < w0; x1++) {
+                var y2 = y1 + y0;
+                var x2 = x1 + x0;
+                var i0 = (((y2 * 512) + x2) * 4) >>> 0;
+                var rgb0 = [id0.data[i0],id0.data[i0+1],id0.data[i0+2],id0.data[i0+3]];
+                if (rgb.comp(rgb0, rgb1)) {
+                    c0++;
+                }
+            }
+        }
+        return c0;
     }
 }
 // xhr
