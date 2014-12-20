@@ -147,13 +147,23 @@ var f = {
         // generate sample data
         f.rid = dom.render.con.getImageData(0,0,dom.render.can.width,dom.render.can.height);
         f.sid = dom.sample.con.createImageData(dom.sample.can.width,dom.sample.can.height);
+        /*
         // 32x32 grid
         f.nx = 32;
         f.ny = 32;
         // 512x512px img, 32x32 grid, 16x16px block
         f.sx = 16;
         f.sy = 16;
-        // count array
+         */
+        f.nx = 64;
+        f.ny = 64;
+        f.sx = 8;
+        f.sy = 8;
+        f.gen();
+        ren.blocks();
+    },
+    "gen": function() {
+        // generate count array
         f.ca = [];
         for (var y = 0; y < f.ny; y++) {
             for (var x = 0; x < f.nx; x++) {
@@ -163,6 +173,7 @@ var f = {
                 f.ca[i0] = f.count(f.rid, f.sx, f.sy, x0, y0);
             }
         }
+        // console.log(f.ca);
     },
     "count": function(id0, w0, h0, x0, y0) {
         // return num of black pixels in image data block
@@ -199,7 +210,7 @@ var xhr = {
         xhr.con.send();
     },
     "save": function(e) {
-        f.pixel();
+        // f.pixel();
 
         xhr.con.open("GET", xhr.urls[1], true);
         xhr.con.requestType = "json";
@@ -229,6 +240,7 @@ var dom = {
         // sample canvas
         dom.sample = dom.canvas([512,512,960,284]);
         dom.add(dom.sample);
+        dom.sample.can.addEventListener("click", f.pixel, false);
 
         // xhr conn
         dom.conn = dom.canvas([196,64,32,32]);
@@ -305,6 +317,26 @@ var ren = {
         c0.con.fillStyle = rgb.css([0,0,0,1.0]);
         c0.con.font = f.pos[2] + "px Kalocsai_Flowers";
         c0.con.fillText(s0, f.pos[0], f.pos[1]);
+    },
+    "blocks": function() {
+        var c0 = dom.sample;
+        ren.clear(c0);
+        var rgb0 = rgb.css([255,0,0,1.0]);
+        var rgb1 = rgb.css([0,0,0,1.0]);
+        var th0 = 1; // threshold
+        for (var i = 0; i < f.ca.length; i++) {
+            if (f.ca[i] < th0) {
+                // continue;
+                c0.con.fillStyle = rgb0;
+            } else {
+                c0.con.fillStyle = rgb1;
+            }
+            var x0 = i % f.nx;
+            var y0 = (i / f.nx) >>> 0;
+            var x1 = (x0 * f.sx) >>> 0;
+            var y1 = (y0 * f.sy) >>> 0;
+            c0.con.fillRect(x1, y1, f.sx, f.sy);
+        }
     }
 }
 // colors
