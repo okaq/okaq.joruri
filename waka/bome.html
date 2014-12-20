@@ -142,6 +142,9 @@ var f = {
          */
         ren.chars(f.chars[f.index]);
         // f.index++;
+    },
+    "pixel": function() {
+        // generate sample data
     }
 }
 // xhr
@@ -161,6 +164,8 @@ var xhr = {
         xhr.con.send();
     },
     "save": function(e) {
+        f.pixel();
+
         xhr.con.open("GET", xhr.urls[1], true);
         xhr.con.requestType = "json";
         xhr.con.send();
