@@ -98,13 +98,21 @@ var f = {
 
         // glyph may not be centered
         // keyboard (arrow) handler to re-position (x0,y0)
+
+        f.index = 0;
+        f.pos = [128, 440, 420]; // position: x0, y0, size
     },
     "sample": function() {
         // cycle through flower data
-        ren.text();
+        // ren.text();
+        /*
         for (var i = 0; i < f.chars.length; i++) {
+            ren.chars(f.chars[i]);
 
-        }
+            }
+         */
+        ren.chars(f.chars[f.index]);
+        f.index++;
     }
 }
 // xhr
@@ -210,6 +218,13 @@ var ren = {
         var rgb0 = rgb.css([55,255,255,1.0]);
         c0.con.fillStyle = rgb0;
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "chars": function(s0) {
+        var c0 = dom.render;
+        ren.clear(c0);
+        c0.con.fillStyle = rgb.css([0,0,0,1.0]);
+        c0.con.font = f.pos[2] + "px Kalocsai_Flowers";
+        c0.con.fillText(s0, f.pos[0], f.pos[1]);
     }
 }
 // colors
