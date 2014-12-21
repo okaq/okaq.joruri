@@ -5,13 +5,14 @@
 package main
 
 import (
-    "bytes"
+    // "bytes"
     "encoding/json"
     "fmt"
-    // "io"
+    "io"
     // "log"
     "math/rand"
     "net/http"
+    "os"
     "strconv"
     "time"
 )
@@ -72,7 +73,7 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     }
     fmt.Println(bs0)
     */
-    
+    /*
     b0 := new(bytes.Buffer)
     b0.ReadFrom(req.Body)
     fmt.Println(b0.Bytes())
@@ -81,15 +82,12 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
         fmt.Println(err)
     }
     fmt.Println(string(j0))
-    
+    */
     /*
-    // dec := json.NewDecoder(req.Body)
-    /*
+    dec := json.NewDecoder(req.Body)
     type BmpData struct {
         Data []interface{}
     }
-    */
-    /*
     var bd0 map[string]interface{}
     err := dec.Decode(&bd0)
     if err != nil {
@@ -97,6 +95,15 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     }
     fmt.Println(bd0)
     */
+    f0, err := os.Create("test.json")
+    if err != nil {
+        fmt.Println(err)
+    }
+    defer f0.Close()
+    n0, err := io.Copy(f0, req.Body)
+    if err != nil {
+        fmt.Println(n0, err)
+    }
     Shaker(w, "waka")
 }
 
