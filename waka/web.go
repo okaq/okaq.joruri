@@ -29,6 +29,7 @@ var (
     Now time.Time
     Source rand.Source
     Rng *rand.Rand
+    BmpNum int
 )
 
 func WakaServer(w http.ResponseWriter, req *http.Request) {
@@ -47,6 +48,9 @@ func FontServer(w http.ResponseWriter, req *http.Request) {
 func SaveHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     fmt.Println(req.Body)
+    if (BmpNum >= 74) {
+        fmt.Println("Done!")
+    }
     /*
     type ByteString struct {
         Index, Value string
@@ -94,7 +98,7 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     }
     fmt.Println(bd0)
     */
-    s0 := string(j0)
+    s0 := string(j0) // + "\n"
     s1 := strings.NewReader(s0)
     // gen uuid file name
     t0 := time.Now().UnixNano()
@@ -110,7 +114,33 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     if err != nil {
         fmt.Println(n0, err)
     }
-    Shaker(w, "waka")
+    Braker(w, int(n0), s3, "waka")
+    BmpNum++
+}
+
+func Braker(w http.ResponseWriter, n0 int, s3, s0 string) {
+    w.Header().Set("Content-Type", "apllication/json")
+    type Brake struct {
+        Id, Now, Cipher string
+        BytesWritten int
+        FileName string
+        BmpNum int
+    }
+    b0 := new(Brake)
+    r0 := Rng.Int()
+    b0.Id = "user_" + strconv.Itoa(r0)
+    t0 := time.Now().UnixNano()
+    b0.Now = strconv.FormatInt(t0, 16)
+    b0.Cipher = s0
+    b0.BytesWritten = n0
+    b0.FileName = s3
+    b0.BmpNum = BmpNum
+    fmt.Println(b0)
+    b, err := json.Marshal(b0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    w.Write(b)
 }
 
 // handshake - xhr connection test handler
@@ -140,6 +170,7 @@ func Shaker(w http.ResponseWriter, m0 string) {
 }
 
 func main() {
+    BmpNum = 0
     Now = time.Now()
     fmt.Printf("okaq.joruri waka starting on port%s\n", PORT)
     fmt.Printf("Started at: %s.\n", Now.Format(time.RFC1123Z))
