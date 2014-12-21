@@ -5,8 +5,11 @@
 package main
 
 import (
+    "bytes"
     "encoding/json"
     "fmt"
+    // "io"
+    // "log"
     "math/rand"
     "net/http"
     "strconv"
@@ -41,18 +44,71 @@ func FontServer(w http.ResponseWriter, req *http.Request) {
 // save - xhr conn json disk save
 func SaveHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
+    fmt.Println(req.Body)
+    /*
+    type ByteString struct {
+        Index, Value string
+    }
+    */
+    // dec := json.NewDecoder(req.Body)
+    /*
+    bs0 := make([]ByteString, 0)
+    for {
+        var bs1 ByteString
+        err := dec.Decode(&bs1)
+        bs0 = append(bs0, bs1)
+        if err == io.EOF {
+            break
+        } else if err != nil {
+            log.Fatal(err)
+        }
+    }
+    fmt.Println(bs0)
+    type ByteString map[string]string
+    var bs0 ByteString
+    err := dec.Decode(&bs0)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println(bs0)
+    */
+    
+    b0 := new(bytes.Buffer)
+    b0.ReadFrom(req.Body)
+    fmt.Println(b0.Bytes())
+    j0, err := json.Marshal(b0.Bytes())
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(string(j0))
+    
+    /*
+    // dec := json.NewDecoder(req.Body)
+    /*
+    type BmpData struct {
+        Data []interface{}
+    }
+    */
+    /*
+    var bd0 map[string]interface{}
+    err := dec.Decode(&bd0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(bd0)
+    */
     Shaker(w, "waka")
-
 }
 
 // handshake - xhr connection test handler
 func ShakeServer(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
-    w.Header().Set("Content-Type", "application/json")
+    // w.Header().Set("Content-Type", "application/json")
     Shaker(w, "hanafuda")
 }
 
 func Shaker(w http.ResponseWriter, m0 string) {
+    w.Header().Set("Content-Type", "application/json")
     type Shake struct {
         Id, Now, Cipher string
     }
