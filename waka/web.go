@@ -96,7 +96,12 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     */
     s0 := string(j0)
     s1 := strings.NewReader(s0)
-    f0, err := os.Create("test.json")
+    // gen uuid file name
+    t0 := time.Now().UnixNano()
+    // s2 := t0.Format(time.RFC3339)
+    s2 := strconv.FormatInt(t0, 10)
+    s3 := "../hana/" + s2 + ".json"
+    f0, err := os.Create(s3)
     if err != nil {
         fmt.Println(err)
     }
@@ -151,3 +156,7 @@ func main() {
         fmt.Println(err)
     }
 }
+
+// arraybuffer json compact format
+// 512x512 binary image = 686 bytes on disk
+
