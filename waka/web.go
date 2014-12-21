@@ -5,7 +5,7 @@
 package main
 
 import (
-    // "bytes"
+    "bytes"
     "encoding/json"
     "fmt"
     "io"
@@ -14,6 +14,7 @@ import (
     "net/http"
     "os"
     "strconv"
+    "strings"
     "time"
 )
 
@@ -73,7 +74,6 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     }
     fmt.Println(bs0)
     */
-    /*
     b0 := new(bytes.Buffer)
     b0.ReadFrom(req.Body)
     fmt.Println(b0.Bytes())
@@ -82,7 +82,6 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
         fmt.Println(err)
     }
     fmt.Println(string(j0))
-    */
     /*
     dec := json.NewDecoder(req.Body)
     type BmpData struct {
@@ -95,12 +94,14 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     }
     fmt.Println(bd0)
     */
+    s0 := string(j0)
+    s1 := strings.NewReader(s0)
     f0, err := os.Create("test.json")
     if err != nil {
         fmt.Println(err)
     }
     defer f0.Close()
-    n0, err := io.Copy(f0, req.Body)
+    n0, err := io.Copy(f0, s1)
     if err != nil {
         fmt.Println(n0, err)
     }

@@ -270,10 +270,10 @@ var xhr = {
         f.data();
 
         xhr.con.open("POST", xhr.urls[1], true);
-        xhr.con.requestType = "json";
-        xhr.con.send(f.json4);
-        // xhr.con.requestType = "arraybuffer";
-        // xhr.con.send(f.bb);
+        // xhr.con.requestType = "json";
+        // xhr.con.send(f.json4);
+        xhr.con.requestType = "arraybuffer";
+        xhr.con.send(f.bb);
     },
     "load": function(e) {
         console.log(e);
