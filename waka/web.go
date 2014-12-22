@@ -20,9 +20,11 @@ import (
 
 const (
     // HTML = "aomi.html"
-    HTML = "bome.html"
+    // HTML = "bome.html"
+    HTML = "caoi.html"
     PORT = ":8080"
     FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/Kalocsai_Flowers-webfont.woff"
+    HANA = "../hana/hana.js"
 )
 
 var (
@@ -42,6 +44,12 @@ func FontServer(w http.ResponseWriter, req *http.Request) {
     w.Header().Set("Content-Type", "application/font-woff")
     // w.Header().Set("Content-Type", "text/css")
     http.ServeFile(w, req, FONT)
+}
+
+func HanaServer(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    w.Header().Set("Content-Type", "application/javascript")
+    http.ServeFile(w, req, HANA)
 }
 
 // save - xhr conn json disk save
@@ -119,7 +127,7 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func Braker(w http.ResponseWriter, n0 int, s3, s0 string) {
-    w.Header().Set("Content-Type", "apllication/json")
+    w.Header().Set("Content-Type", "application/json")
     type Brake struct {
         Id, Now, Cipher string
         BytesWritten int
@@ -182,6 +190,7 @@ func main() {
     // http.Handle("/", http.FileServer(http.Dir("/home/ahmad/Documents/gira/okaq.joruri")))
     http.HandleFunc("/shake", ShakeServer)
     http.HandleFunc("/save", SaveHandler)
+    http.HandleFunc("/hana", HanaServer)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
