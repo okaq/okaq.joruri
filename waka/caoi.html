@@ -30,8 +30,37 @@
                 // generate total and average stats for document
                 w.stop = [];
 
+                // global layout dimensions
+                w.w = 1920; // page width
+                w.h = 1080;
+                w.cw = 64; // bmp cell count
+                w.ch = 64;
+                w.sx = 4; // bmp cell size in pixels
+                w.sy = 4;
+                w.sw = (w.cw * w.sx) >>> 0; // block size
+                w.sh = (w.ch * w.sy) >>> 0;
+                w.nx = (w.w / w.sw) >>> 0; // blocks per page
+                w.ny = (w.h / w.sh) >>> 0;
+                w.nt = (w.nx * w.ny) >>> 0;
+                console.log(w.sw, w.sh, w.nx, w.ny, w.nt); // 256x256, 7x4
+
+                for (var i = 0; i < w.nt; i++) {
+                    w.hana(i);
+                }
+
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
+            },
+            "hana": function(n0) {
+                // start timer
+                w.begin = window.performance.now();
+                // create and add dom canvas object
+                // decode random hana bmp data from base64 string
+                // gen palette and render bmp in canvas
+                // record time
+                w.end = window.performance.now();
+                w.delta = w.end - w.begin;
+                w.stop.push(w.delta);
             }
         }
 // string view
