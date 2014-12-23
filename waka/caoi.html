@@ -23,9 +23,9 @@
                 console.log(e);
                 var t0 = window.performance.now();
 
-                console.log(hana[0]);
-                console.log(base64DecToArr(hana[0]));
-                console.log(base64DecToArr(hana[0]).buffer);
+                // console.log(hana[0]);
+                // console.log(base64DecToArr(hana[0]));
+                // console.log(base64DecToArr(hana[0]).buffer);
                 // stopwatch - time each decode and render in an animation frame
                 // generate total and average stats for document
                 w.stop = [];
@@ -42,7 +42,7 @@
                 w.nx = (w.w / w.sw) >>> 0; // blocks per page
                 w.ny = (w.h / w.sh) >>> 0;
                 w.nt = (w.nx * w.ny) >>> 0;
-                console.log(w.sw, w.sh, w.nx, w.ny, w.nt); // 256x256, 7x4
+                // console.log(w.sw, w.sh, w.nx, w.ny, w.nt); // 256x256, 7x4
                 w.db = {};
                 // console.log(binStr(255), binStr(1), binStr(127));
 
@@ -50,9 +50,13 @@
                     w.hana(i);
                 }
 
-                console.log(w.db);
+                // console.log(w.db);
                 w.stats();
-                ren.test();
+                // ren.test();
+
+                // stats: 
+                // total run time: 333ms 
+                // bmp decode and render: 10ms for 512x512 image 
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -160,6 +164,20 @@ var ren = {
     },
     "hana": function() {
         // render w.stamen in w.c0
+        var rgb0 = rgb.rc();
+        var rgb1 = rgb.rc();
+        for (var i = 0; i < w.stamen.length; i++) {
+            var x0 = i % w.cw;
+            var y0 = (i / w.cw) >>> 0;
+            var x1 = (x0 * w.sx) >>> 0;
+            var y1 = (y0 * w.sy) >>> 0;
+            if (w.stamen[i] == 0) {
+                w.c0.con.fillStyle = rgb0;
+            } else {
+                w.c0.con.fillStyle = rgb1;
+            }
+            w.c0.con.fillRect(x1, y1, w.sx, w.sy);
+        }
     }
 }
 // colors
