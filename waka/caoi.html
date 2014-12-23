@@ -83,7 +83,13 @@
                 w.bud = hana[w.bloom]; // base64 string
                 w.petal = base64DecToArr(w.bud); // decoded uint8array
                 // console.log(w.bloom, w.petal);
-                w.stamen = w.expand(w.petal);
+                w.pid = "hana_" + w.bloom;
+                if (w.db[w.pid]) {
+                    w.stamen = w.db[w.pid];
+                } else {
+                    w.stamen = w.expand(w.petal);
+                    w.db[w.pid] = w.stamen.slice(0);
+                }
                 // console.log(w.stamen);
                 ren.hana();
                 // gen palette and render bmp in canvas
