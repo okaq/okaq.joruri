@@ -43,26 +43,120 @@
                 w.ny = (w.h / w.sh) >>> 0;
                 w.nt = (w.nx * w.ny) >>> 0;
                 console.log(w.sw, w.sh, w.nx, w.ny, w.nt); // 256x256, 7x4
+                w.db = {};
 
                 for (var i = 0; i < w.nt; i++) {
                     w.hana(i);
                 }
 
+                console.log(w.db);
+                w.stats();
+                ren.test();
+
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             },
             "hana": function(n0) {
+                w.n0 = n0;
                 // start timer
                 w.begin = window.performance.now();
+                w.grid();
+            },
+            "grid": function() {
                 // create and add dom canvas object
+                w.x0 = w.n0 % w.nx;
+                w.y0 = (w.n0 / w.nx) >>> 0;
+                w.x1 = (w.x0 * w.sw) >>> 0;
+                w.y1 = (w.y0 * w.sh) >>> 0;
+                w.c0 = dom.canvas([w.sw, w.sh, w.x1, w.y1]);
+                w.id = "grid_" + w.n0;
+                w.c0.can.dataset.id = w.id;
+                w.db[w.id] = w.c0;
+                dom.add(w.c0);
                 // decode random hana bmp data from base64 string
                 // gen palette and render bmp in canvas
+                w.time();
+            },
+            "time": function() {
                 // record time
                 w.end = window.performance.now();
                 w.delta = w.end - w.begin;
                 w.stop.push(w.delta);
+            },
+            "stats": function() {
+                w.sum = 0;
+                w.avg = 0;
+                for (var i = 0; i < w.stop.length; i++) {
+                    w.sum += w.stop[i];
+                }
+                w.avg = (w.sum / w.stop.length);
+                console.log("stats: " + w.sum + " " + w.avg);
             }
         }
+// dom 
+var dom = {
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        if (!dom.alpha) {
+            dom.alpha = document.getElementById("alpha");
+        }
+        dom.alpha.appendChild(c0.can);
+    }
+}
+// render
+var ren = {
+    "test": function() {
+        for (var i = 0; i < w.nt; i++) {
+            var k0 = "grid_" + i;
+            var c0 = w.db[k0];
+            c0.con.fillStyle = rgb.rc();
+            c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+        }
+    }
+}
+// colors
+var rgb = {
+    "rand": function() {
+        return [rgb.rb(),rgb.rb(),rgb.rb(),1.0];
+    },
+    "rb": function() {
+        return (Math.random() * 255) >>> 0;
+    },
+    "css": function(c0) {
+        var s0 = "rgba(";
+        s0 += c0.join(",");
+        s0 += ")";
+        return s0;
+    },
+    "rc": function() {
+        return rgb.css(rgb.rand());
+    },
+    "comp": function(rgb0, rgb1) {
+        for (var i = 0; i < rgb0.length; i++) {
+            if (rgb0[i] != rgb1[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+// matrix
+var m = {
+    // get/set row/col
+    // reverse row/col
+    // transpose
+    // rotate (pi/2)
+}
 // string view
 /*\
   |*|
