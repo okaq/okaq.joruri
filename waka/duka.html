@@ -14,7 +14,7 @@
                 font-family: "Kalocsai Flowers";
                 src: url("/fonts/Kalocsai_Flowers-webfont.woff");
             }
-            h1{font-family:"Kalocsai Flowers"}
+            h1{font-family:"Kalocsai Flowers";font-size:1px;}
         </style>
          <script type="text/javascript">
             // ok
@@ -32,6 +32,7 @@
                 // draw glyph selector buttons
                 h.init();
                 ren.can(h.c);
+                h.glyph();
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -41,6 +42,7 @@
 var h = {
     "init": function() {
         h.chars = [];
+
         // 74 total alphanumeric
         for (var i = 48; i < 122; i++) {
             if ((i >= 58 && i <= 64) || (i >= 91 && i <= 96)) {
@@ -51,6 +53,7 @@ var h = {
             var s2 = String.fromCodePoint(s1);
             h.chars.push(s2);
         }
+        
         // 1920 / 32 = 60 
         // layout
         h.x0 = 0;
@@ -61,11 +64,27 @@ var h = {
         h.ny = 2;
         // canvas objects
         h.c = dom.grid(h.x0, h.y0, h.sx, h.sy, h.nx, h.ny);
-        console.log(h.c);
+        // console.log(h.c);
+        
         // assign code point to dataset
         for (var i = 0; i < h.c.length; i++) {
             dom.add(h.c[i]);
+            h.c[i].can.dataset.id = i;
             h.c[i].can.dataset.x = h.chars[i];
+            h.c[i].can.addEventListener("click", h.click, false);
+        }
+        h.chosen = {};
+        h.chosen.id = null;
+        h.chosen.x = null;
+    },
+    "click": function(e) {
+        console.log(e.target.dataset);
+        h.chosen = e.target.dataset;
+        h.glyph();
+    },
+    "glyph": function() {
+        for (var i = 0; i < h.c.length; i++) {
+            ren.hana(h.chars[i], h.c[i]);
         }
     }
 }
@@ -113,6 +132,22 @@ var ren = {
             c0[i].con.fillStyle = rgb.rc();
             c0[i].con.fillRect(0,0,c0[i].can.width,c0[i].can.height);
         }
+    },
+    "hana": function(ch0, c0) {
+        // fill bkgd
+        c0.con.fillStyle = rgb.css([40,0,60,1.0]);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+        // draw char in canvas
+        if (c0.can.dataset.id == h.chosen.id) {
+            c0.con.fillStyle = rgb.css([255,100,100,1.0]);
+        } else {
+            c0.con.fillStyle = rgb.css([220,160,255,1.0]);
+        }
+        var x0 = c0.can.width - 8;
+        c0.con.font = x0 + "px Kalocsai Flowers";
+        var x1 = 4;
+        var y1 = c0.can.height - 8;
+        c0.con.fillText(ch0, x1, y1);
     }
 }
 // colors
@@ -136,6 +171,7 @@ var rgb = {
     </script>
 </head>
 <body id="alpha">
+    <h1>.</h1>
 </body>
 </html>
  
