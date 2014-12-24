@@ -31,7 +31,8 @@
 
                 // draw glyph selector buttons
                 h.init();
-                ren.can(h.c);
+                // ren.can(h.c);
+                p.init();
                 h.glyph();
 
                 var t1 = window.performance.now() - t0;
@@ -86,6 +87,78 @@ var h = {
         for (var i = 0; i < h.c.length; i++) {
             ren.hana(h.chars[i], h.c[i]);
         }
+    }
+}
+// paint
+var p = {
+    "init": function() {
+        // button to add glyph
+        // two buttons zoom in out
+        // four buttons wasd position
+        // two button rotation
+        // holds state of painting object
+
+        // click render canvas to add glyph
+        // maintain state (font size, pos, rotation)
+        // keyboard handle
+        // stack of glyph state objects
+        // undo?
+
+        // layout
+        p.x0 = 256;
+        p.y0 = 256;
+        p.sx = 512;
+        p.sy = 512;
+        p.nx = 2;
+        p.ny = 1;
+        p.c = dom.grid(p.x0, p.y0, p.sx, p.sy, p.nx, p.ny);
+
+        // events
+        p.c[0].can.dataset.x = "render";
+        p.c[0].can.addEventListener("click", p.render, false);
+        dom.add(p.c[0]);
+        p.c[1].can.dataset.x = "sample";
+        p.c[1].can.addEventListener("click", p.sample, false);
+        dom.add(p.c[1]);
+
+        console.log(p.c);
+
+        ren.can(p.c);
+
+        // state stack
+        p.state = [];
+    },
+    "render": function(e) {
+        console.log(e);
+
+        if (h.chosen.id != null) {
+            var g0 = new glyph(h.chosen.id);
+        }
+
+        ren.paint0();
+    },
+    "sample": function(e) {
+        console.log(e);
+    }
+}
+// glyph
+var glyph = function(id0) {
+    this.id = id0;
+    this.x0 = 32;
+    this.y0 = 420;
+    this.size0 = 400;
+    this.theta0 = 0;
+}
+// canvas
+var can = {
+    "init": function() {
+        // 2 512x512 panels, render and sample
+    }
+}
+// xhr
+var xhr = {
+    "init": function() {
+        // save button - server side json arraybuffer store
     }
 }
 // dom
@@ -148,6 +221,15 @@ var ren = {
         var x1 = 4;
         var y1 = c0.can.height - 8;
         c0.con.fillText(ch0, x1, y1);
+    },
+    "paint0": function() {
+        // render all glyphs in paint state
+        // into paint rander canvas
+        var c0 = p.c[0];
+
+        // fill bkgd
+        c0.con.fillStyle = rgb.css([100,20,10,1.0]);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     }
 }
 // colors
