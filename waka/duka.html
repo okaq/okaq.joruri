@@ -149,7 +149,7 @@ var p = {
         p.nx = 64;
         p.ny = 64;
         p.sx = 8;
-        p.ny = 8;
+        p.sy = 8;
         // count array
         p.ca = [];
         for (var y = 0; y < p.ny; y++) {
@@ -337,6 +337,20 @@ var ren = {
         // fore, bkgd
         var rgb0 = rgb.css([16,32,16,1.0]);
         var rgb1 = rgb.css([196,232,196,1.0]);
+        var c0 = p.c[1];
+        // render count arrray
+        for (var i = 0; i < p.ca.length; i++) {
+            var x0 = i % p.nx;
+            var y0 = (i / p.nx) >>> 0;
+            var x1 = (x0 * p.sx) >>> 0;
+            var y1 = (y0 * p.sy) >>> 0;
+            if (p.ca[i] > 0) {
+                c0.con.fillStyle = rgb0;
+            } else {
+                c0.con.fillStyle = rgb1;
+            }
+            c0.con.fillRect(x1,y1,p.sx,p.sy);
+        }
     }
 }
 // colors
