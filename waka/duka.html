@@ -173,10 +173,10 @@ var p = {
                 g0.size0++;
                 break;
             case "U+0051":
-                g0.theta0--;
+                g0.theta0 = g0.theta0 - 0.01;
                 break;
             case "U+0045":
-                g0.theta0++;
+                g0.theta0 = g0.theta0 + 0.01;
                 break;
         }
         ren.paint0();
@@ -279,7 +279,18 @@ var ren = {
             var g0 = p.glyphs[i];
             c0.con.font = g0.size0 + "px Kalocsai Flowers";
             var ch0 = h.chars[g0.id];
-            c0.con.fillText(ch0, g0.x0, g0.y0);
+            if (g0.theta0 == 0) {
+                c0.con.fillText(ch0, g0.x0, g0.y0);
+            } else {
+                var d0 = (g0.size0 / 2) >>> 0;
+                var x1 = 256; // g0.x0 + d0;
+                var y1 = 256; // g0.y0 - d0;
+                c0.con.save();
+                // c0.con.translate(x1, y1);
+                c0.con.rotate(g0.theta0);
+                c0.con.fillText(ch0, g0.x0, g0.y0);
+                c0.con.restore();
+            }
         }
     }
 }
