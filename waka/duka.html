@@ -129,6 +129,7 @@ var p = {
 
         // state stack
         p.glyphs = [];
+        // select and delete stack items using canvas buttons
     },
     "render": function(e) {
         console.log(e);
@@ -142,6 +143,43 @@ var p = {
     },
     "sample": function(e) {
         console.log(e);
+        // generate sample
+        p.rid = p.c[0].con.getImageData(0,0,p.c[0].can.width,p.c[0].can.height);
+        // 512x512 bmp, 64x64 grid, 8x8 px block
+        p.nx = 64;
+        p.ny = 64;
+        p.sx = 8;
+        p.ny = 8;
+        // count array
+        p.ca = [];
+        for (var y = 0; y < p.ny; y++) {
+            for (var x = 0; x < p.nx; x++) {
+                var y0 = (y * p.sy) >>> 0;
+                var x0 = (x * p.sx) >>> 0;
+                var i0 = ((y * p.nx) + x) >>> 0;
+                p.ca[i0] = p.count(p.rid, p.sx, p.sy, x0, y0);
+            }
+        }
+        // render
+        ren.paint1();
+        // save to server
+    },
+    "count": function(id0, w0, h0, x0, y0) {
+        // return num of filled pixels in image data block
+        var c0 = 0;
+        var rgb1 = [182,226,255,255];
+        for (var y1 = 0; y1 < h0; y1++) {
+            for (var x1 = 0; x1 < w0; x1++) {
+                var y2 = y1 + y0;
+                var x2 = x1 + x0;
+                var i0 = (((y2 * 512) + x2) * 4) >>> 0;
+                var rgb0 = [id0.data[i0],id0.data[i0+1],id0.data[i0+2],id0.data[i0+3]];
+                if (rgb.comp(rgb0, rgb1)) {
+                    c0++;
+                }
+            }
+        }
+        return c0;
     },
     "key": function(e) {
         // w,a,s,d = U+0057,U+0041,U+0053,U+0044
@@ -189,6 +227,8 @@ var glyph = function(id0) {
     this.y0 = 420;
     this.size0 = 400;
     this.theta0 = 0;
+    // methods to update pos, angle here
+    // invariant to canvas state
 }
 // canvas
 var can = {
@@ -288,10 +328,15 @@ var ren = {
                 c0.con.save();
                 // c0.con.translate(x1, y1);
                 c0.con.rotate(g0.theta0);
-                c0.con.fillText(ch0, g0.x0, g0.y0);
+                c0.con.fillText(ch0, g0.x0, g0.y0); // x0,y0 rotated with canvas
                 c0.con.restore();
             }
         }
+    },
+    "paint1": function() {
+        // fore, bkgd
+        var rgb0 = rgb.css([16,32,16,1.0]);
+        var rgb1 = rgb.css([196,232,196,1.0]);
     }
 }
 // colors
@@ -310,6 +355,14 @@ var rgb = {
     },
     "rc": function() {
         return rgb.css(rgb.rand());
+    },
+    "comp": function(rgb0, rgb1) {
+        for (var i = 0; i < rgb0.length; i++) {
+            if (rgb0[i] != rgb1[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
     </script>
