@@ -126,13 +126,14 @@ var p = {
         ren.can(p.c);
 
         // state stack
-        p.state = [];
+        p.glyphs = [];
     },
     "render": function(e) {
         console.log(e);
 
         if (h.chosen.id != null) {
             var g0 = new glyph(h.chosen.id);
+            p.glyphs.push(g0);
         }
 
         ren.paint0();
@@ -228,8 +229,18 @@ var ren = {
         var c0 = p.c[0];
 
         // fill bkgd
-        c0.con.fillStyle = rgb.css([100,20,10,1.0]);
+        // c0.con.fillStyle = rgb.css([100,20,10,1.0]);
+        c0.con.fillStyle = rgb.css([0,10,80,1.0]);
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+
+        // draw glyphs fore
+        c0.con.fillStyle = rgb.css([182,226,255,1.0]);
+        for (var i = 0; i < p.glyphs.length; i++) {
+            var g0 = p.glyphs[i];
+            c0.con.font = g0.size0 + "px Kalocsai Flowers";
+            var ch0 = h.chars[g0.id];
+            c0.con.fillText(ch0, g0.x0, g0.y0);
+        }
     }
 }
 // colors
