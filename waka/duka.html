@@ -125,6 +125,8 @@ var p = {
 
         ren.can(p.c);
 
+        document.addEventListener("keydown", p.key, false);
+
         // state stack
         p.glyphs = [];
     },
@@ -140,6 +142,44 @@ var p = {
     },
     "sample": function(e) {
         console.log(e);
+    },
+    "key": function(e) {
+        // w,a,s,d = U+0057,U+0041,U+0053,U+0044
+        // z,x = U+005A,U+005B
+        // q,e = U+0051,U+0045
+        var k0 = e.keyIdentifier;
+        console.log(k0);
+        if (p.glyphs.length == 0) {
+            return;
+        }
+        var g0 = p.glyphs[p.glyphs.length-1];
+        switch (k0) {
+            case "U+0057":
+                g0.y0--;
+                break;
+            case "U+0053":
+                g0.y0++;
+                break;
+            case "U+0041":
+                g0.x0--;
+                break;
+            case "U+0044":
+                g0.x0++;
+                break;
+            case "U+005A":
+                g0.size0--;
+                break;
+            case "U+0058":
+                g0.size0++;
+                break;
+            case "U+0051":
+                g0.theta0--;
+                break;
+            case "U+0045":
+                g0.theta0++;
+                break;
+        }
+        ren.paint0();
     }
 }
 // glyph
