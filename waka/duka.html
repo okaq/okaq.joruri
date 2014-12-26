@@ -148,20 +148,22 @@ var p = {
         // generate sample
         p.rid = p.c[0].con.getImageData(0,0,p.c[0].can.width,p.c[0].can.height);
         // 512x512 bmp, 64x64 grid, 8x8 px block
-        p.nx = 64;
-        p.ny = 64;
-        p.sx = 8;
-        p.sy = 8;
+        p.bx = 64;
+        p.by = 64;
+        p.px = 8;
+        p.py = 8;
         // count array
         p.ca = [];
-        for (var y = 0; y < p.ny; y++) {
-            for (var x = 0; x < p.nx; x++) {
-                var y0 = (y * p.sy) >>> 0;
-                var x0 = (x * p.sx) >>> 0;
-                var i0 = ((y * p.nx) + x) >>> 0;
-                p.ca[i0] = p.count(p.rid, p.sx, p.sy, x0, y0);
+        for (var y = 0; y < p.by; y++) {
+            for (var x = 0; x < p.bx; x++) {
+                var y0 = (y * p.py) >>> 0;
+                var x0 = (x * p.px) >>> 0;
+                var i0 = ((y * p.bx) + x) >>> 0;
+                p.ca[i0] = p.count(p.rid, p.px, p.py, x0, y0);
             }
         }
+        // threshold
+        p.seg();
         // render
         ren.paint1();
         // save to server
@@ -182,6 +184,19 @@ var p = {
             }
         }
         return c0;
+    },
+    "seg": function() {
+        // test count array threshold
+        p.ta = [];
+        p.factor = 0.125;
+        p.thresh = p.px * p.py * p.factor;
+        for (var i = 0; i < p.ca.length; i++) {
+            if (p.ca[i] >= p.thresh) {
+                p.ta[i] = 1;
+            } else {
+                p.ta[i] = 0;
+            }
+        }
     },
     "key": function(e) {
         // w,a,s,d = U+0057,U+0041,U+0053,U+0044
@@ -349,18 +364,18 @@ var ren = {
         var rgb0 = rgb.css([16,32,16,1.0]);
         var rgb1 = rgb.css([196,232,196,1.0]);
         var c0 = p.c[1];
-        // render count arrray
-        for (var i = 0; i < p.ca.length; i++) {
-            var x0 = i % p.nx;
-            var y0 = (i / p.nx) >>> 0;
-            var x1 = (x0 * p.sx) >>> 0;
-            var y1 = (y0 * p.sy) >>> 0;
-            if (p.ca[i] > 0) {
+        // render threshold arrray
+        for (var i = 0; i < p.ta.length; i++) {
+            var x0 = i % p.bx;
+            var y0 = (i / p.bx) >>> 0;
+            var x1 = (x0 * p.px) >>> 0;
+            var y1 = (y0 * p.py) >>> 0;
+            if (p.ta[i] > 0) {
                 c0.con.fillStyle = rgb0;
             } else {
                 c0.con.fillStyle = rgb1;
             }
-            c0.con.fillRect(x1,y1,p.sx,p.sy);
+            c0.con.fillRect(x1,y1,p.px,p.py);
         }
     }
 }
