@@ -5,6 +5,8 @@
 package main
 
 import (
+    "bytes"
+    "encoding/json"
     "fmt"
     "net/http"
     "time"
@@ -32,12 +34,26 @@ func FontServer(w http.ResponseWriter, req *http.Request) {
     http.ServeFile(w, req, FONT)
 }
 
+func SaveServer(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    b0 := new(bytes.Buffer)
+    b0.ReadFrom(req.Body)
+    j0, err := json.Marshal(b0.Bytes())
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(string(j0))
+    w.Header().Set("Content-Type", "text/plain")
+    w.Write([]byte("file saved!"))
+}
+
 func main() {
     Now = time.Now()
     fmt.Printf("okaq.joruri waka starting on port%s\n", PORT)
     fmt.Printf("Started at: %s.\n", Now.Format(time.RFC1123Z))
     http.HandleFunc("/waka", WakaServer)
     http.HandleFunc("/fonts/Kalocsai_Flowers-webfont.woff", FontServer)
+    http.HandleFunc("/save", SaveServer)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)

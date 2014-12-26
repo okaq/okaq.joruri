@@ -211,7 +211,7 @@ var p = {
             p.va[i] = a2;
         }
         p.json = JSON.stringify(p.va);
-        console.log(p.json, p.va);
+        // console.log(p.json, p.va);
     },
     "key": function(e) {
         // w,a,s,d = U+0057,U+0041,U+0053,U+0044
@@ -277,11 +277,21 @@ var xhr = {
         xhr.c[0].can.addEventListener("click", xhr.click, false);
         dom.add(xhr.c[0]);
 
-        xhr.url = "http://localhost:8080/save"
+        xhr.url = "http://localhost:8080/save";
+        xhr.con = new XMLHttpRequest();
+        xhr.con.addEventListener("load", xhr.load, false);
     },
     "click": function(e) {
         console.log(e);
         p.buf();
+        
+        xhr.con.open("POST", xhr.url, true);
+        xhr.con.requestType = "arraybuffer";
+        xhr.con.send(p.va);
+    },
+    "load": function(e) {
+        console.log(e);
+        console.log(xhr.con.response);
     }
 }
 // dom
