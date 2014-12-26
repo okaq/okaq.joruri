@@ -5,10 +5,12 @@
 package main
 
 import (
+    "bufio"
     "bytes"
     "encoding/json"
     "fmt"
     "net/http"
+    "os"
     "time"
 )
 
@@ -16,6 +18,7 @@ const (
     HTML = "duka.html"
     PORT = ":8080"
     FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/Kalocsai_Flowers-webfont.woff"
+    HANA = "/home/ahmad/Documents/gira/okaq.joruri/hana/"
 )
 
 var (
@@ -43,6 +46,15 @@ func SaveServer(w http.ResponseWriter, req *http.Request) {
         fmt.Println(err)
     }
     fmt.Println(string(j0))
+    // get file name from command prompt
+    r0 := bufio.NewReader(os.Stdin)
+    fmt.Println("What file name should I assign? Please input below and hit <Enter>")
+    t0, err := r0.ReadString('\n')
+    if err != nil {
+        fmt.Println(err)
+    }
+    t0 = t0[:len(t0)-1] // remove trailing newline
+    n0 := fmt.Sprintf("%s%s.json", HANA, t0)
     w.Header().Set("Content-Type", "text/plain")
     w.Write([]byte("file saved!"))
 }
