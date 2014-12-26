@@ -33,6 +33,8 @@
                 h.init();
                 // ren.can(h.c);
                 p.init();
+                xhr.init();
+                ren.can(xhr.c);
                 h.glyph();
 
                 var t1 = window.performance.now() - t0;
@@ -240,6 +242,15 @@ var can = {
 var xhr = {
     "init": function() {
         // save button - server side json arraybuffer store
+        // layout
+        xhr.c = [dom.canvas([512,128,512,800])];
+        xhr.c[0].can.addEventListener("click", xhr.click, false);
+        dom.add(xhr.c[0]);
+
+        xhr.url = "http://localhost:8080/save"
+    },
+    "click": function(e) {
+        console.log(e);
     }
 }
 // dom
