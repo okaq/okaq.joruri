@@ -9,8 +9,10 @@ import (
     "bytes"
     "encoding/json"
     "fmt"
+    "io"
     "net/http"
     "os"
+    "strings"
     "time"
 )
 
@@ -55,8 +57,23 @@ func SaveServer(w http.ResponseWriter, req *http.Request) {
     }
     t0 = t0[:len(t0)-1] // remove trailing newline
     n0 := fmt.Sprintf("%s%s.json", HANA, t0)
+    f0, err := os.Create(n0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    defer f0.Close()
+    // write json base64 encoded arraybuffer string to file
+    s0 := string(j0)
+    s1 := strings.NewReader(s0)
+    w0, err := io.Copy(f0, s1)
+    if err != nil {
+        fmt.Println(err)
+    }
+    d0 := fmt.Sprintf("Wrote %v bytes to file %s!", w0, n0)
+    d1 := []byte(d0)
     w.Header().Set("Content-Type", "text/plain")
-    w.Write([]byte("file saved!"))
+    // w.Write([]byte("file saved!"))
+    w.Write(d1)
 }
 
 func main() {
