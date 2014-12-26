@@ -198,6 +198,21 @@ var p = {
             }
         }
     },
+    "buf": function() {
+        // arraybuffer from thresh array
+        p.len = (p.ta.length / 8) >>> 0;
+        p.ab = new ArrayBuffer(p.len);
+        p.va = new Uint8Array(p.ab);
+        for (var i = 0; i < p.len; i++) {
+            var i0 = (i * 8) >>> 0;
+            var a0 = p.ta.slice(i0,i0+8);
+            var a1 = a0.join("");
+            var a2 = parseInt(a1, 2);
+            p.va[i] = a2;
+        }
+        p.json = JSON.stringify(p.va);
+        console.log(p.json, p.va);
+    },
     "key": function(e) {
         // w,a,s,d = U+0057,U+0041,U+0053,U+0044
         // z,x = U+005A,U+005B
@@ -266,6 +281,7 @@ var xhr = {
     },
     "click": function(e) {
         console.log(e);
+        p.buf();
     }
 }
 // dom
