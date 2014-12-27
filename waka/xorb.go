@@ -69,7 +69,20 @@ func SaveServer(w http.ResponseWriter, req *http.Request) {
     if err != nil {
         fmt.Println(err)
     }
-    d0 := fmt.Sprintf("Wrote %v bytes to file %s!", w0, n0)
+    // direct copy - 512 bytes to binary file
+    /*
+    n0 := fmt.Sprintf("%s%s.bin", HANA, "zcopy_test_0")
+    f0, err := os.Create(n0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    defer f0.Close()
+    w0, err := io.Copy(f0, req.Body)
+    if err != nil {
+        fmt.Println(err)
+    }
+    */
+    d0 := fmt.Sprintf("Wrote %v bytes to file %s!\n", w0, n0)
     d1 := []byte(d0)
     w.Header().Set("Content-Type", "text/plain")
     // w.Write([]byte("file saved!"))
