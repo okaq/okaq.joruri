@@ -15,8 +15,8 @@ import (
 )
 
 const (
-    PATH = "../hana"
-    OUT = "hana.js"
+    PATH = "../hana2"
+    OUT = "../hana2/hana2.js"
 )
 
 var (
@@ -35,7 +35,7 @@ func OutputFile() {
 }
 
 func Header() {
-    s0 := fmt.Sprintf("var hana = [\n")
+    s0 := fmt.Sprintf("var hana2 = [\n")
     W.WriteString(s0)
 }
 
