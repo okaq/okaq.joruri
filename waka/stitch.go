@@ -16,7 +16,7 @@ import (
 
 const (
     PATH = "../hana2"
-    OUT = "../hana2/hana2.js"
+    OUT = "../hana2/hana2d.js"
 )
 
 var (
@@ -35,12 +35,12 @@ func OutputFile() {
 }
 
 func Header() {
-    s0 := fmt.Sprintf("var hana2 = [\n")
+    s0 := fmt.Sprintf("var hana2d = {\n")
     W.WriteString(s0)
 }
 
 func Footer() {
-    s0 := fmt.Sprintf("];\n")
+    s0 := fmt.Sprintf("};\n")
     W.WriteString(s0)
     W.Flush()
 }
@@ -62,8 +62,11 @@ func StitchWalk(path string, info os.FileInfo, err error) error {
             return err0
         }
         s0 := string(b0)
-        s1 := fmt.Sprintf("%s,\n", s0)
-        W.WriteString(s1)
+        // s1 := fmt.Sprintf("%s,\n", s0)
+        s1 := info.Name()
+        s1 = s1[:len(s1)-5]
+        s2 := fmt.Sprintf("%s:%s,\n", s1, s0)
+        W.WriteString(s2)
     }
     return err
 }
