@@ -11,10 +11,10 @@
          <style type="text/css">
             html,body{width:1920px;height:1080px;margin:0px;border:0px;padding:0px;background-color:rgba(255,255,255,1.0);}
             @font-face {
-                font-family: "Kalocsai Flowers";
-                src: url("/fonts/Kalocsai_Flowers-webfont.woff");
+                font-family: "Oxygen";
+                src: url("/fonts/oxygen-mono-regular.woff");
             }
-            h1{font-family:"Kalocsai Flowers";font-size:1px;}
+            h1{font-family:"Oxygen";font-size:1px;}
         </style>
          <script type="text/javascript">
             // ok
@@ -46,24 +46,29 @@ var h = {
     "init": function() {
         h.chars = [];
 
-        // 74 total alphanumeric
-        for (var i = 48; i < 122; i++) {
-            if ((i >= 58 && i <= 64) || (i >= 91 && i <= 96)) {
-                continue;
-            }
+        // numbers
+        for (var i = 48; i < 58; i++) {
             var s0 = "0x";
             var s1 = s0 + i.toString(16);
             var s2 = String.fromCodePoint(s1);
-            h.chars.push(s2);
+            h.chars.push(s2)
         }
-        
+
+        // capitals [A-Z]
+        for (var i = 65; i < 91; i++) {
+            var s0 = "0x";
+            var s1 = s0 + i.toString(16);
+            var s2 = String.fromCodePoint(s1);
+            h.chars.push(s2)
+        }
+       
         // 1920 / 32 = 60 
         // layout
         h.x0 = 0;
         h.y0 = 0;
         h.sx = 64;
         h.sy = 64;
-        h.nx = 30;
+        h.nx = 18;
         h.ny = 2;
         // canvas objects
         h.c = dom.grid(h.x0, h.y0, h.sx, h.sy, h.nx, h.ny);
@@ -147,11 +152,18 @@ var p = {
         console.log(e);
         // generate sample
         p.rid = p.c[0].con.getImageData(0,0,p.c[0].can.width,p.c[0].can.height);
+        /*
         // 512x512 bmp, 64x64 grid, 8x8 px block
         p.bx = 64;
         p.by = 64;
         p.px = 8;
         p.py = 8;
+         */
+        // 512x512 bmp, 32x32 grid, 16x16 px block
+        p.bx = 32;
+        p.by = 32;
+        p.px = 16;
+        p.py = 16;
         // count array
         p.ca = [];
         for (var y = 0; y < p.by; y++) {
@@ -350,8 +362,8 @@ var ren = {
             c0.con.fillStyle = rgb.css([220,160,255,1.0]);
         }
         var x0 = c0.can.width - 8;
-        c0.con.font = x0 + "px Kalocsai Flowers";
-        var x1 = 4;
+        c0.con.font = x0 + "px Oxygen";
+        var x1 = 128;
         var y1 = c0.can.height - 8;
         c0.con.fillText(ch0, x1, y1);
     },
@@ -369,7 +381,7 @@ var ren = {
         c0.con.fillStyle = rgb.css([182,226,255,1.0]);
         for (var i = 0; i < p.glyphs.length; i++) {
             var g0 = p.glyphs[i];
-            c0.con.font = g0.size0 + "px Kalocsai Flowers";
+            c0.con.font = g0.size0 + "px Oxygen";
             var ch0 = h.chars[g0.id];
             if (g0.theta0 == 0) {
                 c0.con.fillText(ch0, g0.x0, g0.y0);

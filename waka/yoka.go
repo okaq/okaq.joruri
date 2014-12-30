@@ -17,9 +17,10 @@ import (
 )
 
 const (
-    HTML = "duka.html"
+    HTML = "eago.html"
     PORT = ":8080"
-    FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/Kalocsai_Flowers-webfont.woff"
+    // FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/Kalocsai_Flowers-webfont.woff"
+    FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/oxygen-mono-regular.woff"
     HANA = "/home/ahmad/Documents/gira/okaq.joruri/hana/"
 )
 
@@ -94,7 +95,8 @@ func main() {
     fmt.Printf("okaq.joruri waka starting on port%s\n", PORT)
     fmt.Printf("Started at: %s.\n", Now.Format(time.RFC1123Z))
     http.HandleFunc("/waka", WakaServer)
-    http.HandleFunc("/fonts/Kalocsai_Flowers-webfont.woff", FontServer)
+    // http.HandleFunc("/fonts/Kalocsai_Flowers-webfont.woff", FontServer)
+    http.HandleFunc("/fonts/oxygen-mono-regular.woff", FontServer)
     http.HandleFunc("/save", SaveServer)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
