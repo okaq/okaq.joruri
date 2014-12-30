@@ -37,6 +37,9 @@
                 ren.can(xhr.c);
                 h.glyph();
 
+                // automate
+                // iterate glyph, trigger clicks, xhr send, clear canvas
+
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             }
@@ -267,8 +270,8 @@ var p = {
 // glyph
 var glyph = function(id0) {
     this.id = id0;
-    this.x0 = 32;
-    this.y0 = 420;
+    this.x0 = 142;
+    this.y0 = 408;
     this.size0 = 400;
     this.theta0 = 0;
     // methods to update pos, angle here
@@ -363,7 +366,7 @@ var ren = {
         }
         var x0 = c0.can.width - 8;
         c0.con.font = x0 + "px Oxygen";
-        var x1 = 128;
+        var x1 = 4;
         var y1 = c0.can.height - 8;
         c0.con.fillText(ch0, x1, y1);
     },
