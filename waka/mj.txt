@@ -1,0 +1,21 @@
+mahjong tile symbolism
+
+Suits:
+char suit [1-9]
+bamboo suit [1-9]
+wheel suit [1-9]
+
+flowers - plum, orchid, bamboo, mum
+seasons - spring, summer, autumn, winter
+winds - east, south, west, north
+dragons - red, green, white
+
+Deck:
+36 bamboos (4 sets) = axis of earth
+36 circles (4 sets) = wheel of heaven
+36 chars (4 sets) = changes in life of man
+16 simple honors (4 sets of winds)
+12 superior honors (4 sets of dragons)
+8 supreme honors (1 set each flowers, seasons)
+
+
