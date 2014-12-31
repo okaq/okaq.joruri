@@ -10,11 +10,6 @@
         <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGIR+b+KgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//xVoCAPYmVTkAAAAASUVORK5CYII=" />
          <style type="text/css">
             html,body{width:1920px;height:1080px;margin:0px;border:0px;padding:0px;background-color:rgba(255,255,255,1.0);}
-            @font-face {
-                font-family: "Oxygen";
-                src: url("/fonts/oxygen-mono-regular.woff");
-            }
-            h1{font-family:"Oxygen";font-size:1px;}
         </style>
          <script type="text/javascript">
             // ok
@@ -28,75 +23,20 @@
                 var t0 = window.performance.now();
 
                 dom.init();
-
-                // draw glyph selector buttons
-                h.init();
-                // ren.can(h.c);
-                p.init();
-                xhr.init();
-                ren.can(xhr.c);
-                h.glyph();
-
-                // automate
-                // iterate glyph, trigger clicks, xhr send, clear canvas
+                mj.init();
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             }
         }
-// hana
-var h = {
+// mahjong
+var mj = {
     "init": function() {
-        h.chars = [];
-
-        // numbers
-        for (var i = 48; i < 58; i++) {
-            var s0 = "0x";
-            var s1 = s0 + i.toString(16);
-            var s2 = String.fromCodePoint(s1);
-            h.chars.push(s2)
-        }
-
-        // capitals [A-Z]
-        for (var i = 65; i < 91; i++) {
-            var s0 = "0x";
-            var s1 = s0 + i.toString(16);
-            var s2 = String.fromCodePoint(s1);
-            h.chars.push(s2)
-        }
-       
-        // 1920 / 32 = 60 
-        // layout
-        h.x0 = 0;
-        h.y0 = 0;
-        h.sx = 64;
-        h.sy = 64;
-        h.nx = 18;
-        h.ny = 2;
-        // canvas objects
-        h.c = dom.grid(h.x0, h.y0, h.sx, h.sy, h.nx, h.ny);
-        // console.log(h.c);
-        
-        // assign code point to dataset
-        for (var i = 0; i < h.c.length; i++) {
-            dom.add(h.c[i]);
-            h.c[i].can.dataset.id = i;
-            h.c[i].can.dataset.x = h.chars[i];
-            h.c[i].can.addEventListener("click", h.click, false);
-        }
-        h.chosen = {};
-        h.chosen.id = null;
-        h.chosen.x = null;
-    },
-    "click": function(e) {
-        console.log(e.target.dataset);
-        h.chosen = e.target.dataset;
-        h.glyph();
-    },
-    "glyph": function() {
-        for (var i = 0; i < h.c.length; i++) {
-            ren.hana(h.chars[i], h.c[i]);
-        }
+        mj.png = [];
+        mj.png[0] = new Image();
+        // local resource load not allowed without chrome flag 
+        // mj.png[0].src = "file:///home/ahmad/Documents/gira/okaq.joruri/mj/mj_0.png";
+        console.log(mj.png);
     }
 }
 // paint
@@ -449,7 +389,6 @@ var rgb = {
     </script>
 </head>
 <body id="alpha">
-    <h1>.</h1>
 </body>
 </html>
  

@@ -17,7 +17,7 @@ import (
 )
 
 const (
-    HTML = "eago.html"
+    HTML = "fuga.html"
     PORT = ":8080"
     // FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/Kalocsai_Flowers-webfont.woff"
     FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/oxygen-mono-regular.woff"
