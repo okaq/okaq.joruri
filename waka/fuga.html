@@ -50,10 +50,31 @@ var mj = {
         for (var i = 0; i < mj.png.length; i++) {
             mj.c[i] = dom.canvas([mj.png[i].width, mj.png[i].height, x0, y0]);
             dom.add(mj.c[i]);
+            mj.c[i].can.addEventListener("click", mj.click, false);
+            mj.c[i].can.dataset.x = i.toString();
             y0 = y0 + mj.png[i].height + 32;
         }
 
-        ren.can(mj.c);
+        // ren.can(mj.c);
+        ren.mj();
+
+        // click positioning
+        mj.mx = 0; // mouse pos
+        mj.my = 0;
+        mj.w0 = 138 // tile dims
+        mj.h0 = 176;
+        mj.i0 = 0; // click dataset index
+
+        // highight color
+        mj.rgb0 = rgb.css([225,16,16,0.25]);
+    },
+    "click": function(e) {
+        console.log(e, mj.mx, mj.my);
+        mj.i0 = parseInt(e.target.dataset.x, 10);
+        // ren.mj();
+        mj.mx = e.layerX;
+        mj.my = e.layerY;
+        ren.slice();
     }
 }
 // paint
@@ -375,6 +396,38 @@ var ren = {
             }
             c0.con.fillRect(x1,y1,p.px,p.py);
         }
+    },
+    "mj": function() {
+        for (var i = 0; i < mj.c.length; i++) {
+            mj.c[i].con.drawImage(mj.png[i], 0, 0);
+        }
+    },
+    "slice": function() {
+        /*
+        // slice region
+        var i0 = 2;
+        var j0 = 0;
+        var x0 = 9;
+        var y0 = 6;
+        var w0 = 136;
+        var h0 = 172;
+        var x1 = ((i0 * w0) + x0) >>> 0;
+        var y1 = ((j0 * h0) + y0) >>> 0;
+        mj.c[0].con.fillStyle = rgb.css([220,16,16,0.25]);
+        mj.c[0].con.fillRect(x1,y1,w0,h0);
+         */
+        var c0 = mj.c[mj.i0];
+        ren.white(c0);
+        ren.img(c0, mj.i0);
+        c0.con.fillStyle = mj.rgb0;
+        c0.con.fillRect(mj.mx, mj.my, mj.w0, mj.h0);
+    },
+    "white": function(c0) {
+        c0.con.fillStyle = rgb.css([255,255,255,1.0]);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "img": function(c0, i0) {
+        c0.con.drawImage(mj.png[i0], 0, 0);
     }
 }
 // colors
