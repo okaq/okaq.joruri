@@ -20,7 +20,8 @@ const (
     HTML = "fuga.html"
     PORT = ":8080"
     // FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/Kalocsai_Flowers-webfont.woff"
-    FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/oxygen-mono-regular.woff"
+    // FONT = "/home/ahmad/Documents/gira/okaq.joruri/fonts/oxygen-mono-regular.woff"
+    MJ = "/home/ahmad/Documents/gira/okaq.joruri/mj"
     HANA = "/home/ahmad/Documents/gira/okaq.joruri/hana/"
 )
 
@@ -33,12 +34,14 @@ func WakaServer(w http.ResponseWriter, req *http.Request) {
     http.ServeFile(w, req, HTML)
 }
 
+/*
 func FontServer(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     // octet-stream more portable than font-woff 
     w.Header().Set("Content-Type", "application/octet-stream")
     http.ServeFile(w, req, FONT)
 }
+*/
 
 func SaveServer(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
@@ -96,7 +99,8 @@ func main() {
     fmt.Printf("Started at: %s.\n", Now.Format(time.RFC1123Z))
     http.HandleFunc("/waka", WakaServer)
     // http.HandleFunc("/fonts/Kalocsai_Flowers-webfont.woff", FontServer)
-    http.HandleFunc("/fonts/oxygen-mono-regular.woff", FontServer)
+    // http.HandleFunc("/fonts/oxygen-mono-regular.woff", FontServer)
+    http.Handle("/mj/", http.StripPrefix("/mj/", http.FileServer(http.Dir(MJ))))
     http.HandleFunc("/save", SaveServer)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
