@@ -37,7 +37,23 @@ var mj = {
         // local resource load not allowed without chrome flag 
         // mj.png[0].src = "file:///home/ahmad/Documents/gira/okaq.joruri/mj/mj_0.png";
         mj.png[0].src = "http://localhost:8080/mj/mj_0.png";
+        mj.png[1] = new Image();
+        mj.png[1].src = "http://localhost:8080/mj/mj_1.png";
         console.log(mj.png);
+        setTimeout(mj.canvas, 100); // wait for load
+    },
+    "canvas": function() {
+
+        mj.c = [];
+        var y0 = 0;
+        var x0 = 0;
+        for (var i = 0; i < mj.png.length; i++) {
+            mj.c[i] = dom.canvas([mj.png[i].width, mj.png[i].height, x0, y0]);
+            dom.add(mj.c[i]);
+            y0 = y0 + mj.png[i].height + 32;
+        }
+
+        ren.can(mj.c);
     }
 }
 // paint
