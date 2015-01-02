@@ -64,8 +64,10 @@ var mj = {
         mj.my = 0;
         mj.w0 = 138; // tile dims ext
         mj.h0 = 176;
-        mj.w1 = 116;
+        mj.w1 = 116; // internal
         mj.h1 = 150;
+        mj.w2 = 174; // scaled x1.5
+        mj.h2 = 225;
         mj.i0 = 0; // click dataset index
 
         // highight color
@@ -88,8 +90,13 @@ var p = {
         // layout
         p.x0 = 1400;
         p.y0 = 64;
-        p.sx = mj.w1;
-        p.sy = mj.h1;
+        // requires 256x256 square sample
+        p.w1 = mj.w2;
+        p.h1 = mj.h2;
+        p.sx = 256;
+        p.sy = 256;
+        p.mx = ((p.sx - p.w1) / 2) >>> 0;
+        p.my = ((p.sy - p.h1) / 2) >>> 0;
         p.nx = 1;
         p.ny = 2;
         p.c = dom.grid(p.x0, p.y0, p.sx, p.sy, p.nx, p.ny);
@@ -122,11 +129,11 @@ var p = {
         p.px = 8;
         p.py = 8;
          */
-        // 512x512 bmp, 32x32 grid, 16x16 px block
-        p.bx = 32;
-        p.by = 32;
-        p.px = 16;
-        p.py = 16;
+        // 256x256 bmp, 128x128 grid, 2x2 px block
+        p.bx = 256;
+        p.by = 256;
+        p.px = 1;
+        p.py = 1;
         // count array
         p.ca = [];
         for (var y = 0; y < p.by; y++) {
@@ -146,12 +153,12 @@ var p = {
     "count": function(id0, w0, h0, x0, y0) {
         // return num of filled pixels in image data block
         var c0 = 0;
-        var rgb1 = [182,226,255,255];
+        var rgb1 = [0,0,0,255];
         for (var y1 = 0; y1 < h0; y1++) {
             for (var x1 = 0; x1 < w0; x1++) {
                 var y2 = y1 + y0;
                 var x2 = x1 + x0;
-                var i0 = (((y2 * 512) + x2) * 4) >>> 0;
+                var i0 = (((y2 * 256) + x2) * 4) >>> 0;
                 var rgb0 = [id0.data[i0],id0.data[i0+1],id0.data[i0+2],id0.data[i0+3]];
                 if (rgb.comp(rgb0, rgb1)) {
                     c0++;
@@ -335,7 +342,7 @@ var ren = {
         // into paint rander canvas
         var c0 = p.c[0];
         ren.white(c0);
-        c0.con.drawImage(mj.png[mj.i0], mj.mx, mj.my, mj.w1, mj.h1, 0, 0, mj.w1, mj.h1);
+        c0.con.drawImage(mj.png[mj.i0], mj.mx, mj.my, mj.w1, mj.h1, p.mx, p.my, mj.w2, mj.h2);
     },
     "paint1": function() {
         // fore, bkgd
