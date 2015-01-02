@@ -113,6 +113,8 @@ var p = {
         console.log(p.c);
 
         ren.can(p.c);
+
+        xhr.init();
     },
     "render": function(e) {
         console.log(e);
@@ -262,13 +264,15 @@ var xhr = {
     "init": function() {
         // save button - server side json arraybuffer store
         // layout
-        xhr.c = [dom.canvas([512,128,512,800])];
+        xhr.c = [dom.canvas([256,128,1400,700])];
         xhr.c[0].can.addEventListener("click", xhr.click, false);
         dom.add(xhr.c[0]);
 
         xhr.url = "http://localhost:8080/save";
         xhr.con = new XMLHttpRequest();
         xhr.con.addEventListener("load", xhr.load, false);
+
+        ren.can(xhr.c);
     },
     "click": function(e) {
         console.log(e);
