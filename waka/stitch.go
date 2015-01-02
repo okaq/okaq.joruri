@@ -15,8 +15,8 @@ import (
 )
 
 const (
-    PATH = "../oxy"
-    OUT = "../oxy/oxy.js"
+    PATH = "../mj2"
+    OUT = "../mj2/mj2.js"
 )
 
 var (
@@ -35,7 +35,7 @@ func OutputFile() {
 }
 
 func Header() {
-    s0 := fmt.Sprintf("var oxy = {\n")
+    s0 := fmt.Sprintf("var mj2 = {\n")
     W.WriteString(s0)
 }
 
@@ -73,7 +73,7 @@ func StitchWalk(path string, info os.FileInfo, err error) error {
 
 func main() {
     Now = time.Now()
-    fmt.Println("stitching okaq.joruri oxy alpha numeric data")
+    fmt.Println("stitching okaq.joruri mj2 bmp data")
     fmt.Printf("started at: %s\n", Now.Format(time.RFC3339))
     fmt.Printf("creating output file: %s\n", OUT)
     OutputFile()
