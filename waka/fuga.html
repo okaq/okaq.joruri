@@ -64,10 +64,11 @@ var mj = {
         mj.my = 0;
         mj.w0 = 138; // tile dims ext
         mj.h0 = 176;
-        mj.w1 = 116; // internal
-        mj.h1 = 150;
-        mj.w2 = 174; // scaled x1.5
-        mj.h2 = 225;
+        mj.w1 = 114; // internal
+        mj.h1 = 148;
+        mj.sc0 = 1.5;
+        mj.w2 = (mj.w1 * mj.sc0) >>> 0; // scaled x1.5
+        mj.h2 = (mj.h1 * mj.sc0) >>> 0;
         mj.i0 = 0; // click dataset index
 
         // highight color
@@ -130,10 +131,10 @@ var p = {
         p.py = 8;
          */
         // 256x256 bmp, 128x128 grid, 2x2 px block
-        p.bx = 256;
-        p.by = 256;
-        p.px = 1;
-        p.py = 1;
+        p.bx = 128;
+        p.by = 128;
+        p.px = 2;
+        p.py = 2;
         // count array
         p.ca = [];
         for (var y = 0; y < p.by; y++) {
@@ -160,7 +161,12 @@ var p = {
                 var x2 = x1 + x0;
                 var i0 = (((y2 * 256) + x2) * 4) >>> 0;
                 var rgb0 = [id0.data[i0],id0.data[i0+1],id0.data[i0+2],id0.data[i0+3]];
+                /*
                 if (rgb.comp(rgb0, rgb1)) {
+                    c0++;
+                    }
+                 */
+                if (rgb0[0] < 200) {
                     c0++;
                 }
             }
@@ -169,6 +175,7 @@ var p = {
     },
     "seg": function() {
         // test count array threshold
+        // test histogram of rgba values
         p.ta = [];
         p.factor = 0.25;
         p.thresh = p.px * p.py * p.factor;
