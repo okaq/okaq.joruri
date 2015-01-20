@@ -28,8 +28,19 @@
 
                 ren.rand();
 
+                document.addEventListener("click", t.click, false);
+
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
+            },
+            "click": function(e) {
+                console.log(e);
+
+                // run tile generator
+                v.square();
+
+                // render tiles
+                ren.tiles();
             }
         }
 // data
@@ -62,11 +73,32 @@ var lay = {
 // canvas
 var cells = {
     "init": function() {
+        // tiled display
         cells.c = [];
         for (var i = 0; i < data.nt; i++) {
             cells.c[i] = dom.canvas(lay.r[i]);
             dom.add(cells.c[i]);
         }
+        // off screen buffer
+        cells.b = dom.canvas([-data.cw,-data.ch,data.cw,data.ch]);
+        dom.add(cells.b); 
+        // offscreen buffer must still be added to DOM
+        // or else pixel data is [0,0,0,0]
+    }
+}
+// pattern generator
+var v = {
+    "square": function() {
+        var margin0 = 16;
+        var rgba0 = rgb.rc();
+        var width0 = (data.cw - (2 * margin0)) >>> 0;
+        var height0 = (data.ch - (2 * margin0)) >>> 0;
+        // bkgd
+        cells.b.con.fillStyle = rgb.css([0,0,0,1.0]);
+        cells.b.con.fillRect(0,0,data.cw,data.ch);
+        // sub square
+        cells.b.con.fillStyle = rgba0;
+        cells.b.con.fillRect(margin0, margin0, width0, height0);
     }
 }
 // render
@@ -82,6 +114,14 @@ var ren = {
         for (var i = 0; i < data.nt; i++) {
             cells.c[i].con.fillStyle = rgb.css([255,255,255,1.0]);
             cells.c[i].con.fillRect(0,0,data.cw,data.ch);
+        }
+    },
+    "tiles": function() {
+        // render tile as is
+        var ig0 = cells.b.con.getImageData(0,0,data.cw,data.ch);
+        console.log(ig0);
+        for (var i = 0; i < data.nt; i++) {
+            cells.c[i].con.putImageData(ig0, 0, 0);
         }
     }
 }
