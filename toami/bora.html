@@ -21,8 +21,12 @@
             "init": function(e) {
                 console.log(e);
                 var t0 = window.performance.now();
+    
+                // subsystems
+                t.subs = [dom, data, lay, cells];
+                t.subs.forEach(function(el){el.init();});
 
-                data.init();
+                ren.rand();
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -39,6 +43,93 @@ var data = {
         data.ny = (data.h / data.ch) >>> 0; 
         data.nt = (data.nx * data.ny) >>> 0;
         data.p = []; // cell rgba 
+    }
+}
+// layout
+var lay = {
+    "init": function() {
+        lay.r = [];
+        for (var y = 0; y < data.ny; y++) {
+            for (var x = 0; x < data.nx; x++) {
+                var i0 = ((y * data.nx) + x) >>> 0;
+                var x0 = (x * data.cw) >>> 0;
+                var y0 = (y * data.ch) >>> 0;
+                lay.r[i0] = [data.cw, data.ch, x0, y0];
+            }
+        }
+    }
+}
+// canvas
+var cells = {
+    "init": function() {
+        cells.c = [];
+        for (var i = 0; i < data.nt; i++) {
+            cells.c[i] = dom.canvas(lay.r[i]);
+            dom.add(cells.c[i]);
+        }
+    }
+}
+// render
+var ren = {
+    "rand": function() {
+        ren.white();
+        for (var i = 0; i < data.nt; i++) {
+            cells.c[i].con.fillStyle = rgb.rc();
+            cells.c[i].con.fillRect(0,0,data.cw,data.ch);
+        }
+    },
+    "white": function() {
+        for (var i = 0; i < data.nt; i++) {
+            cells.c[i].con.fillStyle = rgb.css([255,255,255,1.0]);
+            cells.c[i].con.fillRect(0,0,data.cw,data.ch);
+        }
+    }
+}
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+        console.log(dom.alpha);
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    }
+} 
+// colors
+var rgb = {
+    "rand": function() {
+        return [rgb.rb(),rgb.rb(),rgb.rb(),1.0];
+    },
+    "rb": function() {
+        return (Math.random() * 255) >>> 0;
+    },
+    "css": function(c0) {
+        var s0 = "rgba(";
+        s0 += c0.join(",");
+        s0 += ")";
+        return s0;
+    },
+    "rc": function() {
+        return rgb.css(rgb.rand());
+    },
+    "comp": function(rgb0, rgb1) {
+        for (var i = 0; i < rgb0.length; i++) {
+            if (rgb0[i] != rgb1[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 }
     </script>
