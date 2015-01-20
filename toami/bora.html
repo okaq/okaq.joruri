@@ -22,10 +22,21 @@
                 console.log(e);
                 var t0 = window.performance.now();
 
+                data.init();
+
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             }
         }
+// data
+var data = {
+    "init": function() {
+        data.w = 1920; // page size
+        data.h = 1080;
+        data.cw = 64; // cell size
+        data.ch = 64;
+    }
+}
     </script>
 </head>
 <body id="alpha">
