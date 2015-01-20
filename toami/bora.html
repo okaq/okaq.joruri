@@ -35,6 +35,10 @@ var data = {
         data.h = 1080;
         data.cw = 64; // cell size
         data.ch = 64;
+        data.nx = (data.w / data.cw) >>> 0; // cell count
+        data.ny = (data.h / data.ch) >>> 0; 
+        data.nt = (data.nx * data.ny) >>> 0;
+        data.p = []; // cell rgba 
     }
 }
     </script>
