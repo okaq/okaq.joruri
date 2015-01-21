@@ -28,7 +28,8 @@
 
                 ren.rand();
 
-                document.addEventListener("click", t.click, false);
+                // document.addEventListener("click", t.click, false);
+                document.addEventListener("click", t.buffer, false);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -51,6 +52,25 @@
                 // sample and manipulate image data set pixels each time
                 // sampling can be progressive, using global parameters
                 // analogous to a fragment shader
+            },
+            "buffer": function(e) {
+                console.log(e);
+                
+                // timer
+                var t0 = window.performance.now();
+
+                // clear
+                ren.white();
+
+                // per frame randomized generation
+                for (var i = 0; i < data.nt; i++) {
+                    v.trie();
+                    var ig0 = cells.b.con.getImageData(0,0,data.cw,data.ch);
+                    cells.c[i].con.putImageData(ig0, 0, 0);
+                }
+
+                var t1 = window.performance.now() - t0;
+                console.log("buffer render time: " + t1 + "ms");
             }
         }
 // data
