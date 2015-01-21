@@ -41,6 +41,15 @@
 
                 // render tiles
                 ren.tiles();
+
+                // two strategies
+                // draw and sample for each canvas
+                // or draw and sample once, and manipulate pixels for each canvas
+                // hybrid (buffer+shader)
+                // draw randomized routine to offscreen buffer once per canvas
+                // sample and manipulate image data set pixels each time
+                // sampling can be progressive, using global parameters
+                // analogous to a fragment shader
             }
         }
 // data
