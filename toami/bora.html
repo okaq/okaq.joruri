@@ -37,7 +37,8 @@
                 console.log(e);
 
                 // run tile generator
-                v.square();
+                // v.square();
+                v.trie();
 
                 // render tiles
                 ren.tiles();
@@ -108,6 +109,42 @@ var v = {
         // sub square
         cells.b.con.fillStyle = rgba0;
         cells.b.con.fillRect(margin0, margin0, width0, height0);
+    },
+    "trie": function() {
+        // black & yellow
+        var rgb0 = [4,0,8,1.0]; // bkgd
+        var rgb1 = [255,245,125,1.0]; // fore
+        var w0 = 8; // block size
+        var h0 = 8;
+        var m0 = 1; // margin
+        var w1 = (w0 - 2 * m0) >>> 0;
+        var h1 = (h0 - 2 * m0) >>> 0;
+        var cx = (data.cw / 2) >>> 0; // origin
+        var cy = (data.ch / 2) >>> 0;
+        var p0 = []; // points
+        p0[0] = [cx-w0,cy-h0];
+        p0[1] = [cx+w0,cy-h0];
+        p0[2] = [cx-w0,cy+h0];
+        p0[3] = [cx+w0,cy+h0];
+        // console.log(p0,w0,h0,w1,h1,cx,cy);
+        // bkgd fill
+        cells.b.con.fillStyle = rgb.css(rgb0);
+        cells.b.con.fillRect(0,0,data.cw,data.ch);
+        // add four squares
+        var f0 = (Math.random() * 4) >>> 0;
+        cells.b.con.fillStyle = rgb.css(rgb1);
+        for (var i = 0; i < p0.length; i++) {
+            cells.b.con.fillRect(p0[i][0]+m0,p0[i][1]+m0,2*w1,2*h1);
+        }
+        // subtract one
+        cells.b.con.fillStyle = rgb.css(rgb0);
+        cells.b.con.fillRect(p0[f0][0]+m0,p0[f0][1]+m0,2*w1,2*h1);
+        /*
+        cells.b.con.fillRect(cx-w0+m0,cy-h0+m0,w1,h1);
+        cells.b.con.fillRect(cx+w0+m0,cy-h0+m0,w1,h1);
+        cells.b.con.fillRect(cx-w0+m0,cy+h0+m0,w1,h1);
+        cells.b.con.fillRect(cx+w0+m0,cy+h0+m0,w1,h1);
+        */
     }
 }
 // render
@@ -128,7 +165,7 @@ var ren = {
     "tiles": function() {
         // render tile as is
         var ig0 = cells.b.con.getImageData(0,0,data.cw,data.ch);
-        console.log(ig0);
+        // console.log(ig0);
         for (var i = 0; i < data.nt; i++) {
             cells.c[i].con.putImageData(ig0, 0, 0);
         }
