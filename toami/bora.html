@@ -52,6 +52,9 @@
                 // sample and manipulate image data set pixels each time
                 // sampling can be progressive, using global parameters
                 // analogous to a fragment shader
+
+                // mirror tiling
+                // to create infinite patterns
             },
             "buffer": function(e) {
                 console.log(e);
@@ -64,7 +67,11 @@
 
                 // per frame randomized generation
                 for (var i = 0; i < data.nt; i++) {
-                    v.trie();
+                    // buffer draw function
+                    // v.trie();
+                    v.sparse();
+                    
+                    // tile
                     var ig0 = cells.b.con.getImageData(0,0,data.cw,data.ch);
                     cells.c[i].con.putImageData(ig0, 0, 0);
                 }
@@ -165,6 +172,50 @@ var v = {
         cells.b.con.fillRect(cx-w0+m0,cy+h0+m0,w1,h1);
         cells.b.con.fillRect(cx+w0+m0,cy+h0+m0,w1,h1);
         */
+    },
+    "sparse": function() {
+        // draw a sparse geometric shape
+        // points for regular hexagon
+        var f0 = (Math.random() * 100); // flip probability
+        var f1 = 33; // threshold
+        var rgb0 = [0,55,135,1.0]; // bkgd
+        var rgb1 = rgb.rand(); // fore
+        var d0 = 32; // size
+        var a0 = d0 / 4;
+        var b0 = Math.sqrt(3) * a0;
+        var cx = (data.cw / 2) >>> 0; // origin
+        var cy = (data.ch / 2) >>> 0;
+        var theta0 = (Math.random() * 2.0 * Math.PI);
+        var p0 = []; // points
+        p0[0] = [0,2*a0];
+        p0[1] = [b0,a0];
+        p0[2] = [b0,-a0];
+        p0[3] = [0,-2*a0];
+        p0[4] = [-b0,-a0];
+        p0[5] = [-b0,a0];
+        // bkgd fill
+        cells.b.con.fillStyle = rgb.css(rgb0);
+        cells.b.con.fillRect(0,0,data.cw,data.ch);
+        if (f0 < f1) {
+            return;
+        }
+        // polygon
+        cells.b.con.save();
+        cells.b.con.fillStyle = rgb.css(rgb1);
+        cells.b.con.translate(cx, cy);
+        cells.b.con.rotate(theta0);
+        cells.b.con.beginPath();
+        cells.b.con.moveTo(p0[0][0],p0[0][1]);
+        for (var i = 0; i < p0.length; i++) {
+            var i0 = (i + 1) % 6;
+            cells.b.con.lineTo(p0[i0][0],p0[i0][1]);
+        }
+        cells.b.con.fill();
+        cells.b.con.restore();
+    },
+    "chevron": function() {
+        // tri-diagonal line shades
+        // rotated via shader
     }
 }
 // render
