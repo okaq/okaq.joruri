@@ -110,7 +110,54 @@
 // shader
 var sh = {
     "rotate": function(ig0) {
-        return ig0;
+        var ig1 = cells.b.con.createImageData(data.cw, data.ch);
+        var f0 = (Math.random() * 4) >>> 0; // flip probability
+        // rotate matrix clock-wise
+        switch (f0) {
+            case 0:
+                ig1 = ig0;
+                break;
+            case 1:
+                for (var y = 0; y < data.ch; y++) {
+                    for (var x = 0; x < data.cw; x++) {
+                        var i0 = (y * data.cw + x) >>> 0;
+                        var x1 = (data.cw - y - 1);
+                        var y1 = x;
+                        var i1 = (y1 * data.cw + x1) >>> 0;
+                        for (var i = 0; i < 4; i++) {
+                            ig1.data[4*i1+i] = ig0.data[4*i0+i];
+                        }
+                    }
+                }
+                break;
+            case 2:
+                for (var y = 0; y < data.ch; y++) {
+                    for (var x = 0; x < data.cw; x++) {
+                        var i0 = (y * data.cw + x) >>> 0;
+                        var x1 = (data.cw - x - 1);
+                        var y1 = (data.ch - y - 1);
+                        var i1 = (y1 * data.cw + x1) >>> 0;
+                        for (var i = 0; i < 4; i++) {
+                            ig1.data[4*i1+i] = ig0.data[4*i0+i];
+                        }
+                    }
+                }
+                break;
+            case 3:
+                for (var y = 0; y < data.ch; y++) {
+                    for (var x = 0; x < data.cw; x++) {
+                        var i0 = (y * data.cw + x) >>> 0;
+                        var x1 = y;
+                        var y1 = (data.ch - x - 1);
+                        var i1 = (y1 * data.cw + x1) >>> 0;
+                        for (var i = 0; i < 4; i++) {
+                            ig1.data[4*i1+i] = ig0.data[4*i0+i];
+                        }
+                    }
+                }
+                break;
+        }
+        return ig1;
     }
 }
 // data
