@@ -29,7 +29,8 @@
                 ren.rand();
 
                 // document.addEventListener("click", t.click, false);
-                document.addEventListener("click", t.buffer, false);
+                // document.addEventListener("click", t.buffer, false);
+                document.addEventListener("click", t.hybrid, false);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -55,6 +56,8 @@
 
                 // mirror tiling
                 // to create infinite patterns
+
+                // bitmap sampling in off screen buffer
             },
             "buffer": function(e) {
                 console.log(e);
@@ -69,7 +72,8 @@
                 for (var i = 0; i < data.nt; i++) {
                     // buffer draw function
                     // v.trie();
-                    v.sparse();
+                    // v.sparse();
+                    v.chevron();
                     
                     // tile
                     var ig0 = cells.b.con.getImageData(0,0,data.cw,data.ch);
@@ -78,8 +82,37 @@
 
                 var t1 = window.performance.now() - t0;
                 console.log("buffer render time: " + t1 + "ms");
+            },
+            "hybrid": function(e) {
+                console.log(e);
+
+                // timer
+                var t0 = window.performance.now();
+
+                // clear
+                ren.white();
+
+                // per frame randomized generation
+                for (var i = 0; i < data.nt; i++) {
+                    // buffer draw function
+                    v.chevron();
+
+                    // shader
+                    var ig0 = cells.b.con.getImageData(0,0,data.cw,data.ch);
+                    var ig1 = sh.rotate(ig0);
+                    cells.c[i].con.putImageData(ig1, 0, 0);
+                }
+
+                var t1 = window.performance.now() - t0;
+                console.log("buffer render time: " + t1 + "ms");
             }
         }
+// shader
+var sh = {
+    "rotate": function(ig0) {
+        return ig0;
+    }
+}
 // data
 var data = {
     "init": function() {
@@ -216,6 +249,31 @@ var v = {
     "chevron": function() {
         // tri-diagonal line shades
         // rotated via shader
+        // palette - plum psyches
+        var rgb0 = [];
+        rgb0[0] = [160,140,150,1.0]; // cold
+        rgb0[1] = [130,80,110,1.0];
+        rgb0[2] = [95,35,65,1.0];
+        rgb0[3] = [135,25,85,1.0];
+        rgb0[4] = [220,40,140,1.0]; // hot
+        rgb1 = [60,40,50,1.0]; // bkgd
+        var p0 = []; // points
+        p0[0] = [-data.cw,-data.ch];
+        p0[1] = [2*data.cw,2*data.ch];
+        cells.b.con.fillStyle = rgb.css(rgb1);
+        cells.b.con.fillRect(0,0,data.cw,data.ch);
+        for (var i = 0; i < rgb0.length; i++) {
+            cells.b.con.strokeStyle = rgb.css(rgb0[i]);
+            cells.b.con.lineWidth = 32 - (8 * i);
+            cells.b.con.beginPath();
+            cells.b.con.moveTo(p0[0][0],p0[0][1]);
+            cells.b.con.lineTo(p0[1][0],p0[1][1]);
+            cells.b.con.closePath();
+            cells.b.con.stroke();
+        }
+    },
+    "plasma": function() {
+        // perlin noise rgba
     }
 }
 // render
