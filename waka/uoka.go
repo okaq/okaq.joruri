@@ -99,10 +99,21 @@ func main() {
     http.HandleFunc("/waka", WakaServer)
     // http.HandleFunc("/fonts/Kalocsai_Flowers-webfont.woff", FontServer)
     // http.HandleFunc("/fonts/oxygen-mono-regular.woff", FontServer)
-    http.HandleFunc("/fonts/Roboto-Reguar.ttf", FontServer)
+    http.HandleFunc("/fonts/Roboto-Regular.ttf", FontServer)
     http.HandleFunc("/save", SaveServer)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
     }
 }
+// instructions
+// run with "go run uoka.go"
+// chrome open url http://localhost:8080/waka
+// observe loaded font in char render panel
+// choose glyph, center with wasd input
+// click render panel
+// click save button
+// enter file name in cli
+// refresh page to choose next
+
+
