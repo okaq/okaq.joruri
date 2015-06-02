@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head id="zeta">
+        <title>okaq</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=1920,height=1080,initial-scale=1" />
+        <meta name="source" content="https://github.com/okaq/okaq.gira" />
+        <meta name="creator" content="AQ <aq@okaq.com>" />
+        <meta name="date" content="2015-06-04" />
+        <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGIR+b+KgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//xVoCAPYmVTkAAAAASUVORK5CYII=" />
+         <style type="text/css">
+            html,body{width:1920px;height:1080px;margin:0px;border:0px;padding:0px;background-color:rgba(255,255,255,1.0);}
+            @font-face {
+                font-family: "Roboto";
+                src: url("/fonts/Roboto-Regular.ttf");
+            }
+            h1{font-family:"Roboto";font-size:1px;}
+        </style>
+         <script type="text/javascript">
+            // ok
+        console.log("okaq joruri waka roboto bitmap font!");
+        // async load
+        (function(){window.addEventListener("load",function(e){w.init(e);},false);})();
+        // waka
+        var w = {
+            "init": function(e) {
+                console.log(e);
+                var t0 = window.performance.now();
+
+                dom.init();
+
+                // draw glyph selector buttons
+                h.init();
+                // ren.can(h.c);
+                p.init();
+                xhr.init();
+                ren.can(xhr.c);
+                h.glyph();
+
+                // automate
+                // iterate glyph, trigger clicks, xhr send, clear canvas
+
+                var t1 = window.performance.now() - t0;
+                console.log("total running time: " + t1 + " ms");
+            }
+        }
+// hana
+var h = {
+    "init": function() {
+        h.chars = [];
+
+        // numbers
+        for (var i = 48; i < 58; i++) {
+            var s0 = "0x";
+            var s1 = s0 + i.toString(16);
+            var s2 = String.fromCodePoint(s1);
+            h.chars.push(s2)
+        }
+
+        // capitals [A-Z]
+        for (var i = 65; i < 91; i++) {
+            var s0 = "0x";
+            var s1 = s0 + i.toString(16);
+            var s2 = String.fromCodePoint(s1);
+            h.chars.push(s2)
+        }
+       
+        // 1920 / 32 = 60 
+        // layout
+        h.x0 = 0;
+        h.y0 = 0;
+        h.sx = 64;
+        h.sy = 64;
+        h.nx = 18;
+        h.ny = 2;
+        // canvas objects
+        h.c = dom.grid(h.x0, h.y0, h.sx, h.sy, h.nx, h.ny);
+        // console.log(h.c);
+        
+        // assign code point to dataset
+        for (var i = 0; i < h.c.length; i++) {
+            dom.add(h.c[i]);
+            h.c[i].can.dataset.id = i;
+            h.c[i].can.dataset.x = h.chars[i];
+            h.c[i].can.addEventListener("click", h.click, false);
+        }
+        h.chosen = {};
+        h.chosen.id = null;
+        h.chosen.x = null;
+    },
+    "click": function(e) {
+        console.log(e.target.dataset);
+        h.chosen = e.target.dataset;
+        h.glyph();
+    },
+    "glyph": function() {
+        for (var i = 0; i < h.c.length; i++) {
+            ren.hana(h.chars[i], h.c[i]);
+        }
+    }
+}
+// paint
+var p = {
+    "init": function() {
+        // button to add glyph
+        // two buttons zoom in out
+        // four buttons wasd position
+        // two button rotation
+        // holds state of painting object
+
+        // click render canvas to add glyph
+        // maintain state (font size, pos, rotation)
+        // keyboard handle
+        // stack of glyph state objects
+        // undo?
+
+        // layout
+        p.x0 = 256;
+        p.y0 = 256;
+        p.sx = 512;
+        p.sy = 512;
+        p.nx = 2;
+        p.ny = 1;
+        p.c = dom.grid(p.x0, p.y0, p.sx, p.sy, p.nx, p.ny);
+
+        // events
+        p.c[0].can.dataset.x = "render";
+        p.c[0].can.addEventListener("click", p.render, false);
+        dom.add(p.c[0]);
+        p.c[1].can.dataset.x = "sample";
+        p.c[1].can.addEventListener("click", p.sample, false);
+        dom.add(p.c[1]);
+
+        console.log(p.c);
+
+        ren.can(p.c);
+
+        document.addEventListener("keydown", p.key, false);
+
+        // state stack
+        p.glyphs = [];
+        // select and delete stack items using canvas buttons
+    },
+    "render": function(e) {
+        console.log(e);
+
+        if (h.chosen.id != null) {
+            var g0 = new glyph(h.chosen.id);
+            p.glyphs.push(g0);
+        }
+
+        ren.paint0();
+    },
+    "sample": function(e) {
+        console.log(e);
+        // generate sample
+        p.rid = p.c[0].con.getImageData(0,0,p.c[0].can.width,p.c[0].can.height);
+        /*
+        // 512x512 bmp, 64x64 grid, 8x8 px block
+        p.bx = 64;
+        p.by = 64;
+        p.px = 8;
+        p.py = 8;
+         */
+        // 512x512 bmp, 32x32 grid, 16x16 px block
+        p.bx = 32;
+        p.by = 32;
+        p.px = 16;
+        p.py = 16;
+        // count array
+        p.ca = [];
+        for (var y = 0; y < p.by; y++) {
+            for (var x = 0; x < p.bx; x++) {
+                var y0 = (y * p.py) >>> 0;
+                var x0 = (x * p.px) >>> 0;
+                var i0 = ((y * p.bx) + x) >>> 0;
+                p.ca[i0] = p.count(p.rid, p.px, p.py, x0, y0);
+            }
+        }
+        // threshold
+        p.seg();
+        // render
+        ren.paint1();
+        // save to server
+    },
+    "count": function(id0, w0, h0, x0, y0) {
+        // return num of filled pixels in image data block
+        var c0 = 0;
+        var rgb1 = [182,226,255,255];
+        for (var y1 = 0; y1 < h0; y1++) {
+            for (var x1 = 0; x1 < w0; x1++) {
+                var y2 = y1 + y0;
+                var x2 = x1 + x0;
+                var i0 = (((y2 * 512) + x2) * 4) >>> 0;
+                var rgb0 = [id0.data[i0],id0.data[i0+1],id0.data[i0+2],id0.data[i0+3]];
+                if (rgb.comp(rgb0, rgb1)) {
+                    c0++;
+                }
+            }
+        }
+        return c0;
+    },
+    "seg": function() {
+        // test count array threshold
+        p.ta = [];
+        p.factor = 0.25;
+        p.thresh = p.px * p.py * p.factor;
+        for (var i = 0; i < p.ca.length; i++) {
+            if (p.ca[i] >= p.thresh) {
+                p.ta[i] = 1;
+            } else {
+                p.ta[i] = 0;
+            }
+        }
+    },
+    "buf": function() {
+        // arraybuffer from thresh array
+        p.len = (p.ta.length / 8) >>> 0;
+        p.ab = new ArrayBuffer(p.len);
+        p.va = new Uint8Array(p.ab);
+        for (var i = 0; i < p.len; i++) {
+            var i0 = (i * 8) >>> 0;
+            var a0 = p.ta.slice(i0,i0+8);
+            var a1 = a0.join("");
+            var a2 = parseInt(a1, 2);
+            p.va[i] = a2;
+        }
+        p.json = JSON.stringify(p.va);
+        // console.log(p.json, p.va);
+    },
+    "key": function(e) {
+        // w,a,s,d = U+0057,U+0041,U+0053,U+0044
+        // z,x = U+005A,U+005B
+        // q,e = U+0051,U+0045
+        var k0 = e.keyIdentifier;
+        // console.log(k0);
+        if (p.glyphs.length == 0) {
+            return;
+        }
+        var g0 = p.glyphs[p.glyphs.length-1];
+        switch (k0) {
+            case "U+0057":
+                g0.y0--;
+                break;
+            case "U+0053":
+                g0.y0++;
+                break;
+            case "U+0041":
+                g0.x0--;
+                break;
+            case "U+0044":
+                g0.x0++;
+                break;
+            case "U+005A":
+                g0.size0--;
+                break;
+            case "U+0058":
+                g0.size0++;
+                break;
+            case "U+0051":
+                g0.theta0 = g0.theta0 - 0.01;
+                break;
+            case "U+0045":
+                g0.theta0 = g0.theta0 + 0.01;
+                break;
+        }
+        ren.paint0();
+    }
+}
+// glyph
+var glyph = function(id0) {
+    this.id = id0;
+    this.x0 = 142;
+    this.y0 = 408;
+    this.size0 = 400;
+    this.theta0 = 0;
+    // methods to update pos, angle here
+    // invariant to canvas state
+}
+// canvas
+var can = {
+    "init": function() {
+        // 2 512x512 panels, render and sample
+    }
+}
+// xhr
+var xhr = {
+    "init": function() {
+        // save button - server side json arraybuffer store
+        // layout
+        xhr.c = [dom.canvas([512,128,512,800])];
+        xhr.c[0].can.addEventListener("click", xhr.click, false);
+        dom.add(xhr.c[0]);
+
+        xhr.url = "http://localhost:8080/save";
+        xhr.con = new XMLHttpRequest();
+        xhr.con.addEventListener("load", xhr.load, false);
+    },
+    "click": function(e) {
+        console.log(e);
+        p.buf();
+        
+        xhr.con.open("POST", xhr.url, true);
+        xhr.con.requestType = "arraybuffer";
+        xhr.con.send(p.va);
+    },
+    "load": function(e) {
+        console.log(e);
+        console.log(xhr.con.response);
+    }
+}
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    },
+    "remove": function(c0) {
+        dom.alpha.removeChild(c0.can);
+    },
+    "grid": function(x0,y0,sx,sy,nx,ny) {
+        var r0 = [];
+        for (var y = 0; y < ny; y++) {
+            for (var x = 0; x < nx; x++) {
+                var x1 = ((x * sx) + x0) >>> 0;
+                var y1 = ((y * sy) + y0) >>> 0;
+                var r1 = [sx,sy,x1,y1];
+                var c0 = dom.canvas(r1);
+                r0.push(c0);
+            }
+        }
+        return r0;
+    }
+}
+// render
+var ren = {
+    "can": function(c0) {
+        // test all canvas object members
+        for (var i = 0; i < c0.length; i++) {
+            c0[i].con.fillStyle = rgb.rc();
+            c0[i].con.fillRect(0,0,c0[i].can.width,c0[i].can.height);
+        }
+    },
+    "hana": function(ch0, c0) {
+        // fill bkgd
+        c0.con.fillStyle = rgb.css([40,0,60,1.0]);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+        // draw char in canvas
+        if (c0.can.dataset.id == h.chosen.id) {
+            c0.con.fillStyle = rgb.css([255,100,100,1.0]);
+        } else {
+            c0.con.fillStyle = rgb.css([220,160,255,1.0]);
+        }
+        var x0 = c0.can.width - 8;
+        c0.con.font = x0 + "px Roboto";
+        var x1 = 4;
+        var y1 = c0.can.height - 8;
+        c0.con.fillText(ch0, x1, y1);
+    },
+    "paint0": function() {
+        // render all glyphs in paint state
+        // into paint rander canvas
+        var c0 = p.c[0];
+
+        // fill bkgd
+        // c0.con.fillStyle = rgb.css([100,20,10,1.0]);
+        c0.con.fillStyle = rgb.css([0,10,80,1.0]);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+
+        // draw glyphs fore
+        c0.con.fillStyle = rgb.css([182,226,255,1.0]);
+        for (var i = 0; i < p.glyphs.length; i++) {
+            var g0 = p.glyphs[i];
+            c0.con.font = g0.size0 + "px Roboto";
+            var ch0 = h.chars[g0.id];
+            if (g0.theta0 == 0) {
+                c0.con.fillText(ch0, g0.x0, g0.y0);
+            } else {
+                var d0 = (g0.size0 / 2) >>> 0;
+                var x1 = 256; // g0.x0 + d0;
+                var y1 = 256; // g0.y0 - d0;
+                c0.con.save();
+                // c0.con.translate(x1, y1);
+                c0.con.rotate(g0.theta0);
+                c0.con.fillText(ch0, g0.x0, g0.y0); // x0,y0 rotated with canvas
+                c0.con.restore();
+            }
+        }
+    },
+    "paint1": function() {
+        // fore, bkgd
+        var rgb0 = rgb.css([16,32,16,1.0]);
+        var rgb1 = rgb.css([196,232,196,1.0]);
+        var c0 = p.c[1];
+        // render threshold arrray
+        for (var i = 0; i < p.ta.length; i++) {
+            var x0 = i % p.bx;
+            var y0 = (i / p.bx) >>> 0;
+            var x1 = (x0 * p.px) >>> 0;
+            var y1 = (y0 * p.py) >>> 0;
+            if (p.ta[i] > 0) {
+                c0.con.fillStyle = rgb0;
+            } else {
+                c0.con.fillStyle = rgb1;
+            }
+            c0.con.fillRect(x1,y1,p.px,p.py);
+        }
+    }
+}
+// colors
+var rgb = {
+    "rand": function() {
+        return [rgb.rb(),rgb.rb(),rgb.rb(),1.0];
+    },
+    "rb": function() {
+        return (Math.random() * 255) >>> 0;
+    },
+    "css": function(c0) {
+        var s0 = "rgba(";
+        s0 += c0.join(",");
+        s0 += ")";
+        return s0;
+    },
+    "rc": function() {
+        return rgb.css(rgb.rand());
+    },
+    "comp": function(rgb0, rgb1) {
+        for (var i = 0; i < rgb0.length; i++) {
+            if (rgb0[i] != rgb1[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+    </script>
+</head>
+<body id="alpha">
+    <h1>.</h1>
+</body>
+</html>
+ 
+
