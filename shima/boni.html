@@ -27,6 +27,9 @@
                 s.subs.forEach(function(el){el.init();});
 
                 ren.test(sce.a);
+                ren.test(sce.b);
+                ren.test(sce.c);
+                ren.test(sce.d);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -35,7 +38,14 @@
 // layout
 var lay = {
     "init": function() {
+        // bkgd
         lay.a = [1920,1080,0,0];
+        // bitmap rendering canvas
+        lay.b = [1024,1024,448,28];
+        // button one
+        lay.c = [256,256,16,16];
+        // button two
+        lay.d = [256,256,16,384];
     }
 }
 // scene
@@ -43,6 +53,12 @@ var sce = {
     "init": function() {
         sce.a = dom.canvas(lay.a);
         dom.add(sce.a);
+        sce.b = dom.canvas(lay.b);
+        dom.add(sce.b);
+        sce.c = dom.canvas(lay.c);
+        dom.add(sce.c);
+        sce.d = dom.canvas(lay.d);
+        dom.add(sce.d);
     }
 }
 // dom
