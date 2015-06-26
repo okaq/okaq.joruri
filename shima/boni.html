@@ -68,6 +68,12 @@ var sce = {
         // button click event handler
         console.log(e);
         console.log("button clicked: " + e.target.dataset.x);
+        var k0 = e.target.dataset.x;
+        if (k0 == "gen") {
+            ren.check(sce.b);
+        } else {
+            ren.test(sce.d);
+        }
     }
 }
 // dom
@@ -99,6 +105,35 @@ var ren = {
     "test": function(c0) {
         c0.con.fillStyle = rgba.css(rgba.rc());
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "check": function(c0) {
+        var w0 = (c0.can.width / 32) >>> 0;
+        var h0 = (c0.can.height / 32) >>> 0;
+        var t0 = (w0 * h0) >>> 0;
+        var rgb0 = rgba.css(rgba.rc());
+        var rgb1 = rgba.css(rgba.rc());
+        for (var i = 0; i < t0; i++) {
+            var x0 = i % 32;
+            var y0 = (i / 32) >>> 0;
+            var x1 = (x0 * 32) >>> 0;
+            var y1 = (y0 * 32) >>> 0;
+            if (y0 % 2 == 0) {
+                if (i % 2 == 1) {
+                    c0.con.fillStyle = rgb0;
+                } else {
+                    c0.con.fillStyle = rgb1;
+                }
+            } else {
+                if (i % 2 == 0) {
+                    c0.con.fillStyle = rgb0;
+                } else {
+                    c0.con.fillStyle = rgb1;
+                }
+            }
+            c0.con.fillRect(x1,y1,32,32);
+            // perf optimization: minimize fillStyle calls
+            // using two loops, one for even, one for odd
+        }
     }
 }
 // colors
