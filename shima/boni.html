@@ -23,13 +23,28 @@
                 var t0 = window.performance.now();
 
                 // subsystems
-                s.subs = [dom];
+                s.subs = [dom,lay,sce];
                 s.subs.forEach(function(el){el.init();});
+
+                ren.test(sce.a);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             }
         }
+// layout
+var lay = {
+    "init": function() {
+        lay.a = [1920,1080,0,0];
+    }
+}
+// scene
+var sce = {
+    "init": function() {
+        sce.a = dom.canvas(lay.a);
+        dom.add(sce.a);
+    }
+}
 // dom
 var dom = {
     "init": function() {
@@ -52,6 +67,42 @@ var dom = {
     },
     "remove": function(c0) {
         dom.alpha.removeChild(c0.can);
+    }
+}
+// render
+var ren = {
+    "test": function(c0) {
+        c0.con.fillStyle = rgba.css(rgba.rc());
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    }
+}
+// colors
+var rgba = {
+    "rc": function() {
+        // return random rgba
+        var c0 = [
+            rgba.rb(),
+            rgba.rb(),
+            rgba.rb(),
+            1.0
+            ];
+        return c0;
+    },
+    "css": function(c0) {
+        // return css string
+        return "rgba(" + c0.join(",") + ")";
+    },
+    "rb": function() {
+        // random byte
+        return (Math.random() * 255) >>> 0;
+    },
+    "rba": function(size0) {
+        // random byte array length of input
+        var r0 = [];
+        for (var i = 0; i < size0; i++) {
+            r0.push(rgba.rb());
+        }
+        return r0;
     }
 }
     </script>
