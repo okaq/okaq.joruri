@@ -15,17 +15,45 @@
             // ok
         console.log("okaq joruri shima boni bitmap importer!");
         // async load
-        (function(){window.addEventListener("load",function(e){w.init(e);},false);})();
-        // waka
-        var w = {
+        (function(){window.addEventListener("load",function(e){s.init(e);},false);})();
+        // shima
+        var s = {
             "init": function(e) {
                 console.log(e);
                 var t0 = window.performance.now();
+
+                // subsystems
+                s.subs = [dom];
+                s.subs.forEach(function(el){el.init();});
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             }
         }
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+        console.log(dom.alpha);
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    },
+    "remove": function(c0) {
+        dom.alpha.removeChild(c0.can);
+    }
+}
     </script>
 </head>
 <body id="alpha">
