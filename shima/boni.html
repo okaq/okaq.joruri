@@ -42,9 +42,9 @@ var lay = {
         lay.a = [1920,1080,0,0];
         // bitmap rendering canvas
         lay.b = [1024,1024,448,28];
-        // button one
+        // button save
         lay.c = [256,256,16,16];
-        // button two
+        // button encode
         lay.d = [256,256,16,384];
     }
 }
@@ -57,8 +57,17 @@ var sce = {
         dom.add(sce.b);
         sce.c = dom.canvas(lay.c);
         dom.add(sce.c);
+        sce.c.can.dataset.x = "gen";
+        sce.c.can.addEventListener("click", sce.click, false);
         sce.d = dom.canvas(lay.d);
         dom.add(sce.d);
+        sce.d.can.dataset.x = "enc";
+        sce.d.can.addEventListener("click", sce.click, false);
+    },
+    "click": function(e) {
+        // button click event handler
+        console.log(e);
+        console.log("button clicked: " + e.target.dataset.x);
     }
 }
 // dom
