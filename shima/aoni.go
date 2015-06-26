@@ -36,7 +36,7 @@ func main() {
     now := time.Now()
     fmt.Printf("okaq.joruri shima aoni web app running on port %s\n", PORT)
     fmt.Printf("Started at: %s\n", now.Format(time.RFC1123Z))
-    motd()
+    go motd()
     http.HandleFunc("/boni", BoniHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
