@@ -43,29 +43,43 @@ var pac = {
         // byte buffer
         var s0 = (1024 / 8) >>> 0;
         pac.d = new ArrayBuffer(s0);
-        console.log(pac.d);
+        // console.log(pac.d);
         // byte view
         pac.e = new Uint8Array(pac.d);
-        console.log(pac.d);
+        // console.log(pac.d);
 
         // pack the bits
         pac.enc();
+        console.log(pac.e);
+        console.log(pac.flate());
     },
     "flate": function() {
         // return data as array of bits
         // expand using string view binStr call
         // or raw bitwise ops
+        var r0 = new Array(8);
+        for (var i = 0; i < 8; i++) {
+            var b0 = (pac.e[0] & (1 << i));
+            console.log(b0);
+            if (b0 > 0) {
+                r0[7-i] = 1;
+            } else {
+                r0[7-i] = 0;
+            }
+        }
+        return r0;
     },
     "enc": function() {
         // pack bmp bit vector
         for (var i = 0; i < pac.e.length; i++) {
             var i0 = (i * 8) >>> 0;
             var a0 = bmp.d.slice(i0, i0+8);
-            console.log(a0);
+            // console.log(a0);
             var a1 = a0.join("");
-            console.log(a1);
+            // console.log(a1);
             var a2 = parseInt(a1, 2);
-            console.log(a2);
+            // console.log(a2);
+            pac.e[i] = a2;
         }
     }
 }
