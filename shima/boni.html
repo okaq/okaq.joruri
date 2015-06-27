@@ -23,7 +23,7 @@
                 var t0 = window.performance.now();
 
                 // subsystems
-                s.subs = [dom,lay,sce];
+                s.subs = [dom,lay,sce,bmp];
                 s.subs.forEach(function(el){el.init();});
 
                 ren.test(sce.a);
@@ -35,6 +35,27 @@
                 console.log("total running time: " + t1 + " ms");
             }
         }
+// bitmap
+var bmp = {
+    "init": function() {
+        // bitmap data
+        // 32x32 array of 0,1 values
+        // no need to pack it just now
+        // but can use uint8array
+        bmp.d = [];
+
+        bmp.rand();
+        console.log(bmp.d);
+    },
+    "rand": function() {
+        for (var i = 0; i < 1024; i++) {
+            bmp.d[i] = bmp.flip();
+        }
+    },
+    "flip": function() {
+        return (Math.random() > 0.5 ? 1 : 0);
+    }
+}
 // layout
 var lay = {
     "init": function() {
