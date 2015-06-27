@@ -48,6 +48,13 @@ var bmp = {
 
         bmp.rand();
         console.log(bmp.d);
+        bmp.json();
+        // encode as uint8array
+        // 128 bytes for 1024 bit image
+        // methods to deflate, inflate
+        // send to server as arraybuffer
+        // marshall as byte array
+        // convert to string for base64
     },
     "rand": function() {
         for (var i = 0; i < 1024; i++) {
@@ -56,6 +63,10 @@ var bmp = {
     },
     "flip": function() {
         return (Math.random() > 0.5 ? 1 : 0);
+    },
+    "json": function() {
+        bmp.e = JSON.stringify(bmp.d);
+        console.log(bmp.e);
     }
 }
 // layout
