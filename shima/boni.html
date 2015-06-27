@@ -31,6 +31,8 @@
                 ren.test(sce.c);
                 ren.test(sce.d);
 
+                ren.bmp();
+
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             }
@@ -126,6 +128,20 @@ var ren = {
     "test": function(c0) {
         c0.con.fillStyle = rgba.css(rgba.rc());
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "bmp": function() {
+        for (var i = 0; i < bmp.d.length; i++) {
+            if (bmp.d[i] == 0) {
+                sce.b.con.fillStyle = rgba.css([0,0,0,1.0]);
+            } else {
+                sce.b.con.fillStyle = rgba.css([255,255,255,1.0]);
+            }
+            var x0 = i % 32;
+            var y0 = (i / 32) >>> 0;
+            var x1 = (x0 * 32) >>> 0;
+            var y1 = (y0 * 32) >>> 0;
+            sce.b.con.fillRect(x1,y1,32,32);
+        }
     },
     "check": function(c0) {
         var w0 = (c0.can.width / 32) >>> 0;
