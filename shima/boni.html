@@ -30,6 +30,7 @@
                 ren.test(sce.b);
                 ren.test(sce.c);
                 ren.test(sce.d);
+                ren.test(sce.e);
 
                 ren.bmp();
 
@@ -60,7 +61,7 @@ var pac = {
         var r0 = new Array(8);
         for (var i = 0; i < 8; i++) {
             var b0 = (pac.e[0] & (1 << i));
-            console.log(b0);
+            // console.log(b0);
             if (b0 > 0) {
                 r0[7-i] = 1;
             } else {
@@ -115,6 +116,14 @@ var bmp = {
         console.log(bmp.e);
     }
 }
+// xhr
+var xhr = {
+    "open": function() {
+        // serv conn
+        xhr.c = new XMLHttpRequest();
+        console.log(xhr.c);
+    }
+}
 // layout
 var lay = {
     "init": function() {
@@ -126,6 +135,8 @@ var lay = {
         lay.c = [256,256,16,16];
         // button encode
         lay.d = [256,256,16,384];
+        // button connect
+        lay.e = [256,128,16,700];
     }
 }
 // scene
@@ -143,16 +154,34 @@ var sce = {
         dom.add(sce.d);
         sce.d.can.dataset.x = "enc";
         sce.d.can.addEventListener("click", sce.click, false);
+        sce.e = dom.canvas(lay.e);
+        dom.add(sce.e);
+        sce.e.can.dataset.x = "conn";
+        sce.e.can.addEventListener("click", sce.click, false);
     },
     "click": function(e) {
         // button click event handler
         console.log(e);
         console.log("button clicked: " + e.target.dataset.x);
         var k0 = e.target.dataset.x;
+        /*
         if (k0 == "gen") {
             ren.check(sce.b);
         } else {
             ren.test(sce.d);
+            }
+         */
+        switch (k0) {
+            case "gen":
+                ren.check(sce.b);
+                break;
+            case "enc":
+                ren.test(sce.d);
+                break;
+            case "conn":
+                ren.test(sce.e);
+                xhr.open();
+                break;
         }
     }
 }
