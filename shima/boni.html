@@ -23,7 +23,7 @@
                 var t0 = window.performance.now();
 
                 // subsystems
-                s.subs = [dom,lay,sce,bmp];
+                s.subs = [dom,lay,sce,bmp,pac];
                 s.subs.forEach(function(el){el.init();});
 
                 ren.test(sce.a);
@@ -37,6 +37,38 @@
                 console.log("total running time: " + t1 + " ms");
             }
         }
+// packed bitmap
+var pac = {
+    "init": function() {
+        // byte buffer
+        var s0 = (1024 / 8) >>> 0;
+        pac.d = new ArrayBuffer(s0);
+        console.log(pac.d);
+        // byte view
+        pac.e = new Uint8Array(pac.d);
+        console.log(pac.d);
+
+        // pack the bits
+        pac.enc();
+    },
+    "flate": function() {
+        // return data as array of bits
+        // expand using string view binStr call
+        // or raw bitwise ops
+    },
+    "enc": function() {
+        // pack bmp bit vector
+        for (var i = 0; i < pac.e.length; i++) {
+            var i0 = (i * 8) >>> 0;
+            var a0 = bmp.d.slice(i0, i0+8);
+            console.log(a0);
+            var a1 = a0.join("");
+            console.log(a1);
+            var a2 = parseInt(a1, 2);
+            console.log(a2);
+        }
+    }
+}
 // bitmap
 var bmp = {
     "init": function() {
