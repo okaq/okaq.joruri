@@ -30,7 +30,7 @@
                 ren.test(sce.b);
                 ren.test(sce.c);
                 ren.test(sce.d);
-                ren.test(sce.e);
+                ren.fill(sce.e, [255,32,32,1.0]);
 
                 ren.bmp();
 
@@ -179,7 +179,8 @@ var sce = {
                 ren.test(sce.d);
                 break;
             case "conn":
-                ren.test(sce.e);
+                // ren.test(sce.e);
+                ren.fill(sce.e, [32,255,32,1.0]);
                 xhr.open();
                 break;
         }
@@ -213,6 +214,10 @@ var dom = {
 var ren = {
     "test": function(c0) {
         c0.con.fillStyle = rgba.css(rgba.rc());
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "fill": function(c0, rgb0) {
+        c0.con.fillStyle = rgba.css(rgb0);
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     },
     "bmp": function() {
