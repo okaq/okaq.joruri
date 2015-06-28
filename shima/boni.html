@@ -122,7 +122,10 @@ var xhr = {
         // serv conn
         xhr.c = new XMLHttpRequest();
         console.log(xhr.c);
-        xhr.u = ["http://localhost:8008/clap"];
+        xhr.u = [
+            "http://localhost:8008/clap",
+            "http://localhost:8008/save"
+            ];
         xhr.c.onload = xhr.load;
         xhr.c.open("GET", xhr.u[0], true);
         xhr.c.send();
@@ -130,6 +133,14 @@ var xhr = {
     "load": function(e) {
         console.log(e);
         console.log(xhr.c.response);
+        // several click states for the xhr conn button
+        // send arraybuffer and json data
+        // and compare compact representations
+        // compute speed to re-inflate
+    },
+    "save": function(d0, t0) {
+        // send data to xhr server
+        // type is arraybuffer, json
     }
 }
 // layout
