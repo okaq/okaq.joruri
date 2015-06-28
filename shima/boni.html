@@ -127,6 +127,13 @@ var xhr = {
             "http://localhost:8008/save"
             ];
         xhr.c.onload = xhr.load;
+        // timed tests
+        window.setTimeout(xhr.clap, 1000);
+        window.setTimeout(xhr.save, 2000, bmp.e, "json");
+        window.setTimeout(xhr.save, 3000, pac.e, "arraybuffer");
+    },
+    "clap": function() {
+        // greeting the server
         xhr.c.open("GET", xhr.u[0], true);
         xhr.c.send();
     },
@@ -141,6 +148,15 @@ var xhr = {
     "save": function(d0, t0) {
         // send data to xhr server
         // type is arraybuffer, json
+        console.log("state: " + xhr.c.readyState);
+        if (xhr.c.readyState != 4) {
+            return;
+        }
+        xhr.c = new XMLHttpRequest();
+        xhr.c.onload = xhr.load;
+        xhr.c.responseType = t0;
+        xhr.c.open("POST", xhr.u[1], true);
+        xhr.c.send(d0);
     }
 }
 // layout
