@@ -122,6 +122,14 @@ var xhr = {
         // serv conn
         xhr.c = new XMLHttpRequest();
         console.log(xhr.c);
+        xhr.u = ["http://localhost:8008/clap"];
+        xhr.c.onload = xhr.load;
+        xhr.c.open("GET", xhr.u[0], true);
+        xhr.c.send();
+    },
+    "load": function(e) {
+        console.log(e);
+        console.log(xhr.c.response);
     }
 }
 // layout

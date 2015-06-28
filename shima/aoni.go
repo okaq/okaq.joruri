@@ -19,6 +19,11 @@ func BoniHandler(w http.ResponseWriter, req *http.Request) {
     http.ServeFile(w, req, BONI)
 }
 
+func ClapHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    w.Write([]byte("ok clap conn"))
+}
+
 func motd() {
     fmt.Println("The joy of a summer sunrise glows within the soul for eternity! - Emerson (1838)")
     r0 := bufio.NewReader(os.Stdin)
@@ -38,6 +43,7 @@ func main() {
     fmt.Printf("Started at: %s\n", now.Format(time.RFC1123Z))
     go motd()
     http.HandleFunc("/boni", BoniHandler)
+    http.HandleFunc("/clap", ClapHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
