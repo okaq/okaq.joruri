@@ -154,8 +154,15 @@ var xhr = {
         }
         xhr.c = new XMLHttpRequest();
         xhr.c.onload = xhr.load;
-        xhr.c.responseType = t0;
+        xhr.c.responseType = "text";
         xhr.c.open("POST", xhr.u[1], true);
+        if (t0 == "json") {
+            xhr.c.setRequestHeader("Content-Type", "application/json");
+        }
+        if (t0 == "arraybuffer") {
+            xhr.c.setRequestHeader("Content-Type", "application/octet-stream");
+        }
+        // xhr.c.open("POST", xhr.u[1], true);
         xhr.c.send(d0);
     }
 }

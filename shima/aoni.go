@@ -4,6 +4,7 @@ package main
 import (
     "bufio"
     "fmt"
+    "io/ioutil"
     "os"
     "net/http"
     "time"
@@ -22,6 +23,17 @@ func BoniHandler(w http.ResponseWriter, req *http.Request) {
 func ClapHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     w.Write([]byte("ok clap conn"))
+}
+
+func SaveHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req.Header)
+    b0, err := ioutil.ReadAll(req.Body)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(b0)
+    // in test two, exact arraybuffer pac.e obtained
+    // no need to marshall json object
 }
 
 func motd() {
@@ -44,6 +56,7 @@ func main() {
     go motd()
     http.HandleFunc("/boni", BoniHandler)
     http.HandleFunc("/clap", ClapHandler)
+    http.HandleFunc("/save", SaveHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
