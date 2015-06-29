@@ -34,6 +34,10 @@ func SaveHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(b0)
     // in test two, exact arraybuffer pac.e obtained
     // no need to marshall json object
+    err = ioutil.WriteFile("ab.bin", b0, 0222)
+    if err != nil {
+        fmt.Println(err)
+    }
 }
 
 func motd() {
