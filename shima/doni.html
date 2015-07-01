@@ -23,29 +23,68 @@
                 var t0 = window.performance.now();
 
                 // subsystems
-                s.subs = [dom,lay,sce];
+                s.subs = [dom,lay,sce,bmp];
                 s.subs.forEach(function(el){el.init();});
 
-                ren.test(sce.a[0]);
+                ren.test(sce.a);
+                ren.test(sce.b);
+
+                s.id = window.setTimeout(s.fib, 1000);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
+            },
+            "fib": function() {
+                bmp.fib();
+                ren.bmp();
             }
         }
+// bitmap
+var bmp = {
+    "init": function() {
+        // bitmap size
+        bmp.s = 1024;
+        // bitmap data
+        bmp.d = [];
+    },
+    "fib": function() {
+        bmp.d[0] = 0;
+        bmp.d[1] = 1;
+        var f0 = 0; // fib flip
+        var i0 = 2; // fib counter
+        var i1 = 2; // bmp counter
+        var f1 = [0,1]; // fib seq
+        while (i1 < 1024) {
+            f1[i0] = f1[i0-1] + f1[i0-2];
+            console.log(f1[i0]);
+            for (var i2 = i1; i2 < (i1 + f1[i0]); i2++) {
+                console.log(i0, i1, i2, i1 + f1[i0]);
+                bmp.d[i1] = f0;
+            }
+            i1 = i1 + f1[i0];
+            i0 = i0 + 1;
+            if (f0 == 0) {
+                f0 = 1;
+            } else {
+                f0 = 0;
+            }
+        }
+    }
+}
 // layout
 var lay = {
     "init": function() {
-        lay.a = [];
-        lay.a[0] = [1920,1080,0,0];
-        lay.lim = 32; // depth check
+        lay.a = [1920,1080,0,0];
+        lay.b = [1024,1024,448,28];
     }
 }
 // scene
 var sce = {
     "init": function() {
-        sce.a = [];
-        sce.a[0] = dom.canvas(lay.a[0]);
-        dom.add(sce.a[0]);
+        sce.a = dom.canvas(lay.a);
+        dom.add(sce.a);
+        sce.b = dom.canvas(lay.b);
+        dom.add(sce.b);
     }
 }
 // dom
@@ -77,6 +116,23 @@ var ren = {
     "test": function(c0) {
         c0.con.fillStyle = rgba.css(rgba.rc());
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "bmp": function() {
+        console.log(bmp.d);
+        var rgb0 = rgba.css(rgba.rc());
+        var rgb1 = rgba.css(rgba.rc());
+        for (var i = 0; i < bmp.d.length; i++) {
+            var x0 = i % 32;
+            var y0 = (i / 32) >>> 0;
+            var x1 = (x0 * 32) >>> 0;
+            var y1 = (y0 * 32) >>> 0;
+            if (bmp.d[i] == 0) {
+                sce.b.con.fillStyle = rgb0;
+            } else {
+                sce.b.con.fillStyle = rgb1;
+            }
+            sce.b.con.fillRect(x1,y1,32,32);
+        }
     }
 }
 // colors
