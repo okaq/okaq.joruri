@@ -50,6 +50,7 @@ var bmp = {
     "init": function() {
         // bitmap size
         bmp.s = 1024;
+        bmp.p = 32; // pixel stride
         // bitmap data
         bmp.d = [];
         // packed
@@ -98,7 +99,12 @@ var bmp = {
         // randomize or create patterns
         // rotate, mirror, translate
         // on grid-wise basis
-
+        bmp.g = {};
+        bmp.g.sub = [32,16,8,4,2];
+        bmp.g.tos = (Math.random() * bmp.g.sub.length) >>> 0;
+        bmp.g.d = []; // array of sub grids
+        // init sub grid data based on bmp data
+        // define accessors for bmp data
     },
     "flate": function() {
         // return data as array of bits
