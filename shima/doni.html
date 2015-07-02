@@ -30,12 +30,18 @@
                 ren.test(sce.b);
 
                 s.id = window.setTimeout(s.fib, 1000);
+                s.id = window.setTimeout(s.rand, 2000);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             },
             "fib": function() {
                 bmp.fib();
+                ren.bmp();
+            },
+            "rand": function() {
+                ren.test(sce.b);
+                bmp.rand();
                 ren.bmp();
             }
         }
