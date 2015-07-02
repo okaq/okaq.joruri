@@ -46,6 +46,22 @@ var bmp = {
         bmp.s = 1024;
         // bitmap data
         bmp.d = [];
+        // packed
+        bmp.b = (bmp.s / 8) >>> 0; // byte size
+        bmp.e = new ArrayBuffer(bmp.d);
+        bmp.f = new Uint8Array(bmp.e);
+
+        bmp.rand();
+    },
+    "rand": function() {
+        for (var i = 0; i < bmp.d.length; i++) {
+            var f0 = Math.random();
+            if (f0 > 0.5) {
+                bmp.d[i] = 1;
+            } else {
+                bmp.d[i] = 0;
+            }
+        }
     },
     "fib": function() {
         bmp.d[0] = 0;
@@ -77,6 +93,35 @@ var bmp = {
         // rotate, mirror, translate
         // on grid-wise basis
 
+    },
+    "flate": function() {
+        // return data as array of bits
+        // expand using string view binStr call
+        // or raw bitwise ops
+        var r0 = new Array(8);
+        for (var i = 0; i < 8; i++) {
+            var b0 = (pac.e[0] & (1 << i));
+            // console.log(b0);
+            if (b0 > 0) {
+                r0[7-i] = 1;
+            } else {
+                r0[7-i] = 0;
+            }
+        }
+        return r0;
+    },
+    "enc": function() {
+        // pack bmp bit vector
+        for (var i = 0; i < pac.e.length; i++) {
+            var i0 = (i * 8) >>> 0;
+            var a0 = bmp.d.slice(i0, i0+8);
+            // console.log(a0);
+            var a1 = a0.join("");
+            // console.log(a1);
+            var a2 = parseInt(a1, 2);
+            // console.log(a2);
+            pac.e[i] = a2;
+        }
     }
 }
 // layout
