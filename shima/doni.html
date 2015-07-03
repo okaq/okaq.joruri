@@ -113,15 +113,29 @@ var bmp = {
         bmp.g.d = []; // array of sub grids
         // init sub grid data based on bmp data
         for (var i = 0; i < bmp.g.b; i++) {
-            bmp.g.d[i] = bmp.sub(x0, y0, bmp.g.a);
+            var i0 = (i * bmp.g.a) >>> 0;
+            var i1 = (i * bmp.g.b) >>> 0;
+            var x0 = i % bmp.g.a;
+            var x1 = (x0 * bmp.g.a) >>> 0;
+            var y0 = (i / bmp.g.a) >>> 0;
+            var y1 = (y0 * bmp.g.a) >>> 0;
+            console.log(i, i0, i1, x0, y0);
+            bmp.g.d[i] = bmp.sub(i0, bmp.g.a);
         }
         console.log(bmp.g);
         // define accessors for bmp data
     },
-    "sub": function(x0, y0, s0) {
+    "sub": function(i0, s0) {
         // return a sub grid from bmp data
-        var a1 = (s0 * s0) >>> 0;
+        var s1 = (s0 * s0) >>> 0;
         var r0 = [];
+        var x1 = 0;
+        var y1 = 0;
+        for (var i = 0; i < s1; i++) {
+            var x2 = i % s0;
+            var y2 = (i / s0) >>> 0;
+            r0[i] = bmp.d[i];
+        }
         return r0;
     },
     "flate": function() {
