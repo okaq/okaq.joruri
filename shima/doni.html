@@ -31,6 +31,7 @@
 
                 s.id = window.setTimeout(s.fib, 1000);
                 s.id = window.setTimeout(s.rand, 2000);
+                s.id = window.setTimeout(s.gen, 3000);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -43,6 +44,10 @@
                 ren.test(sce.b);
                 bmp.rand();
                 ren.bmp();
+            },
+            "gen": function() {
+                bmp.gen();
+                // loop timeout
             }
         }
 // bitmap
@@ -102,9 +107,22 @@ var bmp = {
         bmp.g = {};
         bmp.g.sub = [32,16,8,4,2];
         bmp.g.tos = (Math.random() * bmp.g.sub.length) >>> 0;
+        bmp.g.pic = bmp.g.sub[bmp.g.tos];
+        bmp.g.a = (32 / bmp.g.pic) >>> 0;
+        bmp.g.b = (bmp.g.a * bmp.g.a) >>> 0;
         bmp.g.d = []; // array of sub grids
         // init sub grid data based on bmp data
+        for (var i = 0; i < bmp.g.b; i++) {
+            bmp.g.d[i] = bmp.sub(x0, y0, bmp.g.a);
+        }
+        console.log(bmp.g);
         // define accessors for bmp data
+    },
+    "sub": function(x0, y0, s0) {
+        // return a sub grid from bmp data
+        var a1 = (s0 * s0) >>> 0;
+        var r0 = [];
+        return r0;
     },
     "flate": function() {
         // return data as array of bits
