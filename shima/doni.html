@@ -113,6 +113,7 @@ var bmp = {
         bmp.g.d = []; // array of sub grids
         // init sub grid data based on bmp data
         for (var i = 0; i < bmp.g.b; i++) {
+            /*
             var i0 = (i * bmp.g.a) >>> 0;
             var i1 = (i * bmp.g.b) >>> 0;
             var x0 = i % bmp.g.a;
@@ -121,7 +122,15 @@ var bmp = {
             var y1 = (y0 * bmp.g.a) >>> 0;
             var i2 = (y1 + x0) >>> 0;
             // y coord mul 32
+            // and add x coord
             console.log(i, i0, i1, i2, x0, y0, x1, y1);
+             */
+            var x0 = i % bmp.g.a;
+            var x1 = (x0 * bmp.g.pic) >>> 0;
+            var y0 = (i / bmp.g.a) >>> 0;
+            var y1 = (y0 * (32 * bmp.g.pic)) >>> 0;
+            var i0 = (y1 + x1) >>> 0;
+            console.log(x0, y0, x1, y1, i0);
             bmp.g.d[i] = bmp.sub(i0, bmp.g.a);
         }
         console.log(bmp.g);
