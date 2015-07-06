@@ -131,7 +131,7 @@ var bmp = {
             var y1 = (y0 * (32 * bmp.g.pic)) >>> 0;
             var i0 = (y1 + x1) >>> 0;
             console.log(x0, y0, x1, y1, i0);
-            bmp.g.d[i] = bmp.sub(i0, bmp.g.a);
+            bmp.g.d[i] = bmp.sub(i0, bmp.g.pic);
         }
         console.log(bmp.g);
         // define accessors for bmp data
@@ -140,12 +140,15 @@ var bmp = {
         // return a sub grid from bmp data
         var s1 = (s0 * s0) >>> 0;
         var r0 = [];
-        var x1 = 0;
-        var y1 = 0;
+        var x1 = i0 % 32;
+        var y1 = (i0 / 32) >>> 0;
         for (var i = 0; i < s1; i++) {
             var x2 = i % s0;
+            x2 = x2 + x1;
             var y2 = (i / s0) >>> 0;
-            r0[i] = bmp.d[i];
+            y2 = y2 + y1;
+            var i1 = ((y2 * 32) + x2) >>> 0;
+            r0[i] = bmp.d[i1];
         }
         return r0;
     },
