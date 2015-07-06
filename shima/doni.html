@@ -64,6 +64,15 @@ var bmp = {
         bmp.f = new Uint8Array(bmp.e);
 
         bmp.rand();
+        // subdivide space into bitmap regions
+        // bitmaps pixels can be rendered as different sizes
+        // or uniform, but all have same resolution (32x32)
+        // each second pick one at random and transform it
+
+        // manip ops
+        // transpose, mirror, rotate, shuffle
+        // composable functions
+        // animation steps
     },
     "rand": function() {
         for (var i = 0; i < bmp.d.length; i++) {
