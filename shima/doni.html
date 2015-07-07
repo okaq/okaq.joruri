@@ -48,6 +48,11 @@
             "gen": function() {
                 bmp.gen();
                 // loop timeout
+                // remove large canvas
+                dom.remove(sce.b);
+                // add bitmaps to scene
+                // render
+                // loop - pick one, reverse bits
             }
         }
 // bitmap
@@ -73,6 +78,10 @@ var bmp = {
         // transpose, mirror, rotate, shuffle
         // composable functions
         // animation steps
+
+        // upon generation of new bitmaps
+        // call layout grid to init a canvas object
+        // for each individual piece
     },
     "rand": function() {
         for (var i = 0; i < bmp.d.length; i++) {
@@ -196,6 +205,11 @@ var lay = {
     "init": function() {
         lay.a = [1920,1080,0,0];
         lay.b = [1024,1024,448,28];
+    },
+    "grid": function() {
+        var x0 = lay.b[2];
+        var y0 = lay.b[3];
+        lay.c = [];
     }
 }
 // scene
@@ -205,6 +219,13 @@ var sce = {
         dom.add(sce.a);
         sce.b = dom.canvas(lay.b);
         dom.add(sce.b);
+    },
+    "grid": function() {
+        sce.c = [];
+        for (var i = 0; i < lay.c.length; i++) {
+            sce.c[i] = dom.canvas(lay.c[i]);
+            dom.add(sce.c[i]);
+        }
     }
 }
 // dom
