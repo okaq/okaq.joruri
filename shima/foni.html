@@ -27,6 +27,7 @@
                 s.subs.forEach(function(el){el.init();});
 
                 ren.rand(sce.a);
+                sce.b.forEach(function(el){ren.rand(el);});
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -35,7 +36,21 @@
 // layout
 var lay = {
     "init": function() {
+        // bkgd
         lay.a = [1920,1080,0,0];
+        // bitmap size 32x32
+        lay.bmp = {};
+        lay.bmp.p = 16;
+        lay.bmp.w = (lay.bmp.p * 32);
+        lay.bmp.n = 2;
+        lay.bmp.mx = ((lay.a[0] - (lay.w * lay.n)) / (lay.n + 1)) >>> 0;
+        lay.bmp.my = ((lay.a[1] - lay.w) / 2) >>> 0;
+        // bmp layout
+        lay.b = [];
+        for (var i = 0; i < lay.bmp.n; i++) {
+            var x0 = (lay.bmp.mx * i) >>> 0;
+            lay.b[i] = [lay.bmp.w, lay.bmp.w, x0, lay.bmp.my];
+        }
     }
 }
 // scene
@@ -43,6 +58,11 @@ var sce = {
     "init": function() {
         sce.a = dom.canvas(lay.a);
         dom.add(sce.a);
+        sce.b = [];
+        for (var i = 0; i < lay.b.length; i++) {
+            sce.b[i] = dom.canvas(lay.b[i]);
+            dom.add(sce.b[i]);
+        }
     }
 }
 // dom
