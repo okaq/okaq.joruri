@@ -36,6 +36,15 @@
             },
             "blues": function(e) {
                 console.log(e);
+                bmp.blues();
+                ren.blues();
+                // timeout array shift
+                s.id = window.setTimeout(s.shift, 1000);
+                // blit function - copy old stride at new index
+            },
+            "shift": function() {
+                bmp.blit();
+                ren.rand(sce.b[0]);
                 ren.blues();
             }
         }
@@ -47,11 +56,31 @@ var bmp = {
         bmp.a.c = []; // color data, 32*32 array of rand blues hsla
         bmp.a.w = 32;
         bmp.a.h = 32;
-        bmp.a.t = (bmp.a.w * bpm.a.h);
+        bmp.a.t = (bmp.a.w * bmp.a.h);
         for (var i = 0; i < bmp.a.t; i++) {
             bmp.a.d[i] = i; // shuffle
             bmp.a.c[i] = rgba.blues();
         }
+    },
+    "blit": function() {
+        var r0 = [];
+        for (var i = 0; i < (bmp.a.w - 1); i++) {
+            var i0 = (i * bmp.a.w) >>> 0;
+            var r1 = bmp.a.c.slice(i0, i0 + bmp.a.w);
+            var i1 = ((i + 1) * bmp.a.w) >>> 0;
+            r1.forEach(function(el){
+                    r0.splice(i1, 0, el);
+                    i1 = i1 + 1;
+                });
+        }
+        var i0 = (bmp.a.w * (bmp.a.w - 1)) >>> 0;
+        var r1 = bmp.a.c.slice(i0, i0 + bmp.a.w);
+        var i1 = 0;
+        r1.forEach(function(el){
+                    r0.splice(i1, 0, el);
+                    i1 = i1 + 1;
+                });
+        bmp.a.c = r0.slice(0);
     }
 }
 // layout
@@ -73,7 +102,7 @@ var lay = {
             var x0 = (((lay.bmp.w + (2 * lay.bmp.mx)) * i) + lay.bmp.mx) >>> 0;
             lay.b[i] = [lay.bmp.w, lay.bmp.w, x0, lay.bmp.my];
         }
-        console.log(lay.bmp);
+        // console.log(lay.bmp);
     }
 }
 // scene
@@ -126,6 +155,14 @@ var ren = {
     "blues": function() {
         // blues checkerboard
         // render bmp.a data in sce.b[0]
+        for (var i = 0; i < bmp.a.t; i++) {
+            var x0 = i % bmp.a.w;
+            var y0 = (i / bmp.a.w) >>> 0;
+            var x1 = (x0 * lay.bmp.p) >>> 0;
+            var y1 = (y0 * lay.bmp.p) >>> 0;
+            sce.b[0].con.fillStyle = rgba.hsla(bmp.a.c[i]);
+            sce.b[0].con.fillRect(x1, y1, lay.bmp.p, lay.bmp.p);
+        }
     }
 }
 // colors
