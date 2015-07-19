@@ -43,14 +43,16 @@ var lay = {
         lay.bmp.p = 16;
         lay.bmp.w = (lay.bmp.p * 32);
         lay.bmp.n = 2;
-        lay.bmp.mx = ((lay.a[0] - (lay.w * lay.n)) / (lay.n + 1)) >>> 0;
-        lay.bmp.my = ((lay.a[1] - lay.w) / 2) >>> 0;
+        lay.bmp.mx = ((lay.a[0] - (lay.bmp.w * lay.bmp.n)) / (lay.bmp.n + 1));
+        lay.bmp.mx = lay.bmp.mx / 2;
+        lay.bmp.my = ((lay.a[1] - lay.bmp.w) / 2);
         // bmp layout
         lay.b = [];
         for (var i = 0; i < lay.bmp.n; i++) {
-            var x0 = (lay.bmp.mx * i) >>> 0;
+            var x0 = (((lay.bmp.w + (2 * lay.bmp.mx)) * i) + lay.bmp.mx) >>> 0;
             lay.b[i] = [lay.bmp.w, lay.bmp.w, x0, lay.bmp.my];
         }
+        console.log(lay.bmp);
     }
 }
 // scene
