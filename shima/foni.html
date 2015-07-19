@@ -26,11 +26,17 @@
                 s.subs = [dom,lay,sce];
                 s.subs.forEach(function(el){el.init();});
 
-                ren.rand(sce.a);
+                ren.rblue(sce.a);
                 sce.b.forEach(function(el){ren.rand(el);});
+
+                window.addEventListener("click", s.blues, false);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
+            },
+            "blues": function(e) {
+                console.log(e);
+                ren.blues();
             }
         }
 // bitmap
@@ -39,6 +45,13 @@ var bmp = {
         bmp.a = {}; 
         bmp.a.d = []; // index data
         bmp.a.c = []; // color data, 32*32 array of rand blues hsla
+        bmp.a.w = 32;
+        bmp.a.h = 32;
+        bmp.a.t = (bmp.a.w * bpm.a.h);
+        for (var i = 0; i < bmp.a.t; i++) {
+            bmp.a.d[i] = i; // shuffle
+            bmp.a.c[i] = rgba.blues();
+        }
     }
 }
 // layout
@@ -105,8 +118,14 @@ var ren = {
         c0.con.fillStyle = rgba.css(rgba.rc());
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     },
+    "rblue": function(c0) {
+        // fill canvas with random blue hue
+        c0.con.fillStyle = rgba.hsla(rgba.blues());
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
     "blues": function() {
         // blues checkerboard
+        // render bmp.a data in sce.b[0]
     }
 }
 // colors
@@ -125,7 +144,7 @@ var rgba = {
         // return css string
         return "rgba(" + c0.join(",") + ")";
     },
-    "hsl": function(h0) {
+    "hsla": function(h0) {
         // return css hsla string
         // format: hsla(359,100%,100%,1.0)
         var s0 = "hsla(";
@@ -164,7 +183,7 @@ var rgba = {
         h0[1] = ((Math.random() * 25) + 75) >>> 0;
         h0[2] = ((Math.random() * 30) + 35) >>> 0;
         h0[3] = 1.0;
-        return rgba.hsl(h0);
+        return h0;
     }
 }
     </script>
