@@ -46,6 +46,9 @@
                 bmp.blit();
                 ren.rand(sce.b[0]);
                 ren.blues();
+                // sample pixels from render state
+                bmp.sample();
+                // manipulate and render in second canvas
             }
         }
 // bitmap
@@ -73,6 +76,8 @@ var bmp = {
                     i1 = i1 + 1;
                 });
         }
+        // copy last line to top - cycle
+        // generate new data for infinite waterfall
         var i0 = (bmp.a.w * (bmp.a.w - 1)) >>> 0;
         var r1 = bmp.a.c.slice(i0, i0 + bmp.a.w);
         var i1 = 0;
@@ -81,6 +86,24 @@ var bmp = {
                     i1 = i1 + 1;
                 });
         bmp.a.c = r0.slice(0);
+    },
+    "sample": function() {
+        bmp.b = {};
+        // pixel data
+        bmp.b.d = sce.b[0].con.getImageData(0,0,sce.b[0].can.width,sce.b[0].can.height);
+        console.log(bmp.b);
+        // average rgba from 2x2 corners
+        // blocks per stride
+        bmp.b.w = (bmp.a.w / 2) >>> 0;
+        // block size in pixels
+        bmp.b.p = (lay.bmp.p * 2) >>> 0;
+        // total num of blocks
+        bmp.b.t = (bmp.b.w * bmp.b.w) >>> 0;
+        for (var i = 0; i < bmp.b.t; i++) {
+            // get block index
+            // obtain 4 corner rgba values
+            // set new bmp block data to average
+        }
     }
 }
 // layout
