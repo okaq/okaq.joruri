@@ -101,6 +101,8 @@ var bmp = {
         bmp.b.t = (bmp.b.w * bmp.b.w) >>> 0;
         for (var i = 0; i < bmp.b.t; i++) {
             // get block index
+            var x0 = i % bmp.b.w;
+            var y0 = (i / bmp.b.w) >>> 0;
             // obtain 4 corner rgba values
             // set new bmp block data to average
         }

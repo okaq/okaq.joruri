@@ -17,6 +17,7 @@ func FoniHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+    fmt.Println("starting okaq joruri shima web server...")
     http.HandleFunc("/", FoniHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
