@@ -49,6 +49,16 @@
                 // sample pixels from render state
                 bmp.sample();
                 // manipulate and render in second canvas
+                // cycle 
+                s.c = 0;
+                window.setInterval(s.cycle, 1000);
+            },
+            "cycle": function() {
+                s.c = s.c + 1;
+                if (s.c >= 4) {
+                    s.c = 0;
+                }
+                console.log(s.c);
             }
         }
 // bitmap
