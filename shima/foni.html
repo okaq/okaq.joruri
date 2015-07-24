@@ -99,11 +99,12 @@ var bmp = {
         bmp.b.p = (lay.bmp.p * 2) >>> 0;
         // total num of blocks
         bmp.b.t = (bmp.b.w * bmp.b.w) >>> 0;
+        bmp.b.r = [];
         for (var i = 0; i < bmp.b.t; i++) {
             // get block index
             var x0 = i % bmp.b.w;
             var y0 = (i / bmp.b.w) >>> 0;
-            console.log(i, x0, y0);
+            // console.log(i, x0, y0);
             // get corner indicies in image data
             // width * y + x * block * 4
             // dist in pixels
@@ -111,22 +112,24 @@ var bmp = {
             var y1 = (y0 * bmp.b.p) >>> 0;
             // index into pixel array
             var i0 = ((y1 * lay.bmp.w) + x1) >>> 0;
-            var i1 = i0 + lay.bmp.p;
-            var i2 = i0 + lay.bmp.w;
-            var i3 = i0 + lay.bmp.w + lay.bmp.p;
+            var i1 = i0 + lay.bmp.p + 1;
+            var i2 = i0 + (lay.bmp.p * lay.bmp.w);
+            var i3 = i0 + (lay.bmp.p * lay.bmp.w) + lay.bmp.p + 1;
             // pixel data in rgba sequence format
             i0 = (i0 * 4) >>> 0;
             i1 = (i1 * 4) >>> 0;
             i2 = (i2 * 4) >>> 0;
             i3 = (i3 * 4) >>> 0;
-            console.log(i0, i1, i2, i3);
+            // console.log(i0, i1, i2, i3);
             // obtain 4 corner rgba values
             // console.log(bmp.b.d.data.length);
             var rgb0 = [bmp.b.d.data[i0],bmp.b.d.data[i0+1],bmp.b.d.data[i0+2],bmp.b.d.data[i0+3]];
             var rgb1 = [bmp.b.d.data[i1],bmp.b.d.data[i1+1],bmp.b.d.data[i1+2],bmp.b.d.data[i1+3]];
             var rgb2 = [bmp.b.d.data[i2],bmp.b.d.data[i2+1],bmp.b.d.data[i2+2],bmp.b.d.data[i2+3]];
             var rgb3 = [bmp.b.d.data[i3],bmp.b.d.data[i3+1],bmp.b.d.data[i3+2],bmp.b.d.data[i3+3]];
-            console.log(rgb0,rgb1,rgb2,rgb3);
+            // console.log(rgb0,rgb1,rgb2,rgb3);
+            // test cycle new corner every second
+            bmp.b.r[i] = [rgb0,rgb1,rgb2,rgb3];
             // set new bmp block data to average
         }
     }
