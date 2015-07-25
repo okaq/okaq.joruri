@@ -48,6 +48,7 @@
                 ren.blues();
                 // sample pixels from render state
                 bmp.sample();
+                bmp.avg();
                 // manipulate and render in second canvas
                 // cycle 
                 s.c = 0;
@@ -143,6 +144,27 @@ var bmp = {
             // test cycle new corner every second
             bmp.b.r[i] = [rgb0,rgb1,rgb2,rgb3];
             // set new bmp block data to average
+        }
+    },
+    "avg": function() {
+        // avg rgba values of sampled pixels
+        bmp.b.m = []; // mean rgba values
+        for (var i = 0; i < bmp.b.r.length; i++) {
+            var r0 = 0;
+            var g0 = 0;
+            var b0 = 0;
+            var a0 = 0;
+            for (var j = 0; j < 4; j++) {
+                r0 = r0 + bmp.b.r[i][j][0];
+                g0 = g0 + bmp.b.r[i][j][1];
+                b0 = b0 + bmp.b.r[i][j][2];
+                a0 = a0 + bmp.b.r[i][j][3];
+            }
+            r0 = (r0 / 4) >>> 0;
+            g0 = (g0 / 4) >>> 0;
+            b0 = (b0 / 4) >>> 0;
+            a0 = (a0 / 4) >>> 0;
+            bmp.b.m[i] = [r0,g0,b0,a0];
         }
     }
 }
