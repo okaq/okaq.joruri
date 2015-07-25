@@ -54,11 +54,13 @@
                 window.setInterval(s.cycle, 1000);
             },
             "cycle": function() {
+                ren.rand(sce.b[1]);
+                ren.cycle();
                 s.c = s.c + 1;
                 if (s.c >= 4) {
                     s.c = 0;
                 }
-                console.log(s.c);
+                // console.log(s.c);
             }
         }
 // bitmap
@@ -223,6 +225,20 @@ var ren = {
             var y1 = (y0 * lay.bmp.p) >>> 0;
             sce.b[0].con.fillStyle = rgba.hsla(bmp.a.c[i]);
             sce.b[0].con.fillRect(x1, y1, lay.bmp.p, lay.bmp.p);
+        }
+    },
+    "cycle": function() {
+        for (var i = 0; i < bmp.b.t; i++) {
+            // block coords
+            var x0 = i % bmp.b.w;
+            var y0 = (i / bmp.b.w) >>> 0;
+            // pixel coords
+            var x1 = (x0 * bmp.b.p) >>> 0;
+            var y1 = (y0 * bmp.b.p) >>> 0;
+            // color
+            var rgb0 = bmp.b.r[i][s.c];
+            sce.b[1].con.fillStyle = rgba.css(rgb0);
+            sce.b[1].con.fillRect(x1, y1, bmp.b.p, bmp.b.p);
         }
     }
 }
