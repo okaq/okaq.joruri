@@ -55,8 +55,9 @@
                 window.setInterval(s.cycle, 1000);
             },
             "cycle": function() {
-                ren.rand(sce.b[1]);
-                ren.cycle();
+                // ren.rand(sce.b[1]);
+                // ren.cycle();
+                ren.avg();
                 s.c = s.c + 1;
                 if (s.c >= 4) {
                     s.c = 0;
@@ -261,6 +262,20 @@ var ren = {
             var rgb0 = bmp.b.r[i][s.c];
             sce.b[1].con.fillStyle = rgba.css(rgb0);
             sce.b[1].con.fillRect(x1, y1, bmp.b.p, bmp.b.p);
+        }
+    },
+    "avg": function() {
+        for (var i = 0; i < bmp.b.t; i++) {
+            // block coords
+            var x0 = i % bmp.b.w;
+            var y0 = (i / bmp.b.w) >>> 0;
+            // pixel coords
+            var x1 = (x0 * bmp.b.p) >>> 0;
+            var y1 = (y0 * bmp.b.p) >>> 0;
+            // color
+            var rgb0 = bmp.b.m[i];
+            sce.b[1].con.fillStyle = rgba.css(rgb0);
+            sce.b[1].con.fillRect(x1+4, y1+4, bmp.b.p-8, bmp.b.p-8);
         }
     }
 }
