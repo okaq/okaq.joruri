@@ -27,7 +27,13 @@
                 s.subs = [dom,lay,sce];
                 s.subs.forEach(function(el){el.init();});
 
-                ren.rand(sce.a);
+                // ren.rand(sce.a);
+                sce.b.forEach(function(el){ren.rand(el);});
+
+                sce.ren.can.dataset.x = "ren";
+                sce.ren.can.addEventListener("click", s.ren, false);
+                sce.sav.can.dataset.x = "sav";
+                sce.sav.can.addEventListener("click", s.sav, false);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -35,12 +41,28 @@
             "blues": function(e) {
                 console.log(e);
                 console.log("blues clicked!");
+            },
+            "ren": function(e) {
+                console.log(e);
+                console.log("clicked button: " + e.target.dataset.x);
+            },
+            "sav": function(e) {
+                console.log(e);
+                console.log("clicked button: " + e.target.dataset.x);
             }
         }
 // layout
 var lay = {
     "init": function() {
         lay.a = [1920,1080,0,0];
+        // bitmap pane
+        lay.bmp = [512, 512, 300, 64];
+        // render button
+        lay.ren = [512, 128, 300, 700];
+        // sample pane
+        lay.sam = [512, 512, 1112, 64];
+        // save button
+        lay.sav = [512, 128, 1112, 700];
     }
 }
 // scene
@@ -48,6 +70,16 @@ var sce = {
     "init": function() {
         sce.a = dom.canvas(lay.a);
         dom.add(sce.a);
+        sce.bmp = dom.canvas(lay.bmp);
+        dom.add(sce.bmp);
+        sce.ren = dom.canvas(lay.ren);
+        dom.add(sce.ren);
+        sce.sam = dom.canvas(lay.sam);
+        dom.add(sce.sam);
+        sce.sav = dom.canvas(lay.sav);
+        dom.add(sce.sav);
+
+        sce.b = [sce.a, sce.bmp, sce.ren, sce.sam, sce.sav];
     }
 }
 // dom
