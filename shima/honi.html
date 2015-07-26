@@ -21,10 +21,11 @@
             "init": function(e) {
                 console.log(e);
                 var t0 = window.performance.now();
-                window.addEventListener("click", s.blues, false);
+                
+                // window.addEventListener("click", s.blues, false);
 
                 // subsystems
-                s.subs = [dom,lay,sce];
+                s.subs = [dom,lay,sce,xhr];
                 s.subs.forEach(function(el){el.init();});
 
                 // ren.rand(sce.a);
@@ -51,6 +52,30 @@
                 console.log("clicked button: " + e.target.dataset.x);
             }
         }
+// xhr
+var xhr = {
+    "init": function() {
+        xhr.req = new XMLHttpRequest();
+        console.log(xhr.req);
+        // get file dir, output to command line
+        // choose bmp file, recieve img
+        // responseType blob, type image/png
+        // render
+        xhr.u = [
+            "http://localhost:8008/file",
+            "http://localhost:8008/save"
+            ];
+        window.setTimeout(xhr.open, 1000);
+    },
+    "open": function() {
+        xhr.req.onload = function(e) {
+            console.log(e);
+            console.log(xhr.req.response);
+        };
+        xhr.req.open("GET", xhr.u[0], true);
+        xhr.req.send();
+    }
+}
 // layout
 var lay = {
     "init": function() {
@@ -58,11 +83,11 @@ var lay = {
         // bitmap pane
         lay.bmp = [512, 512, 300, 64];
         // render button
-        lay.ren = [512, 128, 300, 700];
+        lay.ren = [312, 128, 500, 670];
         // sample pane
         lay.sam = [512, 512, 1112, 64];
         // save button
-        lay.sav = [512, 128, 1112, 700];
+        lay.sav = [312, 128, 1112, 670];
     }
 }
 // scene

@@ -18,9 +18,15 @@ func HoniHandler(w http.ResponseWriter, req *http.Request) {
     http.ServeFile(w, req, HONI)
 }
 
+func FileHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    w.Write([]byte("ok select file"))
+}
+
 func main() {
     fmt.Println("okaq joruri shima goni web server is live...")
     http.HandleFunc("/", HoniHandler)
+    http.HandleFunc("/file", FileHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
