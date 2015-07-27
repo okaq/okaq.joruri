@@ -74,9 +74,19 @@ var xhr = {
         xhr.req.onload = function(e) {
             console.log(e);
             console.log(xhr.req.response);
+            xhr.bmp = xhr.req.response;
+            window.setTimeout(xhr.fetch, 1000);
         };
         xhr.req.open("GET", xhr.u[0], true);
         xhr.req.send();
+    },
+    "fetch": function() {
+        // async img load
+        xhr.b = new Image();
+        xhr.b.onload = function() {
+           sce.bmp.con.drawImage(xhr.b, 0, 0); 
+        }
+        xhr.b.src = "http://localhost:8008" + xhr.bmp;
     }
 }
 // layout

@@ -73,7 +73,8 @@ func main() {
     fmt.Printf("%d files loaded from %s.\n", i0, CATA)
     http.HandleFunc("/", HoniHandler)
     http.HandleFunc("/file", FileHandler)
-    http.Handle("/cata", http.FileServer(http.Dir(CATA)))
+    fs := http.FileServer(http.Dir(CATA))
+    http.Handle("/cata/", http.StripPrefix("/cata/",fs))
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
