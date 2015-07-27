@@ -4,10 +4,12 @@
 package main
 
 import (
+    "bufio"
     "fmt"
     "io/ioutil"
     "os"
     "net/http"
+    "strings"
 )
 
 const (
@@ -18,6 +20,7 @@ const (
 
 var (
     Fi []os.FileInfo
+    R *bufio.Reader
 )
 
 func HoniHandler(w http.ResponseWriter, req *http.Request) {
@@ -29,7 +32,17 @@ func FileHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     w.Write([]byte("ok select file"))
     // list available files in dir
+    for _, f := range Fi {
+        fmt.Printf("Name: %s. Size: %d. ModTime: %v.\n", f.Name(), f.Size(), f.ModTime())
+    }
     // input select via command line
+    fmt.Println("Enter file name to download: ")
+    t, err := R.ReadString('\n')
+    if err != nil {
+        fmt.Println(err)
+    }
+    t = strings.TrimSpace(t)
+    fmt.Printf("You entered %s.\n", t)
 }
 
 func Load() (int, error) {
@@ -44,6 +57,7 @@ func Load() (int, error) {
 func main() {
     fmt.Println("okaq joruri shima goni web server is live...")
     fmt.Println("loading cata local bitmap file store from disk")
+    R = bufio.NewReader(os.Stdin)
     i0, err0 := Load()
     if err0 != nil {
         fmt.Println(err0)
