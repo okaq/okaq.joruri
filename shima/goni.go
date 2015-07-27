@@ -21,6 +21,7 @@ const (
 var (
     Fi []os.FileInfo
     R *bufio.Reader
+    B string
 )
 
 func HoniHandler(w http.ResponseWriter, req *http.Request) {
@@ -30,7 +31,7 @@ func HoniHandler(w http.ResponseWriter, req *http.Request) {
 
 func FileHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
-    w.Write([]byte("ok select file"))
+    // w.Write([]byte("ok select file"))
     // list available files in dir
     for _, f := range Fi {
         fmt.Printf("Name: %s. Size: %d. ModTime: %v.\n", f.Name(), f.Size(), f.ModTime())
@@ -41,8 +42,15 @@ func FileHandler(w http.ResponseWriter, req *http.Request) {
     if err != nil {
         fmt.Println(err)
     }
+    // create path to send to req
+    B = "/cata/"
+    // B += CATA
+    // B += "/"
     t = strings.TrimSpace(t)
-    fmt.Printf("You entered %s.\n", t)
+    // t = t[:len(t)-4]
+    B += t
+    fmt.Printf("Sending %s to request.\n", B)
+    w.Write([]byte(B))
 }
 
 func Load() (int, error) {
@@ -65,6 +73,7 @@ func main() {
     fmt.Printf("%d files loaded from %s.\n", i0, CATA)
     http.HandleFunc("/", HoniHandler)
     http.HandleFunc("/file", FileHandler)
+    http.Handle("/cata", http.FileServer(http.Dir(CATA)))
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
