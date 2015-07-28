@@ -46,12 +46,33 @@
             "ren": function(e) {
                 console.log(e);
                 console.log("clicked button: " + e.target.dataset.x);
+                // obtain image data from bmp canvas
+                bmp.sample();
+                // sample 16x16 pixel blocks
+                // canvas size = 512x512
+                // bmp size = 32x32 blocks
+                // tally black, white pixels
+                // threshold
             },
             "sav": function(e) {
                 console.log(e);
                 console.log("clicked button: " + e.target.dataset.x);
             }
         }
+// bitmap
+var bmp = {
+    "sample": function() {
+        bmp.d = sce.bmp.con.getImageData(0,0,sce.bmp.can.width,sce.bmp.can.height);
+        console.log(bmp.d.data.length);
+        // bmp dims
+        bmp.s = 32;
+        bmp.p = 16;
+        bmp.t = (bmp.s * bmp.s) >>> 0;
+        bmp.e = [];
+        for (var i = 0; i < bmp.t; i++) {
+        }
+    }
+}
 // xhr
 var xhr = {
     "init": function() {
@@ -118,6 +139,7 @@ var sce = {
         dom.add(sce.sav);
 
         sce.b = [sce.a, sce.bmp, sce.ren, sce.sam, sce.sav];
+        // click handlers and dataset
     }
 }
 // dom
