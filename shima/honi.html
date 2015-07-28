@@ -53,6 +53,7 @@
                 // bmp size = 32x32 blocks
                 // tally black, white pixels
                 // threshold
+                ren.sample();
             },
             "sav": function(e) {
                 console.log(e);
@@ -70,6 +71,7 @@ var bmp = {
         bmp.t = (bmp.s * bmp.s) >>> 0;
         bmp.e = [];
         for (var i = 0; i < bmp.t; i++) {
+            bmp.e[i] = (i % 2 == 0) ? 0 : 1;
         }
     }
 }
@@ -171,6 +173,30 @@ var ren = {
     "rand": function(c0) {
         c0.con.fillStyle = rgba.css(rgba.rc());
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "sample": function() {
+        for (var i = 0; i < bmp.t; i++) {
+            if ((i % 2) == 0) { continue; }
+            var x0 = i % bmp.s;
+            var y0 = (i / bmp.s) >>> 0;
+            var x1 = (x0 * bmp.p) >>> 0;
+            var y1 = (y0 * bmp.p) >>> 0;
+            if ((y0 % 2) == 0) {
+                 if ((x0 % 2) == 0) {
+                    sce.sam.con.fillStyle = rgba.css([255,255,255,1.0]);
+                } else {
+                    sce.sam.con.fillStyle = rgba.css([0,0,0,1.0]);
+                }
+            } else {
+                if ((x0 % 2) == 0) {
+                    sce.sam.con.fillStyle = rgba.css([0,0,0,1.0]);
+                } else {
+                    sce.sam.con.fillStyle = rgba.css([255,255,255,1.0]);
+                }
+            }
+            sce.sam.con.fillStyle = rgba.css(rgba.rc());
+            sce.sam.con.fillRect(x1, y1, bmp.p, bmp.p);
+        }
     }
 }
 // colors
