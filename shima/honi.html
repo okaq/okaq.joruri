@@ -58,6 +58,8 @@
             "sav": function(e) {
                 console.log(e);
                 console.log("clicked button: " + e.target.dataset.x);
+                // encode to array buffer (32x32 bits)
+                // write to server base64 json
             }
         }
 // bitmap
@@ -68,9 +70,13 @@ var bmp = {
         // bmp dims
         bmp.s = 32;
         bmp.p = 16;
+        bmp.r = (bmp.p * bmp.p) >>> 0;
         bmp.t = (bmp.s * bmp.s) >>> 0;
         bmp.e = [];
-        for (var i = 0; i < bmp.t; i++) {
+        for (var i = 0; i < 4; i++) {
+            var i0 = (i * bmp.p * 4) >>> 0;
+            console.log(i0);
+            // one channel, rgba is either 0 or 255
             bmp.e[i] = (i % 2 == 0) ? 0 : 1;
         }
     }
@@ -176,7 +182,7 @@ var ren = {
     },
     "sample": function() {
         for (var i = 0; i < bmp.t; i++) {
-            if ((i % 2) == 0) { continue; }
+            // if ((i % 2) == 0) { continue; }
             var x0 = i % bmp.s;
             var y0 = (i / bmp.s) >>> 0;
             var x1 = (x0 * bmp.p) >>> 0;
@@ -194,7 +200,7 @@ var ren = {
                     sce.sam.con.fillStyle = rgba.css([255,255,255,1.0]);
                 }
             }
-            sce.sam.con.fillStyle = rgba.css(rgba.rc());
+            // sce.sam.con.fillStyle = rgba.css(rgba.rc());
             sce.sam.con.fillRect(x1, y1, bmp.p, bmp.p);
         }
     }
