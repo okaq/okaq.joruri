@@ -76,16 +76,20 @@ var bmp = {
         for (var i = 0; i < 4; i++) {
             var i0 = (i * bmp.p * 4) >>> 0;
             console.log("i0: " + i0);
+            var c1 = []; // acumulator
             for (var j = 0; j < bmp.p; j++) {
                 var i1 = (i0 + (j * (bmp.s * bmp.p * 4))) >>> 0;
                 console.log("i1: " + i1);
                 // take slice of bmp.p and get accumulation
                 var c0 = bmp.tally(i1);
                 console.log("c0: " + c0);
+                c1.push(c0);
                 // count of white black pixels in bmp.p stride
             }
+            console.log("c1: " + c1 + " count: " + c1.length);
             // one channel, rgba is either 0 or 255
-            bmp.e[i] = (i % 2 == 0) ? 0 : 1;
+            // bmp.e[i] = (i % 2 == 0) ? 0 : 1;
+            bmp.e[i] = bmp.sum(c1);
         }
     },
     "tally": function(i0) {
@@ -94,13 +98,25 @@ var bmp = {
         var c0 = [0,0];
         for (var i = 0; i < bmp.p; i++) {
             var i1 = (i0 + (i * 4)) >>> 0;
-            if (bmp.d.data[i1] == 255) {
+            if (bmp.d.data[i1] == 0) {
                 c0[0] = c0[0] + 1;
             } else {
                 c0[1] = c0[1] + 1;
             }
         }
         return c0;
+    },
+    "sum": function(c0) {
+        var c1 = [0,0];
+        for (var i = 0; i < c0.length; i++) {
+            c1[0] = c1[0] + c0[i][0];
+            c1[1] = c1[1] + c0[i][1];
+        }
+        var r0 = 0;
+        if (c1[1] > c1[0]) {
+            r0 = 1;
+        }
+        return r0;
     }
 }
 // xhr
