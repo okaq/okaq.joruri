@@ -77,13 +77,30 @@ var bmp = {
             var i0 = (i * bmp.p * 4) >>> 0;
             console.log("i0: " + i0);
             for (var j = 0; j < bmp.p; j++) {
-                var y0 = (i0 + (j * (bmp.s * bmp.p * 4))) >>> 0;
-                console.log("y0: " + y0);
+                var i1 = (i0 + (j * (bmp.s * bmp.p * 4))) >>> 0;
+                console.log("i1: " + i1);
                 // take slice of bmp.p and get accumulation
+                var c0 = bmp.tally(i1);
+                console.log("c0: " + c0);
+                // count of white black pixels in bmp.p stride
             }
             // one channel, rgba is either 0 or 255
             bmp.e[i] = (i % 2 == 0) ? 0 : 1;
         }
+    },
+    "tally": function(i0) {
+        // input index into bmp image data
+        // output black white count for one stride
+        var c0 = [0,0];
+        for (var i = 0; i < bmp.p; i++) {
+            var i1 = (i0 + (i * 4)) >>> 0;
+            if (bmp.d.data[i1] == 255) {
+                c0[0] = c0[0] + 1;
+            } else {
+                c0[1] = c0[1] + 1;
+            }
+        }
+        return c0;
     }
 }
 // xhr
@@ -92,7 +109,7 @@ var xhr = {
         xhr.req = new XMLHttpRequest();
         console.log(xhr.req);
         // get file dir, output to command line
-        // choose bmp file, recieve img
+        // choose bmp file, receive img
         // responseType blob, type image/png
         // alt: just retrieve image path
         // load async img to canvas
