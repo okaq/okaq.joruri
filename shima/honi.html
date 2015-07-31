@@ -75,7 +75,12 @@ var bmp = {
         bmp.e = [];
         for (var i = 0; i < 4; i++) {
             var i0 = (i * bmp.p * 4) >>> 0;
-            console.log(i0);
+            console.log("i0: " + i0);
+            for (var j = 0; j < bmp.p; j++) {
+                var y0 = (i0 + (j * (bmp.s * bmp.p * 4))) >>> 0;
+                console.log("y0: " + y0);
+                // take slice of bmp.p and get accumulation
+            }
             // one channel, rgba is either 0 or 255
             bmp.e[i] = (i % 2 == 0) ? 0 : 1;
         }
