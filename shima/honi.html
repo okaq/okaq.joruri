@@ -74,6 +74,7 @@ var bmp = {
         bmp.r = (bmp.p * bmp.p) >>> 0;
         bmp.t = (bmp.s * bmp.s) >>> 0;
         bmp.e = [];
+        bmp.h = {}; // rgba histogram
         for (var i = 0; i < bmp.t; i++) {
             var i0 = (i * bmp.p * 4) >>> 0;
             // console.log("i0: " + i0);
@@ -90,9 +91,12 @@ var bmp = {
             // console.log("c1: " + c1 + " count: " + c1.length);
             // one channel, rgba is either 0 or 255
             // bmp.e[i] = (i % 2 == 0) ? 0 : 1;
+            // console.log(i, c1); // [0,16]
             bmp.e[i] = bmp.sum(c1);
         }
         console.log(bmp.e); // all white
+        // create histogram (dict) of all r values
+        console.log(bmp.h);
     },
     "tally": function(i0) {
         // input index into bmp image data
@@ -100,10 +104,17 @@ var bmp = {
         var c0 = [0,0];
         for (var i = 0; i < bmp.p; i++) {
             var i1 = (i0 + (i * 4)) >>> 0;
-            if (bmp.d.data[i1] > 0) {
-                c0[1] = c0[1] + 1;
+            // console.log(i0, bmp.d.data[i0]);
+            var s0 = bmp.d.data[i1].toString();
+            if (bmp.h[s0]) {
+                bmp.h[s0] = bmp.h[s0] + bmp.h[s0];
             } else {
+                bmp.h[s0] = 1;
+            }
+            if (bmp.d.data[i1] <= 254) {
                 c0[0] = c0[0] + 1;
+            } else {
+                c0[1] = c0[1] + 1;
             }
         }
         return c0;
@@ -114,9 +125,9 @@ var bmp = {
             c1[0] = c1[0] + c0[i][0];
             c1[1] = c1[1] + c0[i][1];
         }
-        var r0 = 0;
-        if (c1[1] > c1[0]) {
-            r0 = 1;
+        var r0 = 1;
+        if (c1[1] < c1[0]) {
+            r0 = 0;
         }
         return r0;
     }
