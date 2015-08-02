@@ -67,7 +67,7 @@
 var bmp = {
     "sample": function() {
         bmp.d = sce.bmp.con.getImageData(0,0,sce.bmp.can.width,sce.bmp.can.height);
-        // console.log(bmp.d.data.length);
+        console.log(bmp.d.data);
         // bmp dims
         bmp.s = 32;
         bmp.p = 16;
@@ -106,8 +106,8 @@ var bmp = {
             var i1 = (i0 + (i * 4)) >>> 0;
             // console.log(i0, bmp.d.data[i0]);
             var s0 = bmp.d.data[i1].toString();
-            if (bmp.h[s0]) {
-                bmp.h[s0] = bmp.h[s0] + bmp.h[s0];
+            if (s0 in bmp.h) {
+                bmp.h[s0] = bmp.h[s0] + 1;
             } else {
                 bmp.h[s0] = 1;
             }
@@ -129,6 +129,7 @@ var bmp = {
         if (c1[1] < c1[0]) {
             r0 = 0;
         }
+        // return Math.random() >= 0.5 ? 1 : 0;
         return r0;
     }
 }
