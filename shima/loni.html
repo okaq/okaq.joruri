@@ -23,13 +23,85 @@
                 var t0 = window.performance.now();
 
                 // subsystems
-                s.subs = [];
+                s.subs = [dom,sce];
                 s.subs.forEach(function(el){el.init();});
+
+                ren.test(sce.zero[0]);
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
             }
         }
+// scene
+var sce = {
+    "init": function() {
+        // scene 0 - intro
+        sce.zero = [];
+        sce.zero[0] = dom.canvas([1920,1080,0,0]);
+        dom.add(sce.zero[0]);
+
+        sce.index = 0;
+
+        // populate scene 1 from file list
+        // received from xhr
+        // grid of 128x128 clickable thumbs
+    }
+}
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+        console.log(dom.alpha);
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    },
+    "remove": function(c0) {
+        dom.alpha.removeChild(c0.can);
+    }
+}
+// render
+var ren = {
+    "test": function(c0) {
+        c0.con.fillStyle = rgba.rand();
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    }
+}
+// colors
+var rgba = {
+    "rc": function() {
+        // return random rgba
+        var c0 = [
+            rgba.rb(),
+            rgba.rb(),
+            rgba.rb(),
+            1.0
+            ];
+        return c0;
+    },
+    "css": function(c0) {
+        // return css string
+        return "rgba(" + c0.join(",") + ")";
+    },
+    "rb": function() {
+        // random byte
+        return (Math.random() * 255) >>> 0;
+    },
+    "rand": function() {
+        return rgba.css(rgba.rc());
+    }
+}
 
     </script>
 </head>
