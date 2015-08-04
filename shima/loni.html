@@ -26,7 +26,8 @@
                 s.subs = [dom,sce];
                 s.subs.forEach(function(el){el.init();});
 
-                ren.test(sce.zero[0]);
+                // ren.test(sce.zero);
+                ren.scene();
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
@@ -39,8 +40,11 @@ var sce = {
         sce.zero = [];
         sce.zero[0] = dom.canvas([1920,1080,0,0]);
         dom.add(sce.zero[0]);
+        sce.zero[1] = dom.canvas([768,768,576,156]);
+        dom.add(sce.zero[1]);
 
         sce.index = 0;
+        sce.list = [sce.zero];
 
         // populate scene 1 from file list
         // received from xhr
@@ -76,6 +80,13 @@ var ren = {
     "test": function(c0) {
         c0.con.fillStyle = rgba.rand();
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "scene": function() {
+        var c0 = sce.list[sce.index];
+        for (var i = 0; i < c0.length; i++) {
+            c0[i].con.fillStyle = rgba.rand();
+            c0[i].con.fillRect(0,0,c0[i].can.width,c0[i].can.height);
+        }
     }
 }
 // colors
