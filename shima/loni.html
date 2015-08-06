@@ -31,6 +31,14 @@
 
                 var t1 = window.performance.now() - t0;
                 console.log("total running time: " + t1 + " ms");
+            },
+            "click": function(e) {
+                console.log(e);
+                console.log(e.target.dataset.x);
+                // generate rand bitmap touch
+                // golang script to populate with 32x32 bits
+                // send list to client
+                // render thumbs grid
             }
         }
 // scene
@@ -43,6 +51,14 @@ var sce = {
         sce.zero[1] = dom.canvas([768,768,576,156]);
         dom.add(sce.zero[1]);
 
+        sce.zero[1].can.dataset.x = "zero_1";
+        sce.zero[1].can.addEventListener("click", s.click, false);
+
+        // scene 1 - display thumbs grid
+        sce.one = [];
+        // generate grid from display list
+
+        // scene point
         sce.index = 0;
         sce.list = [sce.zero];
 
