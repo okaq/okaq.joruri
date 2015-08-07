@@ -5,7 +5,10 @@ package main
 
 import (
     "fmt"
+    "io/ioutil"
     "net/http"
+    "os"
+    "path"
 )
 
 const (
@@ -13,14 +16,44 @@ const (
     PORT = ":8008"
 )
 
+var (
+    P string
+)
+
 func LoniHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     http.ServeFile(w, req, LONI)
 }
 
+func Path() {
+    wd, err := os.Getwd()
+    if err != nil {
+        fmt.Println(err)
+    }
+    p0 := "../cata/bata/"
+    P = path.Join(wd, p0)
+}
+
+func List() {
+    f0, err := ioutil.ReadDir(P)
+    if err != nil {
+        fmt.Println(err)
+    }
+    for i, f1 := range f0 {
+        fmt.Printf("File %d is: %s.\n", i, f1.Name())
+    }
+}
+
 func main() {
     fmt.Println("okaq joruri shima koni web server ok...")
     http.HandleFunc("/", LoniHandler)
+    // list dir contents
+    Path()
+    fmt.Printf("Reading bitmap files from dir: %s.\n", P)
+    List()
+    fmt.Println("Bitmap file list created.")
+    // file list json array [a.bin,b.bin]
+    // bitmap json request matches name and serves binary
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
