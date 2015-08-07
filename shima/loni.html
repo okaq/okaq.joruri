@@ -39,8 +39,24 @@
                 // golang script to populate with 32x32 bits
                 // send list to client
                 // render thumbs grid
+                xhr.list();
             }
         }
+// xhr
+var xhr = {
+    "list": function() {
+        xhr.a = new XMLHttpRequest();
+        xhr.a.open("GET", "http://localhost:8008/a", true);
+        xhr.a.list = function(e) {
+            console.log(e);
+            console.log(e.target.responseText);
+            xhr.l = JSON.parse(e.target.responseText);
+            console.log(xhr.l, xhr.l.length);
+        }
+        xhr.a.addEventListener("load", xhr.a.list, false);
+        xhr.a.send();
+    }
+}
 // scene
 var sce = {
     "init": function() {

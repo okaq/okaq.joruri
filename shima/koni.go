@@ -4,6 +4,7 @@
 package main
 
 import (
+    "encoding/json"
     "fmt"
     "io/ioutil"
     "net/http"
@@ -18,11 +19,17 @@ const (
 
 var (
     P string
+    L []byte
 )
 
 func LoniHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
     http.ServeFile(w, req, LONI)
+}
+
+func ListHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    w.Write(L)
 }
 
 func Path() {
@@ -39,9 +46,17 @@ func List() {
     if err != nil {
         fmt.Println(err)
     }
+    s0 := make([]string, len(f0))
     for i, f1 := range f0 {
         fmt.Printf("File %d is: %s.\n", i, f1.Name())
+        s0[i] = f1.Name()
     }
+    b0, err := json.Marshal(s0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(b0)
+    L = b0
 }
 
 func main() {
@@ -54,6 +69,7 @@ func main() {
     fmt.Println("Bitmap file list created.")
     // file list json array [a.bin,b.bin]
     // bitmap json request matches name and serves binary
+    http.HandleFunc("/a", ListHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
