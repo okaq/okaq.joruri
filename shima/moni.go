@@ -5,7 +5,10 @@ package main
 
 import (
     "fmt"
+    "io/ioutil"
     "math/rand"
+    "os"
+    "path"
     "time"
 )
 
@@ -42,6 +45,14 @@ func main() {
     Random()
     fmt.Printf("Random byte test: %v.\n", RB(1))
     fmt.Printf("Bitmap size %dx%d = %d bits = %d bytes.\n", 32, 32, 32*32, 32*32/8)
+    wd, err := os.Getwd()
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Printf("Current dir: %s.\n", wd)
+    p0 := "../cata/bata/"
+    p1 := path.Join(wd, p0)
+    fmt.Println("Write to dir: %s.\n", p1)
     for i, n := range N {
         fmt.Printf("Name %d is %s.\n", i, n)
         b0 := RB(128)
@@ -49,6 +60,10 @@ func main() {
         // file path from name
         // pwd current path
         // bmp dir ../cata/bata
+        p2 := path.Join(p1, n)
+        p3 := p2 + ".bin"
+        fmt.Printf("Writing data to: %s.\n", p3)
+        ioutil.WriteFile(p3, b0, 0777)
     }
     // ioutil.WriteFiie rand bytes
 }
