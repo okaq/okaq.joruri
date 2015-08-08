@@ -42,6 +42,7 @@
                 xhr.list();
             },
             "grid": function() {
+                ren.clear();
                 sce.index = 1;
                 // ren.scene();
                 // for each bmp in list
@@ -51,6 +52,8 @@
                 // response type binary arraybuffer
                 // golang json encodes byte array
                 // as base64 string representation
+                sce.grid();
+                ren.scene();
             }
         }
 // xhr
@@ -88,7 +91,7 @@ var sce = {
 
         // scene point
         sce.index = 0;
-        sce.list = [sce.zero];
+        sce.list = [sce.zero, sce.one];
 
         // populate scene 1 from file list
         // received from xhr
@@ -98,6 +101,24 @@ var sce = {
         // populate scene with even grid layout
         // mapped to bitmap file list
         // 32x32 4px per block
+        var t0 = 128; // thumb width
+        var cx = 480; // cell x
+        var cy = 270; // cell y
+        var mx = 176; // margin x
+        var my = 71; // margin y
+        for (var y = 0; y < 4; y++) {
+            for (var x = 0; x < 4; x++) {
+                var i0 = ((y * 4) + x) >>> 0;
+                var s0 = "grid_" + y + "_" + x;
+                console.log(i0, s0);
+                var x0 = ((cx * x) + mx) >>> 0;
+                var y0 = ((cy * y) + my) >>> 0;
+                sce.one[i0] = dom.canvas([t0,t0,x0,y0]);
+                dom.add(sce.one[i0]);
+                sce.one[i0].can.dataset.x = s0;
+                sce.one[i0].can.addEventListener("click", s.select, false);
+            }
+        }
     }
 }
 // dom
@@ -134,6 +155,13 @@ var ren = {
         var c0 = sce.list[sce.index];
         for (var i = 0; i < c0.length; i++) {
             c0[i].con.fillStyle = rgba.rand();
+            c0[i].con.fillRect(0,0,c0[i].can.width,c0[i].can.height);
+        }
+    },
+    "clear": function() {
+        var c0 = sce.list[sce.index];
+        for (var i = 0; i < c0.length; i++) {
+            c0[i].con.fillStyle = rgba.css([255,255,255,1.0]);
             c0[i].con.fillRect(0,0,c0[i].can.width,c0[i].can.height);
         }
     }
