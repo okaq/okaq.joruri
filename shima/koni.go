@@ -48,7 +48,7 @@ func List() {
     }
     s0 := make([]string, len(f0))
     for i, f1 := range f0 {
-        fmt.Printf("File %d is: %s.\n", i, f1.Name())
+        // fmt.Printf("File %d is: %s.\n", i, f1.Name())
         s0[i] = f1.Name()
     }
     b0, err := json.Marshal(s0)

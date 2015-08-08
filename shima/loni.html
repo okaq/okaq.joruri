@@ -40,6 +40,17 @@
                 // send list to client
                 // render thumbs grid
                 xhr.list();
+            },
+            "grid": function() {
+                sce.index = 1;
+                // ren.scene();
+                // for each bmp in list
+                // create grid space
+                // send async request
+                // populate with data on recieve
+                // response type binary arraybuffer
+                // golang json encodes byte array
+                // as base64 string representation
             }
         }
 // xhr
@@ -52,6 +63,7 @@ var xhr = {
             console.log(e.target.responseText);
             xhr.l = JSON.parse(e.target.responseText);
             console.log(xhr.l, xhr.l.length);
+            window.setTimeout(s.grid, 1000);
         }
         xhr.a.addEventListener("load", xhr.a.list, false);
         xhr.a.send();
@@ -81,6 +93,11 @@ var sce = {
         // populate scene 1 from file list
         // received from xhr
         // grid of 128x128 clickable thumbs
+    },
+    "grid": function() {
+        // populate scene with even grid layout
+        // mapped to bitmap file list
+        // 32x32 4px per block
     }
 }
 // dom
