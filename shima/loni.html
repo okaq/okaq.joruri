@@ -53,7 +53,15 @@
                 // golang json encodes byte array
                 // as base64 string representation
                 sce.grid();
+                xhr.grid();
                 ren.scene();
+            },
+            "select": function(e) {
+                console.log(e);
+                console.log(e.target.dataset.x);
+                var s0 = e.target.dataset.x.slice(5);
+                console.log(s0);
+                console.log(sce.one[s0]);
             }
         }
 // xhr
@@ -70,6 +78,11 @@ var xhr = {
         }
         xhr.a.addEventListener("load", xhr.a.list, false);
         xhr.a.send();
+    },
+    "grid": function() {
+        // new request for each bmp
+        for (var i = 0; i < sce.one.length; i++) {
+        }
     }
 }
 // scene
@@ -109,7 +122,8 @@ var sce = {
         for (var y = 0; y < 4; y++) {
             for (var x = 0; x < 4; x++) {
                 var i0 = ((y * 4) + x) >>> 0;
-                var s0 = "grid_" + y + "_" + x;
+                // var s0 = "grid_" + y + "_" + x;
+                var s0 = "grid_" + i0;
                 console.log(i0, s0);
                 var x0 = ((cx * x) + mx) >>> 0;
                 var y0 = ((cy * y) + my) >>> 0;
