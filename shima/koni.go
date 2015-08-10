@@ -32,6 +32,11 @@ func ListHandler(w http.ResponseWriter, req *http.Request) {
     w.Write(L)
 }
 
+func BitmapHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    w.Write([]byte("bitmap ok"))
+}
+
 func Path() {
     wd, err := os.Getwd()
     if err != nil {
@@ -70,6 +75,7 @@ func main() {
     // file list json array [a.bin,b.bin]
     // bitmap json request matches name and serves binary
     http.HandleFunc("/a", ListHandler)
+    http.HandleFunc("/b", BitmapHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)

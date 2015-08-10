@@ -82,6 +82,13 @@ var xhr = {
     "grid": function() {
         // new request for each bmp
         for (var i = 0; i < sce.one.length; i++) {
+            var x0 = new XMLHttpRequest();
+            x0.open("GET", "http://localhost:8008/b", true);
+            x0.ren = function(e) {
+                console.log(e);
+            }
+            x0.addEventListener("load", x0.ren, false);
+            x0.send(xhr.l[i]);
         }
     }
 }
