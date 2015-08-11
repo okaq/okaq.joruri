@@ -83,7 +83,7 @@ var xhr = {
         // new request for each bmp
         for (var i = 0; i < sce.one.length; i++) {
             var x0 = new XMLHttpRequest();
-            x0.open("GET", "http://localhost:8008/b", true);
+            x0.open("PUT", "http://localhost:8008/b", true);
             x0.ren = function(e) {
                 console.log(e);
             }

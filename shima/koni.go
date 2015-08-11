@@ -4,6 +4,8 @@
 package main
 
 import (
+    // "bufio"
+    "bytes"
     "encoding/json"
     "fmt"
     "io/ioutil"
@@ -34,7 +36,17 @@ func ListHandler(w http.ResponseWriter, req *http.Request) {
 
 func BitmapHandler(w http.ResponseWriter, req *http.Request) {
     fmt.Println(req)
+    // fmt.Println(req.Body)
+    // s0 := bufio.NewScanner(req.Body)
+    // b0 := s0.Bytes()
+    b0 := new(bytes.Buffer)
+    b0.ReadFrom(req.Body)
+    b1 := b0.Bytes()
+    s0 := string(b1)
+    fmt.Println(b1, s0)
     w.Write([]byte("bitmap ok"))
+    // read base64 file json and write to response
+    // byte stream pipe direct to writer
 }
 
 func Path() {
