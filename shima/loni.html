@@ -86,6 +86,7 @@ var xhr = {
             x0.open("PUT", "http://localhost:8008/b", true);
             x0.ren = function(e) {
                 console.log(e);
+                // response type array buffer
             }
             x0.addEventListener("load", x0.ren, false);
             x0.send(xhr.l[i]);
