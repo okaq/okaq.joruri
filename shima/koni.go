@@ -53,6 +53,8 @@ func BitmapHandler(w http.ResponseWriter, req *http.Request) {
     w.Write([]byte("bitmap ok"))
     // read base64 file json and write to response
     // byte stream pipe direct to writer
+    // store as json base64, use btoa to decode
+    // store as bytes, use array buffer to render
 }
 
 func Path() {
@@ -92,6 +94,7 @@ func main() {
     fmt.Println("Bitmap file list created.")
     // file list json array [a.bin,b.bin]
     // bitmap json request matches name and serves binary
+    // cache data in map
     http.HandleFunc("/a", ListHandler)
     http.HandleFunc("/b", BitmapHandler)
     err := http.ListenAndServe(PORT, nil)

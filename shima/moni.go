@@ -4,6 +4,7 @@
 package main
 
 import (
+    "encoding/json"
     "fmt"
     "io/ioutil"
     "math/rand"
@@ -63,7 +64,16 @@ func main() {
         p2 := path.Join(p1, n)
         p3 := p2 + ".bin"
         fmt.Printf("Writing data to: %s.\n", p3)
-        ioutil.WriteFile(p3, b0, 0777)
+        ioutil.WriteFile(p3, b0, 0664)
+        // change chmod 0664
+        // analogous json base64 string
+        p4 := p2 + ".json"
+        fmt.Printf("Writing data to: %s.\n,", p4)
+        j0, err := json.Marshal(b0)
+        if err != nil {
+            fmt.Println(err)
+        }
+        ioutil.WriteFile(p4, j0, 0644)
     }
     // ioutil.WriteFiie rand bytes
 }
