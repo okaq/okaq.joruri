@@ -74,7 +74,11 @@ var xhr = {
             console.log(e.target.responseText);
             xhr.l = JSON.parse(e.target.responseText);
             console.log(xhr.l, xhr.l.length);
+            xhr.split();
+            console.log(xhr.bin);
+            console.log(xhr.json);
             window.setTimeout(s.grid, 1000);
+            // split lists into bin, json
         }
         xhr.a.addEventListener("load", xhr.a.list, false);
         xhr.a.send();
@@ -90,6 +94,18 @@ var xhr = {
             }
             x0.addEventListener("load", x0.ren, false);
             x0.send(xhr.l[i]);
+        }
+    },
+    "split": function() {
+        xhr.bin = [];
+        xhr.json = [];
+        for (var i = 0; i < xhr.l.length; i++) {
+            var s0 = xhr.l[i];
+            if (s0[s0.length-2] == "o") {
+                xhr.json.push(s0);
+            } else {
+                xhr.bin.push(s0);
+            }
         }
     }
 }

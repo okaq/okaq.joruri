@@ -51,10 +51,27 @@ func BitmapHandler(w http.ResponseWriter, req *http.Request) {
     }
     fmt.Println(b2)
     w.Write([]byte("bitmap ok"))
+    // set application/octet-stream header
     // read base64 file json and write to response
     // byte stream pipe direct to writer
     // store as json base64, use btoa to decode
     // store as bytes, use array buffer to render
+}
+
+func JsonHandler(w http.ResponseWriter, req *http.Request) {
+    fmt.Println(req)
+    b0 := new(bytes.Buffer)
+    b0.ReadFrom(req.Body)
+    b1 := b0.Bytes()
+    s0 := string(b1)
+    fmt.Println(b1, s0)
+    p0 := path.Join(P, s0)
+    b2, err := ioutil.ReadFile(p0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(b2)
+    w.Write([]byte("json ok"))
 }
 
 func Path() {
@@ -97,6 +114,7 @@ func main() {
     // cache data in map
     http.HandleFunc("/a", ListHandler)
     http.HandleFunc("/b", BitmapHandler)
+    http.HandleFunc("/c", JsonHandler)
     err := http.ListenAndServe(PORT, nil)
     if err != nil {
         fmt.Println(err)
