@@ -53,7 +53,7 @@
                 // golang json encodes byte array
                 // as base64 string representation
                 sce.grid();
-                xhr.grid();
+                xhr.grid(); // async call, render on load
                 ren.scene();
             },
             "select": function(e) {
