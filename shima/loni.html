@@ -107,8 +107,13 @@ var xhr = {
             x0.ren = function(e) {
                 console.log(e);
                 // render array buffer
+                var ab0 = e.target.response;
+                var b0 = new Uint8Array(ab0);
+                console.log(ab0, b0, b0.length);
+                xhr.cb = xhr.cb + 1;
             }
             x0.addEventListener("load", x0.ren, false);
+            x0.responseType = "arraybuffer";
             x0.send(xhr.bin[i]);
         }
     },

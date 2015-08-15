@@ -50,7 +50,9 @@ func BitmapHandler(w http.ResponseWriter, req *http.Request) {
         fmt.Println(err)
     }
     fmt.Println(b2)
-    w.Write([]byte("bitmap ok"))
+    // w.Write([]byte("bitmap ok"))
+    w.Header().Set("Content-Type", "application/octet-stream")
+    w.Write(b2)
     // set application/octet-stream header
     // read base64 file json and write to response
     // byte stream pipe direct to writer
