@@ -53,8 +53,10 @@
                 // golang json encodes byte array
                 // as base64 string representation
                 sce.grid();
-                xhr.grid(); // async call, render on load
+                // xhr.grid(); // async call, render on load
                 ren.scene();
+
+                window.setTimeout(xhr.one, 1000);
             },
             "select": function(e) {
                 console.log(e);
@@ -94,6 +96,34 @@ var xhr = {
             }
             x0.addEventListener("load", x0.ren, false);
             x0.send(xhr.l[i]);
+        }
+    },
+    "one": function() {
+        // retrieve and render bin bitmaps
+        xhr.cb = 0; // bin count, time when reaches 16
+        for (var i = 0; i < xhr.bin.length; i++) {
+            var x0 = new XMLHttpRequest();
+            x0.open("PUT", "http://localhost:8008/b", true);
+            x0.ren = function(e) {
+                console.log(e);
+                // render array buffer
+            }
+            x0.addEventListener("load", x0.ren, false);
+            x0.send(xhr.bin[i]);
+        }
+    },
+    "two": function() {
+        // retrieve and render json bitmaps
+        xhr.cj = 0; // json count, time when reaches 16
+        for (var i = 0; i < xhr.json.length; i++) {
+            var x0 = new XMLHttpRequest();
+            x0.open("PUT", "http://localhost:8008/b", true);
+            x0.ren = function(e) {
+                console.log(e);
+                // render and decode json base64 string
+            }
+            x0.addEventListener("load", x0.ren, false);
+            x0.send(xhr.json[i]);
         }
     },
     "split": function() {
