@@ -73,7 +73,9 @@ func JsonHandler(w http.ResponseWriter, req *http.Request) {
         fmt.Println(err)
     }
     fmt.Println(b2)
-    w.Write([]byte("json ok"))
+    // w.Write([]byte("json ok"))
+    w.Header().Set("Content-Type", "application/json")
+    w.Write(b2)
 }
 
 func Path() {
