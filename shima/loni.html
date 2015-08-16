@@ -56,7 +56,7 @@
                 // xhr.grid(); // async call, render on load
                 ren.scene();
 
-                window.setTimeout(xhr.two, 1000);
+                window.setTimeout(xhr.one, 1000);
             },
             "select": function(e) {
                 console.log(e);
@@ -110,10 +110,12 @@ var xhr = {
                 var ab0 = e.target.response;
                 var b0 = new Uint8Array(ab0);
                 console.log(ab0, b0, b0.length);
+                console.log(x0.n0);
                 xhr.cb = xhr.cb + 1;
             }
             x0.addEventListener("load", x0.ren, false);
             x0.responseType = "arraybuffer";
+            x0.n0 = xhr.bin[i];
             x0.send(xhr.bin[i]);
         }
     },
@@ -134,12 +136,16 @@ var xhr = {
                 console.log(j2, j2.length);
                 // j2 is a string of bytes
                 // convert to byte array with chrCodeAt
+                var j3 = bmp.bin(j2);
+                console.log(j3,j3.length);
                 // var j3 = JSON.parse(j2); // new Uint8Array(j2);
                 // console.log(j3, j3.length);
+                console.log(x0.name);
                 xhr.cj = xhr.cj + 1;
             }
             x0.addEventListener("load", x0.ren, false);
             x0.responseType = "json";
+            x0.name = xhr.json[i];
             x0.send(xhr.json[i]);
         }
     },
@@ -154,6 +160,30 @@ var xhr = {
                 xhr.bin.push(s0);
             }
         }
+    }
+}
+// bitmap
+var bmp = {
+    "str": function(b0) {
+        // input typed array
+        // output bitstring
+
+        // use toString(2)
+        // and pad leading zeros
+
+        // or render directly
+
+    },
+    "bin": function(s0) {
+        // input string
+        // output byte array
+        // var r0 = new ArrayBuffer(s0.length);
+        // var r1 = new Uint8Array(r0);
+        var r1 = [];
+        for (var i = 0; i < s0.length; i++) {
+            r1[i] = s0.charCodeAt(i);
+        }
+        return r1;
     }
 }
 // scene
