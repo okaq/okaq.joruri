@@ -56,7 +56,7 @@
                 // xhr.grid(); // async call, render on load
                 ren.scene();
 
-                window.setTimeout(xhr.two, 1000);
+                window.setTimeout(xhr.one, 1000);
             },
             "select": function(e) {
                 console.log(e);
@@ -111,6 +111,10 @@ var xhr = {
                 var b0 = new Uint8Array(ab0);
                 console.log(ab0, b0, b0.length);
                 console.log(x0.n0);
+                // assign name to scene elemetn, xhr object
+                // call on create, render on load
+                var s0 = bmp.str(b0);
+                ren.bmp(s0, sce.one[i]);
                 xhr.cb = xhr.cb + 1;
             }
             x0.addEventListener("load", x0.ren, false);
@@ -176,7 +180,22 @@ var bmp = {
         // and pad leading zeros
 
         // or render directly
-
+        // return binary string of bmp data
+        var s0 = "";
+        for (var i = 0; i < b0.length; i++) {
+            var s1 = b0[i].toString(2);
+            var s2 = s1[s1.length-1];
+            for (var j = 1; j < 8; j++) {
+                var s3 = s1[s1.length-j];
+                if (s3 != null) {
+                   s2 = s1[j] + s2;
+                } else {
+                   s2 = "0" + s2;
+                }
+            }
+            s0 = s0 + s2;
+        }
+        return s0;
     },
     "bin": function(s0) {
         // input string
@@ -283,6 +302,11 @@ var ren = {
             c0[i].con.fillStyle = rgba.css([255,255,255,1.0]);
             c0[i].con.fillRect(0,0,c0[i].can.width,c0[i].can.height);
         }
+    },
+    "bmp": function(s0, c0) {
+        // render bitstring in canvas c0
+        console.log(c0);
+        console.log(s0);
     }
 }
 // colors
