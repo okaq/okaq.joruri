@@ -88,7 +88,9 @@ func Paint() {
     // okaq.github.io
     // c0 := color.RGBA{255,89,140,255}
     // okaq gira fure
-    c0 := color.RGBA{100,255,200,255}
+    // c0 := color.RGBA{100,255,200,255}
+    // okaq joruri qian
+    c0 := color.RGBA{127,196,245,255}
     s0 := Pixels.Bounds().Dx() * Pixels.Bounds().Dy()
 	for i := 0; i < s0; i++ {
 		x0 := i % Pixels.Bounds().Dx()
