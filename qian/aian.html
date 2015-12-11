@@ -79,8 +79,13 @@ var sce = {
         dom.add(sce.b);
         sce.c = dom.canvas(lay.c);
         dom.add(sce.c);
+        sce.c.can.addEventListener("click", sce.click, false);
         sce.d = dom.canvas(lay.d);
         dom.add(sce.d);
+        sce.d.can.addEventListener("click", sce.click, false);
+    },
+    "click": function(e) {
+        console.log(e);
     }
 }
 // bitmap
@@ -90,6 +95,9 @@ var bmp = {
         bmp.b = 220;
         bmp.c = 120;
         bmp.d = 60;
+        // button state pressed handles color change
+        // bitmap data maps to state
+        // canvas dataset holds current state info
     }
 }
 // dom
