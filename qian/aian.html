@@ -47,6 +47,7 @@ var lay = {
         lay.w = 1920;
         lay.h = 1080;
         lay.a = [lay.w,lay.h,0,0];
+        lay.b = [lay.w,96,0,0];
     }
 }
 // scene
@@ -54,12 +55,15 @@ var sce = {
     "init": function() {
         sce.a = dom.canvas(lay.a);
         dom.add(sce.a);
+        sce.b = dom.canvas(lay.b);
+        dom.add(sce.b);
     }
 }
 // bitmap
 var bmp = {
     "init": function() {
         bmp.a = 238;
+        bmp.b = 220;
     }
 }
 // dom
@@ -96,6 +100,16 @@ var ren = {
         // bkgd
         sce.a.con.fillStyle = rgba.mono(bmp.a);
         sce.a.con.fillRect(0,0,sce.a.can.width,sce.a.can.height);
+        // title
+        sce.b.con.fillStyle = rgba.mono(bmp.b);
+        sce.b.con.fillRect(0,0,sce.b.can.width,sce.b.can.height);
+        ren.title();
+    },
+    "title": function() {
+        var s0 = "okaq joruri qian bitmap tool";
+        sce.b.con.font = "24px sans-serif";
+        sce.b.con.fillStyle = rgba.mono(24);
+        sce.b.con.fillText(s0,16,40);
     }
 }
 // colors
