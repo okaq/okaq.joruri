@@ -26,11 +26,13 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [dom,lay,sce];
+        q.subs = [dom,lay,sce,bmp];
         q.subs.forEach(function(el){el.init();});
 
         // test
-        ren.test(sce.a);
+        // ren.test(sce.a);
+        // data
+        ren.bmp();
 
         // stats
         var done = window.performance.now();
@@ -52,6 +54,12 @@ var sce = {
     "init": function() {
         sce.a = dom.canvas(lay.a);
         dom.add(sce.a);
+    }
+}
+// bitmap
+var bmp = {
+    "init": function() {
+        bmp.a = 238;
     }
 }
 // dom
@@ -83,6 +91,11 @@ var ren = {
     "test": function(c0) {
         c0.con.fillStyle = rgba.rand();
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "bmp": function() {
+        // bkgd
+        sce.a.con.fillStyle = rgba.mono(bmp.a);
+        sce.a.con.fillRect(0,0,sce.a.can.width,sce.a.can.height);
     }
 }
 // colors
