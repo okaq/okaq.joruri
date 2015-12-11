@@ -34,11 +34,25 @@ var q = {
         // data
         ren.bmp();
 
+        // state
+        // 0 = init, 1 = import, 2 = sample, 3 = draw, 4 = save
+        q.iq = 0;
+
         // stats
         var done = window.performance.now();
         var total = done - q.start;
         console.log("total load time: " + total + "ms.");
  
+    },
+    "jump": function(s0) {
+        // jump to state s0
+        // remove dom canvas objects 
+        // event handlers from current state
+        // add those in the next
+
+        // data lists for scenes, handlers, bitmaps
+        // scene canvas objects contain dataset keys
+        // which index app bitmap data
     }
 }
 // layout
@@ -46,8 +60,12 @@ var lay = {
     "init": function() {
         lay.w = 1920;
         lay.h = 1080;
+        // bkgd
         lay.a = [lay.w,lay.h,0,0];
+        // title
         lay.b = [lay.w,96,0,0];
+        // import button
+        // draw tool button
     }
 }
 // scene
@@ -157,5 +175,7 @@ var rgba = {
     <body id="alpha">
     </body>
 </html>
-
+<!--
+    kp n plyng ths mnd gms 4vr
+-->
 
