@@ -37,12 +37,24 @@ var q = {
         // state
         // 0 = init, 1 = import, 2 = sample, 3 = draw, 4 = save
         q.iq = 0;
+        q.data();
 
         // stats
         var done = window.performance.now();
         var total = done - q.start;
         console.log("total load time: " + total + "ms.");
  
+    },
+    "data":function() {
+        // master data lists
+        q.d = {};
+        q.d.l = []; // layouts
+        q.d.s = []; // scenes
+        q.d.b = []; // bitmaps
+
+        // intro - index = 0
+        q.d.l[0] = [];
+        q.d.l[0][0] = lay.a; // bkgd
     },
     "jump": function(s0) {
         // jump to state s0
