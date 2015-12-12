@@ -80,12 +80,15 @@ var sce = {
         sce.c = dom.canvas(lay.c);
         dom.add(sce.c);
         sce.c.can.addEventListener("click", sce.click, false);
+        sce.c.can.dataset.x = "impo";
         sce.d = dom.canvas(lay.d);
         dom.add(sce.d);
         sce.d.can.addEventListener("click", sce.click, false);
+        sce.d.can.dataset.x = "draw";
     },
     "click": function(e) {
         console.log(e);
+        console.log("button: " + e.target.dataset.x);
     }
 }
 // bitmap
