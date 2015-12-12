@@ -32,12 +32,13 @@ var q = {
         // test
         // ren.test(sce.a);
         // data
-        ren.bmp();
+        // ren.bmp();
 
         // state
         // 0 = init, 1 = import, 2 = sample, 3 = draw, 4 = save
         q.iq = 0;
         q.data();
+        ren.state();
 
         // stats
         var done = window.performance.now();
@@ -184,6 +185,13 @@ var ren = {
         sce.b.con.font = "24px sans-serif";
         sce.b.con.fillStyle = rgba.mono(24);
         sce.b.con.fillText(s0,16,40);
+    },
+    "state": function() {
+        for (var i = 0; i < q.d.s[q.iq].length; i++) {
+            q.d.s[q.iq][i].con.fillStyle = rgba.mono(q.d.b[q.iq][i]);
+            q.d.s[q.iq][i].con.fillRect(0,0,q.d.s[q.iq][i].can.width,q.d.s[q.iq][i].can.height);
+        }
+        ren.title();
     }
 }
 // colors
