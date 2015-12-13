@@ -37,8 +37,10 @@ var q = {
         // state
         // 0 = init, 1 = import, 2 = sample, 3 = draw, 4 = save
         q.iq = 0;
-        q.data();
-        ren.state();
+        // q.data();
+        // ren.state();
+        // generation from layout config
+        q.conf();
 
         // stats
         var done = window.performance.now();
@@ -85,6 +87,10 @@ var q = {
         // data lists for scenes, handlers, bitmaps
         // scene canvas objects contain dataset keys
         // which index app bitmap data
+    },
+    "conf": function() {
+        // build layout space partitioning
+        lay.space();
     }
 }
 // layout
@@ -100,6 +106,27 @@ var lay = {
         lay.c = [512,512,192,192];
         // draw tool button
         lay.d = [512,512,760,192];
+    },
+    "space": function() {
+        lay.s = [];
+        // insert new page at index zero
+        lay.s[0] = [];
+        // add rect
+        lay.s[0].push(lay.rect([lay.w,96,0,0]));
+        // add buttons
+        lay.s[0].push(lay.button([512,512,192,192]));
+        lay.s[0].push(lay.button([512,512,760,192]));
+    },
+    "insert": function(i0) {
+        // insert new layout group at master index i0
+    },
+    "rect": function(r0) {
+        // make rect
+        return r0;
+    },
+    "button": function(r0) {
+        // make button
+        return r0;
     }
 }
 // scene
@@ -192,6 +219,7 @@ var ren = {
             q.d.s[q.iq][i].con.fillRect(0,0,q.d.s[q.iq][i].can.width,q.d.s[q.iq][i].can.height);
         }
         ren.title();
+        // render instructions data list
     }
 }
 // colors
