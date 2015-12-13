@@ -121,11 +121,18 @@ var lay = {
         lay.s = [];
         // insert new page at index zero
         lay.s[0] = [];
-        // add rect
+        // add title rect
         lay.s[0].push(lay.rect([lay.w,96,0,0]));
         // add buttons
         lay.s[0].push(lay.button([512,512,192,192]));
         lay.s[0].push(lay.button([512,512,760,192]));
+        // draw tool at index one
+        lay.s[1] = [];
+        // title
+        lay.s[1].push(lay.rect([lay.w,96,0,0]));
+        // grid
+        lay.s[1].push(lay.grid([512,512,192,192],32,32));
+
     },
     "insert": function(i0) {
         // insert new layout group at master index i0
@@ -137,6 +144,20 @@ var lay = {
     "button": function(r0) {
         // make button
         return r0;
+    },
+    "grid": function(r0, nx, ny) {
+        // return grid in rect
+        var r1 = [];
+        var w0 = (r0[0] / nx) >>> 0;
+        var h0 = (r0[1] / ny) >>> 0;
+        for (var y0 = 0; y0 < ny; y0++) {
+            for (var x0 = 0; x0 < nx; x0++) {
+                var x1 = (w0 * x0) >>> 0;
+                var y1 = (h0 * y0) >>> 0;
+                r1.push([w0,h0,x1,y1]);
+            }
+        }
+        return r1;
     }
 }
 // scene
