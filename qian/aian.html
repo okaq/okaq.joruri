@@ -77,6 +77,16 @@ var q = {
         // scene obj holds generators, management
         // and bitmap anim list
         // bitmap generators build from scene list
+
+        // layout groups pretty fixed
+        // any jumps will require new layout group
+        // scenes generated from layout group
+
+        // q.iq state points to current scene
+        // jump scene management
+        // previous scene dom is removed before
+        // current scene dom is added
+        // speed things up by diffing tree
     },
     "jump": function(s0) {
         // jump to state s0
