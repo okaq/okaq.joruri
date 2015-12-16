@@ -42,6 +42,8 @@ var q = {
     "turtle": function(e) {
         console.log(e);
         ren.bmp();
+        console.log(lay);
+        console.log(sce);
     }
 }
 // layout
@@ -51,13 +53,31 @@ var lay = {
         lay.h = 1080;
         // bkgd
         lay.a = [lay.w,lay.h,0,0];
+        // title
+        lay.b = [lay.w,96,0,0];
+        // import chooser
+        lay.c = [512,512,0,0];
+        // draw chooser
+        lay.d = [512,512,0,0];
+
+        // enumerate all possible layouts
+        // then compile into scene tree
+        // top level space object for 
+        // geometric partitioning functions (grid,row,col)
     }
 }
 // scene
 var sce = {
     "init": function() {
-        sce.a = dom.canvas(lay.a);
-        dom.add(sce.a);
+        // raw layouts, keys only
+        sce.lay = ["a","b","c","d"];
+        // sce.a = dom.canvas(lay.a);
+        // dom.add(sce.a);
+        for (var i = 0; i < sce.lay.length; i++) {
+            var k0 = sce.lay[i];
+            console.log(k0,lay[k0]);
+            sce[k0] = dom.canvas(lay[k0]);
+        }
     }
 }
 // bitmap
