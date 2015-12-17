@@ -44,6 +44,13 @@ var q = {
         ren.bmp();
         console.log(lay);
         console.log(sce);
+        // scene tree
+        q.tree = [];
+        q.tree[0] = ["a","b","c","d"];
+        // game state - index into scene graph
+        q.state = 0;
+        // render current state
+        ren.state();
     }
 }
 // layout
@@ -56,9 +63,9 @@ var lay = {
         // title
         lay.b = [lay.w,96,0,0];
         // import chooser
-        lay.c = [512,512,0,0];
+        lay.c = [512,512,128,128];
         // draw chooser
-        lay.d = [512,512,0,0];
+        lay.d = [512,512,680,128];
 
         // enumerate all possible layouts
         // then compile into scene tree
@@ -78,6 +85,14 @@ var sce = {
             console.log(k0,lay[k0]);
             sce[k0] = dom.canvas(lay[k0]);
         }
+    },
+    "keys": function(s0) {
+        var r0 = [];
+        for (var i = 0; i < s0.length; i++) {
+            var k0 = s0[i];
+            r0.push(sce[k0]);
+        }
+        return r0;
     }
 }
 // bitmap
@@ -120,6 +135,12 @@ var ren = {
         // bkgd
         sce.a.con.fillStyle = rgba.mono(bmp.a);
         sce.a.con.fillRect(0,0,sce.a.can.width,sce.a.can.height);
+    },
+    "state": function() {
+        // get scene list from list of keys
+        var k0 = q.tree[q.state];
+        var s0 = sce.keys(k0);
+        console.log(s0);
     }
 }
 // colors
