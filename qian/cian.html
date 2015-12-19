@@ -26,8 +26,12 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [db];
+        q.subs = [dom,lay,db];
         q.subs.forEach(function(el){el.init();});
+
+        // test all
+        sce.all();
+        ren.all();
 
         // stats
         var done = window.performance.now();
@@ -41,7 +45,19 @@ var db = {
     "init": function() {
         // readable key desc
         db.k = {};
-        db.k["title"] = "okaq logo and title canvas";
+        db.k["title"] = "okaq title and status canvas";
+        db.k["logo"] = "okaq logo decorative bitmap";
+        db.k["intro"] = "qian bitmap draw tool splash";
+        // layout rects
+        db.r = {};
+        db.r["logo"] = [128,128,0,0];
+        db.r["title"] = [1776,96,144,0];
+        db.r["intro"] = [768,768,576,156];
+        // canvas objects
+        db.c = {};
+        for (var k in db.r) {
+            db.c[k] = dom.canvas(db.r[k]);
+        }
 
         // test
         console.log(db.keys());
@@ -57,6 +73,102 @@ var db = {
         return db.m;
     }
 }
+// scene
+var sce = {
+    "all": function() {
+        // master scene list
+        sce.a = [];
+        // add all canvas objs to dom
+        for (var k in db.c) {
+            dom.add(db.c[k]);
+            sce.a.push(k);
+        }
+    }
+}
+// layout
+var lay = {
+    "init": function() {
+        // global layout info
+        lay.w = 1920;
+        lay.h = 1080;
+    }
+}
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+        console.log(dom.alpha);
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    },
+    "remove": function(c0) {
+        dom.alpha.removeChild(c0.can);
+    }
+}
+// render
+var ren = {
+    "all": function() {
+        for (var i = 0; i < sce.a.length; i++) {
+            var k0 = sce.a[i];
+            var c0 = db.c[k0];
+            c0.con.fillStyle = rgba.rand();
+            c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+        }
+    }
+}
+// colors
+var rgba = {
+    "rc": function() {
+        // return random rgba
+        var c0 = [
+            rgba.rb(),
+            rgba.rb(),
+            rgba.rb(),
+            1.0
+            ];
+        return c0;
+    },
+    "css": function(c0) {
+        // return css string
+        return "rgba(" + c0.join(",") + ")";
+    },
+    "rb": function() {
+        // random byte
+        return (Math.random() * 255) >>> 0;
+    },
+    "rba": function(size0) {
+        // random byte array length of input
+        var r0 = [];
+        for (var i = 0; i < size0; i++) {
+            r0.push(rgba.rb());
+        }
+        return r0;
+    },
+    "rand": function() {
+        return rgba.css(rgba.rc());
+    },
+    "mono": function(c0) {
+        return rgba.css([c0,c0,c0,1.0]);
+    },
+    "rmon": function() {
+        var c0 = rgba.rb();
+        return rgba.mono(c0);
+    }
+}
+
+
 </script>
     </head>
     <body id="alpha">
