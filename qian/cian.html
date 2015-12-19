@@ -25,6 +25,10 @@ var q = {
         // start time
         q.start = window.performance.now();
 
+        // subsystems
+        q.subs = [db];
+        q.subs.forEach(function(el){el.init();});
+
         // stats
         var done = window.performance.now();
         var total = done - q.start;
@@ -32,7 +36,27 @@ var q = {
  
     }
 }
+// data
+var db = {
+    "init": function() {
+        // readable key desc
+        db.k = {};
+        db.k["title"] = "okaq logo and title canvas";
 
+        // test
+        console.log(db.keys());
+    },
+    "keys": function() {
+        // master key list
+        if (db.m == null) {
+            db.m = [];
+        }
+        for (var k in db.k) {
+            db.m.push(k);
+        }
+        return db.m;
+    }
+}
 </script>
     </head>
     <body id="alpha">
