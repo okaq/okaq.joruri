@@ -34,7 +34,10 @@ var q = {
         ren.all();
 
         // state
-        q.state = 0;
+        q.states = ["splash","select"];
+        q.state = 0; // index into states enum
+        // attach intro, render
+        // timeout after 2.5s and add selection scene
 
         // stats
         var done = window.performance.now();
@@ -64,10 +67,18 @@ var db = {
         db.c = {};
         for (var k in db.r) {
             db.c[k] = dom.canvas(db.r[k]);
+            db.c[k].can.dataset.x = k;
         }
         // handlers
         db.h = {};
         db.h["intro"] = han.intro;
+        db.h["import"] = han.select;
+        db.h["draw"] = han.select;
+        // attach upon scene addition
+        // scenes
+        db.s = {};
+        db.s["splash"] = ["title","logo","intro"];
+        db.s["select"] = ["title","logo","import","draw"];
         // test
         console.log(db.keys());
     },
@@ -86,6 +97,10 @@ var db = {
 var han = {
     "intro": function(e) {
         console.log(e);
+    },
+    "select": function(e) {
+        console.log(e);
+        var t0 = e.target.dataset.x;
     }
 }
 // scene
@@ -99,6 +114,15 @@ var sce = {
         for (var k in db.c) {
             dom.add(db.c[k]);
             sce.a.push(k);
+        }
+    },
+    "jump": function() {
+        // faster to diff small arrays
+        // than add/remove elements from dom
+
+        // current scene list
+        if (sce.c == null) {
+            sce.c = [];
         }
     }
 }
