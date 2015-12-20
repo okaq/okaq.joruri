@@ -33,6 +33,9 @@ var q = {
         sce.all();
         ren.all();
 
+        // state
+        q.state = 0;
+
         // stats
         var done = window.performance.now();
         var total = done - q.start;
@@ -48,17 +51,23 @@ var db = {
         db.k["title"] = "okaq title and status canvas";
         db.k["logo"] = "okaq logo decorative bitmap";
         db.k["intro"] = "qian bitmap draw tool splash";
+        db.k["import"] = "import button selector";
+        db.k["draw"] = "draw button selector";
         // layout rects
         db.r = {};
         db.r["logo"] = [128,128,0,0];
         db.r["title"] = [1776,96,144,0];
         db.r["intro"] = [768,768,576,156];
+        db.r["import"] = [512,512,224,220];
+        db.r["draw"] = [512,512,960,220];
         // canvas objects
         db.c = {};
         for (var k in db.r) {
             db.c[k] = dom.canvas(db.r[k]);
         }
-
+        // handlers
+        db.h = {};
+        db.h["intro"] = han.intro;
         // test
         console.log(db.keys());
     },
@@ -73,8 +82,16 @@ var db = {
         return db.m;
     }
 }
+// eventing
+var han = {
+    "intro": function(e) {
+        console.log(e);
+    }
+}
 // scene
 var sce = {
+    "init": function() {
+    },
     "all": function() {
         // master scene list
         sce.a = [];
@@ -126,6 +143,10 @@ var ren = {
             c0.con.fillStyle = rgba.rand();
             c0.con.fillRect(0,0,c0.can.width,c0.can.height);
         }
+    },
+    "clear": function(k0) {
+        // input k0 is list of keys
+        // resolve to scene graph
     }
 }
 // colors
