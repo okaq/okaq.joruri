@@ -53,6 +53,11 @@ var q = {
         console.log(sce.a);
         sce.rem();
         // add scenes in splash
+        sce.jump("splash");
+        q.id = window.setTimeout(q.select, 2500);
+    },
+    "select": function() {
+        sce.jump("select");
     }
 }
 // data
@@ -132,13 +137,27 @@ var sce = {
             dom.remove(db.c[k0]);
         }
     },
-    "jump": function() {
+    "jump": function(k0) {
         // faster to diff small arrays
         // than add/remove elements from dom
 
         // current scene list
         if (sce.c == null) {
             sce.c = [];
+        }
+
+        // remove current, tbd: diff
+        for (var i = 0; i < sce.c.length; i++) {
+            var k1 = sce.c[i];
+            dom.remove(db.c[k1]);
+        }
+
+        // add new
+        var s0 = db.s[k0];
+        for (var i = 0; i < s0.length; i++) {
+            var k1 = s0[i];
+            dom.add(db.c[k1]);
+            sce.c.push(k1);
         }
     }
 }
