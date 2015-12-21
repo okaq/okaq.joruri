@@ -39,11 +39,20 @@ var q = {
         // attach intro, render
         // timeout after 2.5s and add selection scene
 
+        q.id = window.setTimeout(q.intro, 1000);
+
         // stats
         var done = window.performance.now();
         var total = done - q.start;
         console.log("total load time: " + total + "ms.");
  
+    },
+    "intro": function() {
+        // detach all
+        console.log("removing all");
+        console.log(sce.a);
+        sce.rem();
+        // add scenes in splash
     }
 }
 // data
@@ -114,6 +123,13 @@ var sce = {
         for (var k in db.c) {
             dom.add(db.c[k]);
             sce.a.push(k);
+        }
+    },
+    "rem": function() {
+        // detach all from master list
+        for (var i = 0; i < sce.a.length; i++) {
+            var k0 = sce.a[i];
+            dom.remove(db.c[k0]);
         }
     },
     "jump": function() {
