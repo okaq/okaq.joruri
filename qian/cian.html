@@ -135,11 +135,12 @@ var han = {
 var bmp = {
     "init": function() {
         // pre-render any bitmaps
-    },
-    "logo": function() {
-        // fill logo with rand rgba
         var w0 = db.r["logo"][0];
         var h0 = db.r["logo"][1];
+        bmp.logo = bmp.stripe(w0,h0);
+    },
+    "logo": function(w0,h0) {
+        var t0 = (w0 * h0) >>> 0;
 
     }
 }
