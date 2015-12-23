@@ -89,10 +89,24 @@ var db = {
         db.h["import"] = han.select;
         db.h["draw"] = han.select;
         // attach upon scene addition
+
         // scenes
         db.s = {};
         db.s["splash"] = ["title","logo","intro"];
         db.s["select"] = ["title","logo","import","draw"];
+        db.s["import"] = ["title","logo"];
+        db.s["draw"] = ["title","logo"];
+        db.s["save"] = ["title","logo"];
+
+        // scene keys differ from layout rect keys
+        // scenes are dynamic collections of canvas objects
+
+        // bitmaps
+        // bitmap map to actual 32x32 bit arrays
+        // or functions which define draw calls
+        db.b = {};
+        db.b["logo"] = bmp.logo;
+        
         // test
         console.log(db.keys());
     },
@@ -115,6 +129,18 @@ var han = {
     "select": function(e) {
         console.log(e);
         var t0 = e.target.dataset.x;
+    }
+}
+// bitmap
+var bmp = {
+    "init": function() {
+        // pre-render any bitmaps
+    },
+    "logo": function() {
+        // fill logo with rand rgba
+        var w0 = db.r["logo"][0];
+        var h0 = db.r["logo"][1];
+
     }
 }
 // scene
