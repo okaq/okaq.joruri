@@ -29,16 +29,71 @@ var q = {
         q.subs = [dom,lay,db];
         q.subs.forEach(function(el){el.init();});
 
+        // motd
+        q.id = window.setTimeout(q.motd, 1000);
+
+        // state
+        q.state = "select";
+
+        // run
+        q.run();
+
         // stats
         var done = window.performance.now();
         var total = done - q.start;
         console.log("total load time: " + total + "ms.");
  
+    },
+    "motd": function() {
+        console.log("only thing we know is we know nothing -tolstoy");
+    },
+    "run": function() {
+        // clear scene
+        sce.clear();
     }
 }
 // data
 var db = {
     "init": function() {
+        // scenes
+        db.s = {};
+        db.s["select"] = ["status","import","draw"];
+        db.s["sample"] = [];
+        db.s["paint"] = [];
+        db.s["save"] = [];
+        // rects
+        db.r = {};
+        db.r["status"] = [1888,128,16,16];
+        db.r["import"] = [512,512,298,144];
+        db.r["draw"] = [512,512,810,144];
+        // canvas
+        db.c = {};
+        for (var k in db.r) {
+            db.c[k] = dom.canvas(db.r);
+        }
+        // attach text component to status canvas
+        // bitmap components to selector ui
+        // grid component to draw tool
+    }
+}
+// scene
+var sce = {
+    "init": function() {
+        // current
+        sce.c = [];
+    },
+    "clear": function() {
+        for (var i = 0; i < sce.c.length; i++) {
+            var k0 = sce.c[i];
+            dom.remove(db.c[k0]);
+        }
+    },
+    "jump": function(k0) {
+        var s0 = db.s[k0];
+        for (var i = 0; i < s0.length; i++) {
+            var k1 = s0[i];
+            dom.add(db.c[k1]);
+        }
     }
 }
 // layout
@@ -75,6 +130,10 @@ var dom = {
 }
 // render
 var ren = {
+    "test": function(c0) {
+        c0.con.fillStyle = rgba.rand();
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    }
 }
 // colors
 var rgba = {
