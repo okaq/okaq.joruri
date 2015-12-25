@@ -72,6 +72,15 @@ var db = {
         for (var k in db.r) {
             db.c[k] = dom.canvas(db.r[k]);
         }
+        // text
+        db.t = {};
+        db.t["status"] = "ok";
+        // bitmaps
+        db.b = {};
+        db.b["status"] = 200; // mono grey value
+        db.b["import"] = 100;
+        db.b["draw"] = 50;
+        
         // attach text component to status canvas
         // bitmap components to selector ui
         // grid component to draw tool
@@ -100,7 +109,11 @@ var sce = {
     "render": function() {
         for (var i = 0; i < sce.c.length; i++) {
             var k0 = sce.c[i];
-            ren.test(db.c[k0]);
+            // ren.test(db.c[k0]);
+            var c0 = db.c[k0];
+            var b0 = db.b[k0];
+            // determine bmp type to call appropriate renderer
+            ren.bmp(b0, c0);
         }
     }
 }
@@ -140,6 +153,10 @@ var dom = {
 var ren = {
     "test": function(c0) {
         c0.con.fillStyle = rgba.rand();
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "bmp": function(b0, c0) {
+        c0.con.fillStyle = rgba.mono(b0);
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     }
 }
