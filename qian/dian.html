@@ -80,10 +80,33 @@ var db = {
         db.b["status"] = 200; // mono grey value
         db.b["import"] = 100;
         db.b["draw"] = 50;
+        // handlers
+        db.h = {};
+        db.h["import"] = han.import;
+        db.h["draw"] = han.draw;
+        for (var k in db.h) {
+            if (k in db.c) {
+                db.c[k].can.addEventListener("click", db.h[k], false);
+            }
+        }
+        // bulk add on init
+        // piecewise add can be done via scene manager
         
         // attach text component to status canvas
         // bitmap components to selector ui
         // grid component to draw tool
+    }
+}
+// handlers
+var han = {
+    "import": function(e) {
+        console.log(e);
+    },
+    "draw": function(e) {
+        console.log(e);
+
+        // example naming convention follows canvas key
+        // can also resolve target via dataset id property
     }
 }
 // scene
