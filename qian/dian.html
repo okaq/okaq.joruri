@@ -42,7 +42,9 @@ var q = {
  
     },
     "motd": function() {
-        console.log("only thing we know is we know nothing -tolstoy");
+        // console.log("only thing we know is we know nothing -tolstoy");
+        console.log("greetings. welcome to okaq");
+        console.log("sound mind in a sound body -seneca");
         // run
         q.run();
     },
@@ -59,18 +61,26 @@ var db = {
         // scenes
         db.s = {};
         db.s["select"] = ["status","import","draw"];
-        db.s["sample"] = [];
-        db.s["paint"] = [];
-        db.s["save"] = [];
+        db.s["sample"] = ["status","origin","pixel","pass"];
+        db.s["paint"] = ["status","brush","canvas","pass"];
+        db.s["save"] = ["status","image","save"];
         // rects
         db.r = {};
         db.r["status"] = [1888,128,16,16];
         db.r["import"] = [512,512,298,260];
         db.r["draw"] = [512,512,1108,260];
+        db.r["origin" = [];
+        db.r["pixel"] = [];
+        db.r["pass"] = [];
+        db.r["brush"] = [];
+        db.r["canvas"] = [];
+        db.r["image"] = [];
+        db.r["save"] = [];
         // canvas
         db.c = {};
         for (var k in db.r) {
             db.c[k] = dom.canvas(db.r[k]);
+            db.c[k].can.dataset.x = k;
         }
         // text
         db.t = {};
