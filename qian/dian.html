@@ -53,6 +53,12 @@ var q = {
         sce.clear();
         sce.jump("select");
         sce.render();
+    },
+    "jump": function(s0) {
+        sce.clear();
+        sce.jump(s0);
+        sce.render();
+        q.state = s0;
     }
 }
 // data
@@ -69,12 +75,12 @@ var db = {
         db.r["status"] = [1888,128,16,16];
         db.r["import"] = [512,512,298,260];
         db.r["draw"] = [512,512,1108,260];
-        db.r["origin" = [];
-        db.r["pixel"] = [];
-        db.r["pass"] = [];
-        db.r["brush"] = [];
-        db.r["canvas"] = [];
-        db.r["image"] = [];
+        db.r["origin"] = [786,786,190,190];
+        db.r["pixel"] = [512,512,1012,200];
+        db.r["pass"] = [16,16,1600,200];
+        db.r["brush"] = [512,600,122,200];
+        db.r["canvas"] = [128,128,1000,200];
+        db.r["image"] = [512,512,512,512];
         db.r["save"] = [];
         // canvas
         db.c = {};
@@ -90,6 +96,13 @@ var db = {
         db.b["status"] = 200; // mono grey value
         db.b["import"] = 100;
         db.b["draw"] = 50;
+        db.b["origin"] = 30; // mono grey value
+        db.b["pixel"] = 130;
+        db.b["pass"] = 30;
+        db.b["brush"] = 210; // mono grey value
+        db.b["canvas"] = 110;
+        db.b["image"] = 10;
+ 
         // handlers
         db.h = {};
         db.h["import"] = han.import;
@@ -105,15 +118,21 @@ var db = {
         // attach text component to status canvas
         // bitmap components to selector ui
         // grid component to draw tool
+
+        // status button could return to start
     }
 }
 // handlers
 var han = {
     "import": function(e) {
         console.log(e);
+        // jump to import scene
+        q.jump("sample");
     },
     "draw": function(e) {
         console.log(e);
+        // jump to draw scene
+        q.jump("paint");
 
         // example naming convention follows canvas key
         // can also resolve target via dataset id property
