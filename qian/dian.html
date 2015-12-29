@@ -59,6 +59,8 @@ var q = {
         sce.jump(s0);
         sce.render();
         q.state = s0;
+
+        // state graph with possible jump flow
     }
 }
 // data
@@ -87,6 +89,17 @@ var db = {
         for (var k in db.r) {
             db.c[k] = dom.canvas(db.r[k]);
             db.c[k].can.dataset.x = k;
+        }
+        // rect can be bkgd to grid
+        // seperate generators for grids
+        // fixed size of 32x32 blocks of 32x32 pixels
+        // grids
+        db.g = {};
+        db.g["canvas_grid"] = [1024,1024,0,0];
+        for (var y0 = 0; y0 < 32; y0++) {
+            for (var x0 = 0; x0 < 32; x0++) {
+                // generate grid canvases
+            }
         }
         // text
         db.t = {};
