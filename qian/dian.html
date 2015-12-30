@@ -93,12 +93,22 @@ var db = {
         // rect can be bkgd to grid
         // seperate generators for grids
         // fixed size of 32x32 blocks of 32x32 pixels
-        // grids
+        // grids definition
         db.g = {};
         db.g["canvas_grid"] = [1024,1024,0,0];
+        // grids inner rects
+        db.ga = {};
+        // loop over grid rect defs
+        for (var k in db.g) {
+        }
+        // grids inner canvases
+        db.gb = {};
+        // loop over inner rects
         for (var y0 = 0; y0 < 32; y0++) {
             for (var x0 = 0; x0 < 32; x0++) {
                 // generate grid canvases
+                var x1 = (x0 * 32) >>> 0;
+                var y1 = (y0 * 32) >>> 0;
             }
         }
         // text
