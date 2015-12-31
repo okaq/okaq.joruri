@@ -97,19 +97,15 @@ var db = {
         db.g = {};
         db.g["canvas_grid"] = [1024,1024,0,0];
         // grids inner rects
-        db.ga = {};
+        db.gr = {};
         // loop over grid rect defs
         for (var k in db.g) {
+            db.gr[k] = lay.grid(db.g[k]);
         }
         // grids inner canvases
-        db.gb = {};
-        // loop over inner rects
-        for (var y0 = 0; y0 < 32; y0++) {
-            for (var x0 = 0; x0 < 32; x0++) {
-                // generate grid canvases
-                var x1 = (x0 * 32) >>> 0;
-                var y1 = (y0 * 32) >>> 0;
-            }
+        db.gc = {};
+        for (var k in db.gr) {
+            db.gc[k] = sce.list(db.gr[k]);
         }
         // text
         db.t = {};
@@ -143,6 +139,7 @@ var db = {
         // grid component to draw tool
 
         // status button could return to start
+        // default draw grid checker board grey values
     }
 }
 // handlers
@@ -198,6 +195,23 @@ var lay = {
         // global layout info
         lay.w = 1920;
         lay.h = 1080;
+    },
+    "grid": function(r0) {
+        // 32x32 grid of rects with input offset
+        var r1 = [];
+        for (var y0 = 0; y0 < 32; y0++) {
+            for (var x0 = 0; x0 < 32; x0++) {
+                var x1 = (x0 * 32) >>> 0;
+                var y1 = (y0 * 32) >>> 0;
+                var r2 = [];
+                r2[0] = 32;
+                r2[1] = 32;
+                r2[2] = (x0 + r0[2]) >>> 0;
+                r2[3] = (y0 + r0[3]) >>> 0;
+                r1.push(r2);
+            }
+        }
+        return r1;
     }
 }
 // dom
