@@ -26,7 +26,7 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [dom];
+        q.subs = [dom,st,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -45,6 +45,39 @@ var q = {
         console.log("okaq is live");
         console.log("fair is foul, and foul is fair -macbeth");
         // q.run();
+    }
+}
+// scene
+var sce = {
+    "init": function() {
+        // scene graph
+        sce.g = {};
+        sce.g["start"] = [st];
+        // current
+        sce.c = null;
+    },
+    "jump": function(s0) {
+        // remove old canvases
+        // add new canvases
+        sce.c = s0;
+    }
+}
+// status
+var st = {
+    "init": function() {
+        // state, layout and canvas
+        st.txt = "okaq joruri";
+        st.r = [1980,32,0,0];
+        st.c = dom.canvas(st.r);
+        st.can.dataset.x = "status";
+        st.can.dataset.txt = st.txt;
+        st.add();
+    },
+    "add": function() {
+        dom.add(st.c);
+    },
+    "rem": function() {
+        dom.remove(st.c);
     }
 }
 // dom
