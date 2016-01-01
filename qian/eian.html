@@ -44,7 +44,10 @@ var q = {
     "motd": function() {
         console.log("okaq is live");
         console.log("fair is foul, and foul is fair -macbeth");
-        // q.run();
+        q.run();
+    },
+    "run": function() {
+        sce.jump(q.state);
     }
 }
 // scene
@@ -58,19 +61,35 @@ var sce = {
     },
     "jump": function(s0) {
         // remove old canvases
+        if (sce.c != null) {
+            for (var i = 0; i < sce.g[sce.c].length; i++) {
+                var c0 = sce.g[sce.c][i];
+                c0.remove();
+            }
+        }
         // add new canvases
         sce.c = s0;
+        for (var i = 0; i < sce.g[sce.c].length; i++) {
+            var c0 = sce.g[sce.c][i];
+            c0.add();
+        }
     }
 }
 // status
 var st = {
     "init": function() {
-        // state, layout and canvas
+        // state
         st.txt = "okaq joruri";
+        // layout
         st.r = [1980,32,0,0];
+        // canvas
         st.c = dom.canvas(st.r);
-        st.can.dataset.x = "status";
-        st.can.dataset.txt = st.txt;
+        st.c.can.dataset.x = "status";
+        st.c.can.dataset.txt = st.txt;
+        // bitmap
+        st.bmp = [];
+        st.bmp[0] = 200; // bkgd
+        st.bmp[1] = 100; // fore
         st.add();
     },
     "add": function() {
@@ -78,6 +97,16 @@ var st = {
     },
     "rem": function() {
         dom.remove(st.c);
+    },
+    "update": function(s0) {
+        // clear canvas
+        // draw message
+        // save message
+        st.save(s0);
+    },
+    "save": function(s0) {
+        st.txt = s0;
+        st.c.can.dataset.txt = st.txt;
     }
 }
 // dom
