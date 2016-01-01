@@ -176,6 +176,7 @@ var sce = {
             var k1 = s0[i];
             dom.add(db.c[k1]);
             sce.c.push(k1);
+            // check for grid and add
         }
     },
     "render": function() {
@@ -187,6 +188,14 @@ var sce = {
             // determine bmp type to call appropriate renderer
             ren.bmp(b0, c0);
         }
+    },
+    "list": function(r0) {
+        var r1 = [];
+        for (var i = 0; i < r0.length; i++) {
+            var c0 = dom.canvas(r0[i]);
+            r1.push(c0);
+        }
+        return r1;
     }
 }
 // layout
