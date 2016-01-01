@@ -1,3 +1,81 @@
 <!DOCTYPE html>
-okaq gira joruri qian bitmap data draw tool ok!
+<html lang="en">
+    <head id="zeta">
+        <title>okaq</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=1920,height=1080,initial-scale=1" />
+        <meta name="source" content="https://github.com/okaq/okaq.funka" />
+        <meta name="creator" content="AQ<aq@okaq.com>" />
+        <meta name="date" content="2016-01-02" />
+        <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGKpP/KVgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//mD4Ce4HL1dAAAAAASUVORK5CYII=" />
+        <style type="text/css">
+            html,body{width:1920px;height:1080px;margin:0px;padding:0px;border:0px;background-color:rgba(255,255,255,1.0);}
+        </style>
+        <script type="text/javascript">
+            // ok
+        console.log("okaq joruri qian eian go!");
+        // async
+        (function(){
+         window.addEventListener("load",function(e){q.init(e);},false);
+     })();
+// qian
+var q = {
+    "init": function(e) {
+        console.log(e);
+        // start time
+        q.start = window.performance.now();
+
+        // subsystems
+        q.subs = [dom];
+        q.subs.forEach(function(el){el.init();});
+
+        // motd
+        q.id = window.setTimeout(q.motd, 1000);
+
+        // state
+        q.state = "start";
+
+        // stats
+        var done = window.performance.now();
+        var total = done - q.start;
+        console.log("total load time: " + total + "ms.");
+ 
+    },
+    "motd": function() {
+        console.log("okaq is live");
+        console.log("fair is foul, and foul is fair -macbeth");
+        // q.run();
+    }
+}
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+        console.log(dom.alpha);
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    },
+    "remove": function(c0) {
+        dom.alpha.removeChild(c0.can);
+    }
+}
+
+</script>
+    </head>
+    <body id="alpha">
+    </body>
+</html>
+
 
