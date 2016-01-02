@@ -76,6 +76,12 @@ var sce = {
         }
     },
     "render": function() {
+        console.log("scene renderer ready");
+        console.log(sce.c, sce.g);
+        for (var i = 0; i < sce.g[sce.c].length; i++) {
+            ren.clear(sce.g[sce.c][i].c);
+            ren.bmp(sce.g[sce.c][i].b,sce.g[sce.c][i].c);
+        }
     }
 }
 // status
@@ -129,6 +135,22 @@ var star = {
     },
     "click": function(e) {
         console.log(e);
+    },
+    "gen": function() {
+        // pixel data 
+        // linear repeat 7 black, 7 white
+
+        // colors
+        var c0 = [255,255,255,255]; // bkgd white
+        // fore rand dark
+        var c1 = [];
+        for (var i = 0; i < 3; i++) {
+            c1[i] = (Math.random() * 32) >>> 0;
+        }
+        c1[3] = 255;
+    },
+    "ren": function() {
+        // call to render put image data
     }
 }
 // dom
@@ -155,6 +177,53 @@ var dom = {
         dom.alpha.removeChild(c0.can);
     }
 }
+// render
+var ren = {
+    "clear": function(c0) {
+    },
+    "bmp": function(b0, c0) {
+    }
+}
+// colors
+var rgba = {
+    "rc": function() {
+        // return random rgba
+        var c0 = [
+            rgba.rb(),
+            rgba.rb(),
+            rgba.rb(),
+            1.0
+            ];
+        return c0;
+    },
+    "css": function(c0) {
+        // return css string
+        return "rgba(" + c0.join(",") + ")";
+    },
+    "rb": function() {
+        // random byte
+        return (Math.random() * 255) >>> 0;
+    },
+    "rba": function(size0) {
+        // random byte array length of input
+        var r0 = [];
+        for (var i = 0; i < size0; i++) {
+            r0.push(rgba.rb());
+        }
+        return r0;
+    },
+    "rand": function() {
+        return rgba.css(rgba.rc());
+    },
+    "mono": function(c0) {
+        return rgba.css([c0,c0,c0,1.0]);
+    },
+    "rmon": function() {
+        var c0 = rgba.rb();
+        return rgba.mono(c0);
+    }
+}
+
 
 </script>
     </head>
