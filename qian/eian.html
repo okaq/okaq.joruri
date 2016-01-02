@@ -48,6 +48,7 @@ var q = {
     },
     "run": function() {
         sce.jump(q.state);
+        sce.render();
     }
 }
 // scene
@@ -73,6 +74,8 @@ var sce = {
             var c0 = sce.g[sce.c][i];
             c0.add();
         }
+    },
+    "render": function() {
     }
 }
 // status
@@ -107,6 +110,25 @@ var st = {
     "save": function(s0) {
         st.txt = s0;
         st.c.can.dataset.txt = st.txt;
+    }
+}
+// start button
+var star = {
+    "init": function() {
+        star.a = "false";
+        star.r = [1024,1024,448,36];
+        star.c = dom.canvas(star.r);
+        star.c.can.dataset.x = "start";
+        star.c.can.dataset.a = "false";
+        star.c.can.addEventListener("click", star.click, false);
+        star.b = star.gen();
+    },
+    "add": function() {
+    },
+    "rem": function() {
+    },
+    "click": function(e) {
+        console.log(e);
     }
 }
 // dom
