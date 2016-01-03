@@ -138,7 +138,8 @@ var star = {
         star.c.can.dataset.a = "false";
         star.c.can.addEventListener("click", star.click, false);
         star.b = 128;
-        star.bmp = star.gen();
+        // star.bmp = star.gen();
+        star.gen();
     },
     "add": function() {
     },
@@ -161,26 +162,28 @@ var star = {
         c1[3] = 255;
 
         // get image data object
-        star.data = star.c.con.getImageData(0,0,1024,1024).data;
+        star.image = star.c.con.getImageData(0,0,1024,1024);
+        star.data = star.image.data;
         console.log(star.data.length);
-        for (var i = 0; i < star.data.length; i+=4) {
+        for (var i = 0; i < star.data.length; i=i+4) {
             var i0 = i % 56;
             if (i0 < 28) {
-                star.data[i+0] = c0[i+0];
-                star.data[i+1] = c0[i+1];
-                star.data[i+0] = c0[i+2];
-                star.data[i+1] = c0[i+3];
+                star.data[i+0] = c0[0];
+                star.data[i+1] = c0[1];
+                star.data[i+2] = c0[2];
+                star.data[i+3] = c0[3];
             } else {
-                star.data[i+0] = c1[i+0];
-                star.data[i+1] = c1[i+1];
-                star.data[i+0] = c1[i+2];
-                star.data[i+1] = c1[i+3];
+                star.data[i+0] = c1[0];
+                star.data[i+1] = c1[1];
+                star.data[i+2] = c1[2];
+                star.data[i+3] = c1[3];
             }
         }
         // ~200ms generation 1024x1024 bitmap
     },
     "render": function() {
         // call to render put image data
+        ren.pix(star.image, star.c);
     }
 }
 // dom
@@ -221,6 +224,10 @@ var ren = {
         canvas0.con.fillStyle = rgba.mono(bmp0);
         canvas0.con.font = size0 + "px Ubuntu";
         canvas0.con.fillText(txt0, x0, y0);
+    },
+    "pix": function(d0, c0) {
+        // render image data in canvas
+        c0.con.putImageData(d0, 0, 0);
     }
 }
 // colors
