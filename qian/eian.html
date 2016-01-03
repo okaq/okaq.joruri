@@ -76,14 +76,15 @@ var sce = {
         }
     },
     "render": function() {
-        console.log("scene renderer ready");
-        console.log(sce.c, sce.g);
+        // console.log("scene renderer ready");
+        // console.log(sce.c, sce.g);
         for (var i = 0; i < sce.g[sce.c].length; i++) {
             // clear each scene
             ren.clear(sce.g[sce.c][i].c);
             // render bkgd
             ren.bmp(sce.g[sce.c][i].b,sce.g[sce.c][i].c);
             // call individual render functions
+            sce.g[sce.c][i].render();
         }
     }
 }
@@ -121,6 +122,10 @@ var st = {
     "save": function(s0) {
         st.txt = s0;
         st.c.can.dataset.txt = st.txt;
+    },
+    "render": function() {
+        ren.bmp(st.bmp[0], st.c);
+        ren.txt(st.txt, st.c, 24, 8, 24, st.bmp[1]);
     }
 }
 // start button
@@ -154,8 +159,12 @@ var star = {
             c1[i] = (Math.random() * 32) >>> 0;
         }
         c1[3] = 255;
+
+        // get image data object
+        star.data = star.c.con.getImageData(0,0,1024,1024);
+        console.log(star.data);
     },
-    "ren": function() {
+    "render": function() {
         // call to render put image data
     }
 }
@@ -192,6 +201,11 @@ var ren = {
     "bmp": function(b0, c0) {
         c0.con.fillStyle = rgba.mono(b0);
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+    },
+    "txt": function(txt0, canvas0, size0, x0, y0, bmp0) {
+        canvas0.con.fillStyle = rgba.mono(bmp0);
+        canvas0.con.font = size0 + "px Ubuntu";
+        canvas0.con.fillText(txt0, x0, y0);
     }
 }
 // colors
