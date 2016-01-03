@@ -4,7 +4,7 @@
         <title>okaq</title>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="width=1920,height=1080,initial-scale=1" />
-        <meta name="source" content="https://github.com/okaq/okaq.funka" />
+        <meta name="source" content="https://github.com/okaq" />
         <meta name="creator" content="AQ<aq@okaq.com>" />
         <meta name="date" content="2016-01-02" />
         <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGKpP/KVgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//mD4Ce4HL1dAAAAAASUVORK5CYII=" />
@@ -26,7 +26,7 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [dom,st,sce];
+        q.subs = [dom,st,star,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -56,7 +56,7 @@ var sce = {
     "init": function() {
         // scene graph
         sce.g = {};
-        sce.g["start"] = [st];
+        sce.g["start"] = [st,star];
         // current
         sce.c = null;
     },
@@ -64,23 +64,26 @@ var sce = {
         // remove old canvases
         if (sce.c != null) {
             for (var i = 0; i < sce.g[sce.c].length; i++) {
-                var c0 = sce.g[sce.c][i];
-                c0.remove();
+                var c0 = sce.g[sce.c][i].c;
+                dom.remove(c0);
             }
         }
         // add new canvases
         sce.c = s0;
         for (var i = 0; i < sce.g[sce.c].length; i++) {
-            var c0 = sce.g[sce.c][i];
-            c0.add();
+            var c0 = sce.g[sce.c][i].c;
+            dom.add(c0);
         }
     },
     "render": function() {
         console.log("scene renderer ready");
         console.log(sce.c, sce.g);
         for (var i = 0; i < sce.g[sce.c].length; i++) {
+            // clear each scene
             ren.clear(sce.g[sce.c][i].c);
+            // render bkgd
             ren.bmp(sce.g[sce.c][i].b,sce.g[sce.c][i].c);
+            // call individual render functions
         }
     }
 }
@@ -90,16 +93,18 @@ var st = {
         // state
         st.txt = "okaq joruri";
         // layout
-        st.r = [1980,32,0,0];
+        st.r = [1920,32,0,0];
         // canvas
         st.c = dom.canvas(st.r);
         st.c.can.dataset.x = "status";
         st.c.can.dataset.txt = st.txt;
+        // bkgd
+        st.b = 64;
         // bitmap
         st.bmp = [];
         st.bmp[0] = 200; // bkgd
         st.bmp[1] = 100; // fore
-        st.add();
+        // st.add();
     },
     "add": function() {
         dom.add(st.c);
@@ -127,7 +132,8 @@ var star = {
         star.c.can.dataset.x = "start";
         star.c.can.dataset.a = "false";
         star.c.can.addEventListener("click", star.click, false);
-        star.b = star.gen();
+        star.b = 128;
+        star.bmp = star.gen();
     },
     "add": function() {
     },
@@ -180,8 +186,12 @@ var dom = {
 // render
 var ren = {
     "clear": function(c0) {
+        c0.con.fillStyle = rgba.mono(255);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     },
     "bmp": function(b0, c0) {
+        c0.con.fillStyle = rgba.mono(b0);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     }
 }
 // colors
