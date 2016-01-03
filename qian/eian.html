@@ -161,8 +161,23 @@ var star = {
         c1[3] = 255;
 
         // get image data object
-        star.data = star.c.con.getImageData(0,0,1024,1024);
-        console.log(star.data);
+        star.data = star.c.con.getImageData(0,0,1024,1024).data;
+        console.log(star.data.length);
+        for (var i = 0; i < star.data.length; i+=4) {
+            var i0 = i % 56;
+            if (i0 < 28) {
+                star.data[i+0] = c0[i+0];
+                star.data[i+1] = c0[i+1];
+                star.data[i+0] = c0[i+2];
+                star.data[i+1] = c0[i+3];
+            } else {
+                star.data[i+0] = c1[i+0];
+                star.data[i+1] = c1[i+1];
+                star.data[i+0] = c1[i+2];
+                star.data[i+1] = c1[i+3];
+            }
+        }
+        // ~200ms generation 1024x1024 bitmap
     },
     "render": function() {
         // call to render put image data
