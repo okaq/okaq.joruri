@@ -64,15 +64,18 @@ var sce = {
         // remove old canvases
         if (sce.c != null) {
             for (var i = 0; i < sce.g[sce.c].length; i++) {
-                var c0 = sce.g[sce.c][i].c;
-                dom.remove(c0);
+                // var c0 = sce.g[sce.c][i].c;
+                // dom.remove(c0);
+                // call individual add / rem methods
+                sce.g[sce.c][i].rem();
             }
         }
         // add new canvases
         sce.c = s0;
         for (var i = 0; i < sce.g[sce.c].length; i++) {
-            var c0 = sce.g[sce.c][i].c;
-            dom.add(c0);
+            // var c0 = sce.g[sce.c][i].c;
+            // dom.add(c0);
+            sce.g[sce.c][i].add();
         }
     },
     "render": function() {
@@ -92,7 +95,7 @@ var sce = {
 var st = {
     "init": function() {
         // state
-        st.txt = "okaq joruri";
+        st.txt = "  okaq joruri  -  click big box to begin  ";
         // layout
         st.r = [1920,32,0,0];
         // canvas
@@ -142,8 +145,10 @@ var star = {
         star.gen();
     },
     "add": function() {
+        dom.add(star.c);
     },
     "rem": function() {
+        dom.remove(star.c);
     },
     "click": function(e) {
         console.log(e);
