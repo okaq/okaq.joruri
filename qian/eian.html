@@ -49,6 +49,12 @@ var q = {
     "run": function() {
         sce.jump(q.state);
         sce.render();
+    },
+    "select": function() {
+        q.state = "select";
+        st.update("please select draw or import mode");
+        sce.jump(q.state);
+        sce.render();
     }
 }
 // scene
@@ -57,6 +63,7 @@ var sce = {
         // scene graph
         sce.g = {};
         sce.g["start"] = [st,star];
+        sce.g["select"] = [st];
         // current
         sce.c = null;
     },
@@ -95,13 +102,15 @@ var sce = {
 var st = {
     "init": function() {
         // state
-        st.txt = "  okaq joruri  -  click big box to begin  ";
+        st.m = "  okaq joruri  ";
+        // st.save("click big box to begin");
         // layout
         st.r = [1920,32,0,0];
         // canvas
         st.c = dom.canvas(st.r);
         st.c.can.dataset.x = "status";
-        st.c.can.dataset.txt = st.txt;
+        // st.c.can.dataset.txt = st.txt;
+        st.save("click big box to begin");
         // bkgd
         st.b = 64;
         // bitmap
@@ -123,7 +132,7 @@ var st = {
         st.save(s0);
     },
     "save": function(s0) {
-        st.txt = s0;
+        st.txt = st.m + "-  " + s0;
         st.c.can.dataset.txt = st.txt;
     },
     "render": function() {
@@ -152,6 +161,7 @@ var star = {
     },
     "click": function(e) {
         console.log(e);
+        q.select();
     },
     "gen": function() {
         // pixel data 
