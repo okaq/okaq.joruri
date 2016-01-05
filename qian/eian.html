@@ -222,6 +222,8 @@ var draw = {
         var nx = (draw.r[0] / w0) >>> 0;
         var ny = (draw.r[1] / h0) >>> 0;
         var nt = (nx * ny) >>> 0;
+        // set uniform random color ranges
+        // but could use discrete ranges (lite,dark)
         var b0 = rgba.rb();
         var b1 = rgba.rb();
         var b2 = rgba.rb();
@@ -265,6 +267,21 @@ var draw = {
     },
     "render": function() {
         // render data
+        var w0 = 16;
+        var h0 = 16;
+        var nx = (draw.r[0] / w0) >>> 0;
+        var ny = (draw.r[1] / h0) >>> 0;
+        var nt = (nx * ny) >>> 0;
+        for (var i = 0; i < nt; i++) {
+            var x0 = i % nx;
+            var y0 = (i / nx) >>> 0;
+            var x1 = (x0 * w0) >>> 0;
+            var y1 = (y0 * h0) >>> 0;
+            // var b0 = bmp.d[i];
+            // var c0 = bmp.c;
+            var r0 = [w0,h0,x1,y1];
+            ren.rect(draw.d[i], r0, draw.c);
+        }
     }
 }
 // import select
@@ -333,6 +350,10 @@ var ren = {
     "pix": function(d0, c0) {
         // render image data in canvas
         c0.con.putImageData(d0, 0, 0);
+    },
+    "rect": function(b0, r0, c0) {
+        c0.con.fillStyle = rgba.mono(b0);
+        c0.con.fillRect(r0[2], r0[3], r0[0], r0[1]);
     }
 }
 // colors
