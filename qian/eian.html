@@ -55,6 +55,20 @@ var q = {
         st.update("please select draw (left) or import (right) mode");
         sce.jump(q.state);
         sce.render();
+    },
+    "draw": function() {
+        // start draw scene
+        q.state = "draw";
+        st.update("draw mode");
+        sce.jump(q.state);
+        sce.render();
+    },
+    "imp": function() {
+        // start import scene
+        q.state = "imp";
+        st.update("import mode");
+        sce.jump(q.state);
+        sce.render();
     }
 }
 // scene
@@ -64,6 +78,8 @@ var sce = {
         sce.g = {};
         sce.g["start"] = [st,star];
         sce.g["select"] = [st,draw,imp];
+        sce.g["draw"] = [st];
+        sce.g["imp"] = [st];
         // current
         sce.c = null;
     },
@@ -264,6 +280,7 @@ var draw = {
     },
     "click": function(e) {
         console.log(e);
+        q.draw();
     },
     "render": function() {
         // render data
@@ -304,6 +321,7 @@ var imp = {
     },
     "click": function(e) {
         console.log(e);
+        q.imp();
     },
     "render": function() {
     }
