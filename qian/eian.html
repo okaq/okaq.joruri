@@ -35,6 +35,10 @@ var q = {
         // state
         q.state = "start";
 
+        // fetch
+        q.fetch = window.fetch;
+        console.log(q.fetch);
+
         // stats
         var done = window.performance.now();
         var total = done - q.start;
@@ -78,7 +82,7 @@ var sce = {
         sce.g = {};
         sce.g["start"] = [st,star];
         sce.g["select"] = [st,draw,imp];
-        sce.g["draw"] = [st];
+        sce.g["draw"] = [st,brush,canv];
         sce.g["imp"] = [st];
         // current
         sce.c = null;
@@ -324,6 +328,23 @@ var imp = {
         q.imp();
     },
     "render": function() {
+    }
+}
+// brush
+var brush = {
+    "init": function() {
+        // select greyscale value
+        // msg back to qian level global
+        // six color brush [0,40,80,160,200,255]
+        // bkgd 128 grey
+    }
+}
+// canvas
+var canv = {
+    "init": function() {
+        // bkgd 128 grey
+        // 32x32 canvas, 32x32 pixel blocks, 1024x1024 canvas
+        // update state to global on click
     }
 }
 // dom
