@@ -26,7 +26,7 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [dom,st,star,sce];
+        q.subs = [dom,st,star,draw,imp,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -63,7 +63,7 @@ var sce = {
         // scene graph
         sce.g = {};
         sce.g["start"] = [st,star];
-        sce.g["select"] = [st];
+        sce.g["select"] = [st,draw,imp];
         // current
         sce.c = null;
     },
@@ -199,6 +199,33 @@ var star = {
     "render": function() {
         // call to render put image data
         ren.pix(star.image, star.c);
+    }
+}
+// draw select
+var draw = {
+    "init": function() {
+        // layout
+        draw.r = [512,512,140,196];
+        // canvas
+        draw.c = dom.canvas(draw.r);
+        draw.c.can.dataset.x = "draw";
+        draw.c.can.addEvnetListener("click", draw.click, false);
+        // bitmap
+    },
+    "add": function() {
+        
+    },
+    "rem": function() {
+    },
+    "click": function(e) {
+        console.log(e);
+    }
+}
+// import select
+var imp = {
+    "init": function() {
+        // layout
+        imp.r = [512,512,650,196];
     }
 }
 // dom
