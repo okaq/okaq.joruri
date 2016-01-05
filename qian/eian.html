@@ -212,6 +212,47 @@ var draw = {
         draw.c.can.addEventListener("click", draw.click, false);
         // bitmap
         draw.b = 128;
+        draw.d = draw.gen();
+    },
+    "gen": function() {
+        // random tricolor
+        var d0 = [];
+        var w0 = 16;
+        var h0 = 16;
+        var nx = (draw.r[0] / w0) >>> 0;
+        var ny = (draw.r[1] / h0) >>> 0;
+        var nt = (nx * ny) >>> 0;
+        var b0 = rgba.rb();
+        var b1 = rgba.rb();
+        var b2 = rgba.rb();
+        var s0 = Math.random();
+        var s1 = Math.random();
+        var s2 = (s0 <= s1);
+        var s4 = [0.0,0.25,0.75,1.0];
+        if (s2) {
+            s4[1] = s0;
+            s4[2] = s1;
+        } else {
+            s4[1] = s1;
+            s4[2] = s0;
+        }
+        console.log("s2: " + s2);
+        for (var i = 0; i < nt; i++) {
+            var f0 = Math.random();
+            if (f0 <= s4[1]) {
+                d0[i] = b0;
+                continue;
+            }
+            if (f0 > s4[1] && f0 <= s4[2]) {
+                d0[i] = b1;
+                continue;
+            }
+            if (f0 > s4[2]) {
+                d0[i] = b2;
+                continue;
+            }
+        }
+        return d0;
     },
     "add": function() {
         dom.add(draw.c);
@@ -223,6 +264,7 @@ var draw = {
         console.log(e);
     },
     "render": function() {
+        // render data
     }
 }
 // import select
