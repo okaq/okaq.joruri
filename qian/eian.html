@@ -52,7 +52,7 @@ var q = {
     },
     "select": function() {
         q.state = "select";
-        st.update("please select draw or import mode");
+        st.update("please select draw (left) or import (right) mode");
         sce.jump(q.state);
         sce.render();
     }
@@ -209,23 +209,44 @@ var draw = {
         // canvas
         draw.c = dom.canvas(draw.r);
         draw.c.can.dataset.x = "draw";
-        draw.c.can.addEvnetListener("click", draw.click, false);
+        draw.c.can.addEventListener("click", draw.click, false);
         // bitmap
+        draw.b = 128;
     },
     "add": function() {
-        
+        dom.add(draw.c);
     },
     "rem": function() {
+        dom.remove(draw.c);
     },
     "click": function(e) {
         console.log(e);
+    },
+    "render": function() {
     }
 }
 // import select
 var imp = {
     "init": function() {
         // layout
-        imp.r = [512,512,650,196];
+        imp.r = [512,512,790,196];
+        // canvas
+        imp.c = dom.canvas(imp.r);
+        imp.c.can.dataset.x = "import";
+        imp.c.can.addEventListener("click", imp.click, false);
+        // bitmap
+        imp.b = 186;
+    },
+    "add": function() {
+        dom.add(imp.c);
+    },
+    "rem": function() {
+        dom.remove(imp.c);
+    },
+    "click": function(e) {
+        console.log(e);
+    },
+    "render": function() {
     }
 }
 // dom
