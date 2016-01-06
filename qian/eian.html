@@ -26,7 +26,7 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [dom,st,star,draw,imp,sce];
+        q.subs = [dom,st,star,draw,imp,brush,canv,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -337,6 +337,21 @@ var brush = {
         // msg back to qian level global
         // six color brush [0,40,80,160,200,255]
         // bkgd 128 grey
+        // layout
+        brush.r = [128,600,64,128];
+        // canvas
+        brush.c = dom.canvas(brush.r);
+        // bitmap
+        brush.b = 64;
+        // update status and global colorpicker
+    },
+    "add": function() {
+        dom.add(brush.c);
+    },
+    "rem": function() {
+        dom.remove(brush.c);
+    },
+    "render": function() {
     }
 }
 // canvas
@@ -344,7 +359,21 @@ var canv = {
     "init": function() {
         // bkgd 128 grey
         // 32x32 canvas, 32x32 pixel blocks, 1024x1024 canvas
-        // update state to global on click
+        // update state to global on clicka
+        // layout
+        canv.r = [1024,1024,256,40];
+        // canvas
+        canv.c = dom.canvas(canv.r);
+        // bitmap
+        canv.b = 180;
+    },
+    "add": function() {
+        dom.add(canv.c);
+    },
+    "rem": function() {
+        dom.remove(canv.c);
+    },
+    "render": function() {
     }
 }
 // dom
