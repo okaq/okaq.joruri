@@ -345,6 +345,9 @@ var brush = {
         brush.b = 64;
         // update status and global colorpicker
 
+        brush.pal();
+    },
+    "pal": function() {
         // palette
         brush.a = [0,40,80,160,200,255]; // shades
         brush.d = 0; // picker
@@ -398,14 +401,52 @@ var canv = {
         canv.c = dom.canvas(canv.r);
         // bitmap
         canv.b = 180;
+
+        canv.grid();
+    },
+    "grid": function() {
+        // grid
+        canv.d = []; // data - index into brish color data
+        canv.e = []; // rects
+        canv.f = []; // canvas
+        for (var i = 0; i < 1024; i++) {
+            var x0 = i % 32;
+            var y0 = (i / 32) >>> 0;
+            var x1 = (x0 * 32) >>> 0;
+            x1 = (x1 + canv.r[2]) >>> 0;
+            var y1 = (y0 * 32) >>> 0;
+            y1 = (y1 + canv.r[3]) >>> 0;
+            canv.e[i] = [32,32,x1,y1];
+            canv.f[i] = dom.canvas(canv.e[i]);
+            canv.f[i].can.dataset.x = "grid_" + y0 + "_" + x0;
+            canv.f[i].can.addEventListener("click", canv.click, false);
+            canv.d[i] = 0;
+        }
+
+    },
+    "click": function(e) {
+        console.log(e);
+        var s0 = e.target.dataset.x;
+        var s1 = s0.split("_");
+        console.log(s1);
+        // console.log(e.target.dataset.x);
     },
     "add": function() {
         dom.add(canv.c);
+        for (var i = 0; i < canv.f.length; i++) {
+            dom.add(canv.f[i]);
+        }
     },
     "rem": function() {
         dom.remove(canv.c);
+        for (var i = 0; i < canv.f.length; i++) {
+            dom.remove(canv.f[i]);
+        }
     },
     "render": function() {
+        for (var i = 0; i < canv.f.length; i++) {
+            ren.bmp(rgba.rb(), canv.f[i]);
+        }
     }
 }
 // dom
