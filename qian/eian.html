@@ -344,14 +344,46 @@ var brush = {
         // bitmap
         brush.b = 64;
         // update status and global colorpicker
+
+        // palette
+        brush.a = [0,40,80,160,200,255]; // shades
+        brush.d = 0; // picker
+        brush.e = []; // rects
+        brush.f = []; // canvas
+        for (var i = 0; i < brush.a.length; i++) {
+            var w0 = 96;
+            var r0 = [];
+            r0[0] = w0;
+            r0[1] = w0;
+            r0[2] = 80;
+            r0[3] = ((100 * i) + 130) >>> 0;
+            brush.e[i] = r0;
+            brush.f[i] = dom.canvas(brush.e[i]);
+            brush.f[i].can.dataset.x = "palette_" + i;
+            brush.f[i].can.addEventListener("click", brush.click, false);
+        }
+    },
+    "click": function(e) {
+        console.log(e.target.dataset.x);
+        var i0 = e.target.dataset.x[8];
+        console.log(i0,brush.a[i0]);
     },
     "add": function() {
         dom.add(brush.c);
+        for (var i = 0; i < brush.f.length; i++) {
+            dom.add(brush.f[i]);
+        }
     },
     "rem": function() {
         dom.remove(brush.c);
+        for (var i = 0; i < brush.f.length; i++) {
+            dom.remove(brush.f[i]);
+        }
     },
     "render": function() {
+        for (var i = 0; i < brush.f.length; i++) {
+            ren.bmp(brush.a[i], brush.f[i]);
+        }
     }
 }
 // canvas
