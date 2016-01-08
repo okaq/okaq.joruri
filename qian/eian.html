@@ -367,10 +367,12 @@ var brush = {
         }
     },
     "click": function(e) {
-        console.log(e.target.dataset.x);
+        // console.log(e.target.dataset.x);
         var i0 = e.target.dataset.x[8];
-        console.log(i0,brush.a[i0]);
-        brush.d = brush.a[i0];
+        // console.log(i0,brush.a[i0]);
+        // brush.d = brush.a[i0];
+        console.log("pick: " + brush.a[i0]);
+        brush.d = i0; // consistent data index
     },
     "add": function() {
         dom.add(brush.c);
@@ -431,17 +433,20 @@ var canv = {
 
     },
     "click": function(e) {
-        console.log(e);
+        // console.log(e);
         var s0 = e.target.dataset.x;
         var s1 = s0.split("_");
-        console.log(s1);
+        // console.log(s1);
         // console.log(e.target.dataset.x);
-        var x0 = parseInt(s1[1], 10);
-        var y0 = parseInt(s1[2], 10);
+        var x0 = parseInt(s1[2], 10);
+        var y0 = parseInt(s1[1], 10);
         var i0 = (y0 * 32) >>> 0;
         i0 = (i0 + x0) >>> 0;
         canv.d[i0] = brush.d;
         // render canvas at i0
+        // console.log(brush.a[canv.d[i0]], canv.f[i0]);
+        console.log("set y: " +  y0 + " x: " + x0 + " to : " + brush.a[canv.d[i0]]);
+        ren.bmp(brush.a[canv.d[i0]], canv.f[i0]);
     },
     "add": function() {
         dom.add(canv.c);
