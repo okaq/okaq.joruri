@@ -407,7 +407,7 @@ var canv = {
     },
     "grid": function() {
         // grid
-        canv.d = []; // data - index into brish color data
+        canv.d = []; // data - index into brush color data
         canv.e = []; // rects
         canv.f = []; // canvas
         for (var i = 0; i < 1024; i++) {
@@ -421,7 +421,12 @@ var canv = {
             canv.f[i] = dom.canvas(canv.e[i]);
             canv.f[i].can.dataset.x = "grid_" + y0 + "_" + x0;
             canv.f[i].can.addEventListener("click", canv.click, false);
-            canv.d[i] = 0;
+            // checkerboard
+            var c0 = [0,1];
+            if (y0 % 2 == 1) {
+                c0 = [1,0];    
+            }
+            canv.d[i] = (x0 % 2 == 1) ? c0[1] : c0[0];
         }
 
     },
@@ -452,7 +457,11 @@ var canv = {
     },
     "render": function() {
         for (var i = 0; i < canv.f.length; i++) {
-            ren.bmp(rgba.rb(), canv.f[i]);
+            // ren.bmp(rgba.rb(), canv.f[i]);
+            var d0 = brush.a[canv.d[i]];
+            // var m0 = rgba.mono(d0);
+            // console.log(i, d0, m0);
+            ren.bmp(d0, canv.f[i]);
         }
     }
 }
