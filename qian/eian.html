@@ -370,6 +370,7 @@ var brush = {
         console.log(e.target.dataset.x);
         var i0 = e.target.dataset.x[8];
         console.log(i0,brush.a[i0]);
+        brush.d = brush.a[i0];
     },
     "add": function() {
         dom.add(brush.c);
@@ -430,6 +431,12 @@ var canv = {
         var s1 = s0.split("_");
         console.log(s1);
         // console.log(e.target.dataset.x);
+        var x0 = parseInt(s1[1], 10);
+        var y0 = parseInt(s1[2], 10);
+        var i0 = (y0 * 32) >>> 0;
+        i0 = (i0 + x0) >>> 0;
+        canv.d[i0] = brush.d;
+        // render canvas at i0
     },
     "add": function() {
         dom.add(canv.c);
