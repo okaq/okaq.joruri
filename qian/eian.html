@@ -26,7 +26,7 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [dom,st,star,draw,imp,brush,canv,sce];
+        q.subs = [dom,st,star,draw,imp,brush,canv,load,samp,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -83,7 +83,7 @@ var sce = {
         sce.g["start"] = [st,star];
         sce.g["select"] = [st,draw,imp];
         sce.g["draw"] = [st,brush,canv];
-        sce.g["imp"] = [st];
+        sce.g["imp"] = [st,load,samp];
         // current
         sce.c = null;
     },
@@ -468,6 +468,50 @@ var canv = {
             // console.log(i, d0, m0);
             ren.bmp(d0, canv.f[i]);
         }
+    }
+}
+// load image
+var load = {
+    "init": function() {
+        // layout
+        load.r = [512,512,140,196];
+        // canvas
+        load.c = dom.canvas(load.r);
+        load.c.can.dataset.x = "load";
+        load.c.can.addEventListener("click", load.click, false);
+        // bitmap
+        load.b = 100;
+    },
+    "click": function(e) {
+        console.log(e);
+        // load source image from command line on click
+    },
+    "add": function() {
+        dom.add(load.c);
+    },
+    "rem": function() {
+        dom.remove(load.c);
+    },
+    "render": function() {
+    }
+}
+// sample image
+var samp = {
+    "init": function() {
+        // layout
+        samp.r = [512,512,790,196];
+        // canvas
+        samp.c = dom.canvas(samp.r);
+        // bitmap
+        samp.b = 200;
+    },
+    "add": function() {
+        dom.add(samp.c);
+    },
+    "rem": function() {
+        dom.remove(samp.c);
+    },
+    "render": function() {
     }
 }
 // dom
