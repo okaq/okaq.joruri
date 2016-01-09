@@ -73,6 +73,16 @@ var q = {
         st.update("import mode");
         sce.jump(q.state);
         sce.render();
+    },
+    "pal": function(i0) {
+        q.pa = i0;
+        st.update("draw mode - you've picked palette #" + i0 + " -  brush color: " + rgba.mono(brush.a[i0])); 
+        st.render();
+    },
+    "paint": function(p0) {
+        q.pb = p0;
+        st.update("draw mode - set pixel at (" + p0[0] + "," + p0[1] + ")  -  to brush color: " + rgba.mono(brush.a[q.pa]));
+        st.render();
     }
 }
 // scene
@@ -372,6 +382,8 @@ var brush = {
         // console.log(i0,brush.a[i0]);
         // brush.d = brush.a[i0];
         console.log("pick: " + brush.a[i0]);
+        // app level palette status update
+        q.pal(i0);
         brush.d = i0; // consistent data index
     },
     "add": function() {
@@ -446,6 +458,10 @@ var canv = {
         // render canvas at i0
         // console.log(brush.a[canv.d[i0]], canv.f[i0]);
         console.log("set y: " +  y0 + " x: " + x0 + " to : " + brush.a[canv.d[i0]]);
+        // update status
+        var p0 = [x0,y0];
+        q.paint(p0);
+        // keep history of click (x,y) -> index data
         ren.bmp(brush.a[canv.d[i0]], canv.f[i0]);
     },
     "add": function() {
