@@ -25,8 +25,12 @@ var q = {
         // start time
         q.start = window.performance.now();
 
+        // uid
+        q.user = [];
+        q.user[0] = q.rmax();
+
         // subsystems
-        q.subs = [dom,st,star,draw,imp,brush,canv,load,samp,sce];
+        q.subs = [net,dom,st,star,draw,imp,brush,canv,load,samp,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -83,6 +87,18 @@ var q = {
         q.pb = p0;
         st.update("draw mode - set pixel at (" + p0[0] + "," + p0[1] + ")  -  to brush color: " + rgba.mono(brush.a[q.pa]));
         st.render();
+    },
+    "rmax": function() {
+        return (Math.random() * Number.MAX_SAFE_INTEGER) >>> 0;
+    }
+}
+// net
+var net = {
+    "init": function() {
+        // xhr via fetch api
+        // get set uid fingerprint
+        net.fetch = window.fetch;
+        console.log(q.user[0], net.fetch);
     }
 }
 // scene
