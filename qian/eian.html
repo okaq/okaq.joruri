@@ -99,6 +99,12 @@ var net = {
         // get set uid fingerprint
         net.fetch = window.fetch;
         console.log(q.user[0], net.fetch);
+        window.fetch("/user").then(net.user);
+        // use json stringify, marshal to send q.user
+    },
+    "user": function(response) {
+        console.log(response);
+        response.text().then(function(text){console.log("msg recieved: " + text);});
     }
 }
 // scene
