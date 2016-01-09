@@ -12,6 +12,9 @@ const (
 func UserHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r)
     w.Write([]byte("ok fetch!"))
+    // marshal request json
+    // generate server random, timestamp, hash
+    // send to browser
 }
 
 func VianHandler(w http.ResponseWriter, r *http.Request) {
