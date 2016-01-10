@@ -99,7 +99,19 @@ var net = {
         // get set uid fingerprint
         net.fetch = window.fetch;
         console.log(q.user[0], net.fetch);
-        window.fetch("/user").then(net.user).catch(net.error);
+        // json data
+        var d0 = JSON.stringify(q.user);
+        // headers
+        var h0 = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        var opts = {
+            "method": "post",
+            "headers": h0,
+            "body": d0
+        };
+        window.fetch("/user",opts).then(net.user).catch(net.error);
         // catch any errors
         // use json stringify, marshal to send q.user
     },
