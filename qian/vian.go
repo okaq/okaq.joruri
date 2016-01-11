@@ -14,6 +14,7 @@ const (
 
 var (
     U *User
+    // map of user hashes to data
 )
 
 type User struct {
@@ -23,6 +24,7 @@ type User struct {
     R *rand.Rand
     S rand.Source
     T int64 // seed from time now
+    // hash
 }
 
 func NewUser() *User {

@@ -30,7 +30,7 @@ var q = {
         q.user[0] = q.rmax();
 
         // subsystems
-        q.subs = [net,dom,st,star,draw,imp,brush,canv,load,samp,sce];
+        q.subs = [net,dom,st,star,draw,imp,brush,canv,load,samp,save,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -130,8 +130,8 @@ var sce = {
         sce.g = {};
         sce.g["start"] = [st,star];
         sce.g["select"] = [st,draw,imp];
-        sce.g["draw"] = [st,brush,canv];
-        sce.g["imp"] = [st,load,samp];
+        sce.g["draw"] = [st,brush,canv,save];
+        sce.g["imp"] = [st,load,samp,save];
         // current
         sce.c = null;
     },
@@ -535,6 +535,8 @@ var load = {
         load.c.can.addEventListener("click", load.click, false);
         // bitmap
         load.b = 100;
+        // status - click left button to load image src
+        // from command line
     },
     "click": function(e) {
         console.log(e);
@@ -564,6 +566,30 @@ var samp = {
     },
     "rem": function() {
         dom.remove(samp.c);
+    },
+    "render": function() {
+    }
+}
+// save
+var save = {
+    "init": function() {
+        // layout
+        save.r = [256,256,1600,256];
+        // canvas
+        save.c = dom.canvas(save.r);
+        save.c.can.dataset.x = "save";
+        save.c.can.addEventListener("click", save.click, false);
+        // bitmap
+        save.b = 24;
+    },
+    "click": function(e) {
+        console.log(e);
+    },
+    "add": function() {
+        dom.add(save.c);
+    },
+    "rem": function() {
+        dom.remove(save.c);
     },
     "render": function() {
     }
