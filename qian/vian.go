@@ -62,6 +62,14 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
     // enc := json.NewEncoder(w)
 }
 
+func LoadHandler(w http.ResponseWriter, r *http.Request) {
+    // respond with www path to img src 
+    // use fileserver to serve img
+    fmt.Println(r)
+
+    w.Write([]byte("ok load!"))
+}
+
 func VianHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r)
     http.ServeFile(w,r,INDEX)
@@ -72,5 +80,6 @@ func main() {
     U = NewUser()
     http.HandleFunc("/", VianHandler)
     http.HandleFunc("/user", UserHandler)
+    http.HandleFunc("/load", LoadHandler)
     http.ListenAndServe(":8008", nil)
 }

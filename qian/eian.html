@@ -74,7 +74,7 @@ var q = {
     "imp": function() {
         // start import scene
         q.state = "imp";
-        st.update("import mode");
+        st.update("import mode - click left button to load image");
         sce.jump(q.state);
         sce.render();
     },
@@ -90,6 +90,13 @@ var q = {
     },
     "rmax": function() {
         return (Math.random() * Number.MAX_SAFE_INTEGER) >>> 0;
+    },
+    "loading": function() {
+        // begin loading request
+        // obtain img src path from console
+        // response path and async load image
+        net.load();
+        st.update("import mode  -  loading image from src");
     }
 }
 // net
@@ -121,6 +128,14 @@ var net = {
     },
     "error": function(err) {
         console.log(err);
+    },
+    "load": function() {
+        window.fetch("/load").then(net.img).catch(net.error);
+    },
+    "img": function(response) {
+        console.log(response);
+        // obtain www path from response
+        // async load image from src
     }
 }
 // scene
@@ -536,11 +551,14 @@ var load = {
         // bitmap
         load.b = 100;
         // status - click left button to load image src
+        // st.update("import mode  -  click left button to load image source from console");
         // from command line
     },
     "click": function(e) {
         console.log(e);
         // load source image from command line on click
+        // change state loading
+        q.loading();
     },
     "add": function() {
         dom.add(load.c);
