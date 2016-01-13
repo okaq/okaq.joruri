@@ -136,6 +136,8 @@ var net = {
         console.log(response);
         // obtain www path from response
         // async load image from src
+        response.text().then(function(text){console.log("load path: " + text);});
+ 
     }
 }
 // scene

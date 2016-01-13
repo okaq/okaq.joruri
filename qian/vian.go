@@ -1,10 +1,12 @@
 package main
 
 import (
+    "bufio"
     "encoding/json"
     "fmt"
     "math/rand"
     "net/http"
+    "os"
     "time"
 )
 
@@ -15,6 +17,7 @@ const (
 var (
     U *User
     // map of user hashes to data
+    V *bufio.Reader
 )
 
 type User struct {
@@ -66,8 +69,13 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
     // respond with www path to img src 
     // use fileserver to serve img
     fmt.Println(r)
-
-    w.Write([]byte("ok load!"))
+    fmt.Println("Enter img src: ");
+    s0, err := V.ReadString('\n')
+    if err != nil {
+        fmt.Println(err)
+    }
+    // w.Write([]byte("ok load!"))
+    w.Write([]byte(s0))
 }
 
 func VianHandler(w http.ResponseWriter, r *http.Request) {
@@ -78,6 +86,7 @@ func VianHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
     fmt.Println("okaq joruri bitmap draw tool started on localhost:8008")
     U = NewUser()
+    V = bufio.NewReader(os.Stdin)
     http.HandleFunc("/", VianHandler)
     http.HandleFunc("/user", UserHandler)
     http.HandleFunc("/load", LoadHandler)
