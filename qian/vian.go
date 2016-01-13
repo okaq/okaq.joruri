@@ -87,6 +87,7 @@ func main() {
     fmt.Println("okaq joruri bitmap draw tool started on localhost:8008")
     U = NewUser()
     V = bufio.NewReader(os.Stdin)
+    http.Handle("/nato/", http.StripPrefix("/nato", http.FileServer(http.Dir("nato/"))))
     http.HandleFunc("/", VianHandler)
     http.HandleFunc("/user", UserHandler)
     http.HandleFunc("/load", LoadHandler)
