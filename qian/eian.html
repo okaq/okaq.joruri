@@ -97,6 +97,11 @@ var q = {
         // response path and async load image
         net.load();
         st.update("import mode  -  loading image from src");
+    },
+    "loaded": function(text) {
+        q.path = text;
+        st.update("import mode  -  loading " + text);
+        st.render();
     }
 }
 // net
@@ -136,8 +141,12 @@ var net = {
         console.log(response);
         // obtain www path from response
         // async load image from src
-        response.text().then(function(text){console.log("load path: " + text);});
- 
+        // response.text().then(function(text){console.log("load path: " + text);});
+        response.text().then(net.loaded);
+    },
+    "loaded": function(text) {
+        console.log("img src path: " + text);
+        q.loaded(text);
     }
 }
 // scene

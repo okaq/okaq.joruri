@@ -75,7 +75,8 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
         fmt.Println(err)
     }
     // w.Write([]byte("ok load!"))
-    w.Write([]byte(s0))
+    s1 := fmt.Sprintf("/nato/%s", s0)
+    w.Write([]byte(s1))
 }
 
 func VianHandler(w http.ResponseWriter, r *http.Request) {
