@@ -102,6 +102,15 @@ var q = {
         q.path = text;
         st.update("import mode  -  loading " + text);
         st.render();
+        // async load image
+        q.img = new Image();
+        q.img.addEventListener("load", q.display, false);
+        q.img.src = q.path;
+        // sample pixels
+    },
+    "display": function() {
+        st.update("import mode  -  " + q.path + " loaded. Click right button to sample");
+        st.render();
     }
 }
 // net
