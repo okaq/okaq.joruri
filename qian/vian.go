@@ -4,6 +4,7 @@ import (
     "bufio"
     "encoding/json"
     "fmt"
+    "io/ioutil"
     "math/rand"
     "net/http"
     "os"
@@ -18,6 +19,7 @@ var (
     U *User
     // map of user hashes to data
     V *bufio.Reader
+    P []string
 )
 
 type User struct {
@@ -69,6 +71,8 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
     // respond with www path to img src 
     // use fileserver to serve img
     fmt.Println(r)
+    fmt.Println("Available images:")
+    fmt.Println(P)
     fmt.Println("Enter img src: ");
     s0, err := V.ReadString('\n')
     if err != nil {
@@ -84,10 +88,27 @@ func VianHandler(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w,r,INDEX)
 }
 
+func Paths() []string {
+    f0, err := ioutil.ReadDir("nato")
+    if err != nil {
+        fmt.Println(err)
+    }
+    s0 := make([]string, 1)
+    s0[0] = "files"
+    for _, f1 := range f0 {
+        if f1.IsDir() {
+            continue
+        }
+        s0 = append(s0, f1.Name())
+    }
+    return s0[1:]
+}
+
 func main() {
     fmt.Println("okaq joruri bitmap draw tool started on localhost:8008")
     U = NewUser()
     V = bufio.NewReader(os.Stdin)
+    P = Paths()
     http.Handle("/nato/", http.StripPrefix("/nato", http.FileServer(http.Dir("nato/"))))
     http.HandleFunc("/", VianHandler)
     http.HandleFunc("/user", UserHandler)
