@@ -111,6 +111,7 @@ var q = {
     "display": function() {
         st.update("import mode  -  " + q.path + " loaded. Click right button to sample");
         st.render();
+        load.ren();
     }
 }
 // net
@@ -587,6 +588,10 @@ var load = {
         dom.remove(load.c);
     },
     "render": function() {
+    },
+    "ren": function() {
+        // draw q.img in canvas
+        ren.img(q.img, load.c);
     }
 }
 // sample image
@@ -678,6 +683,9 @@ var ren = {
     "rect": function(b0, r0, c0) {
         c0.con.fillStyle = rgba.mono(b0);
         c0.con.fillRect(r0[2], r0[3], r0[0], r0[1]);
+    },
+    "img": function(img0, c0) {
+        c0.con.drawImage(img0, 0, 0);
     }
 }
 // colors
