@@ -625,7 +625,24 @@ var samp = {
         console.log(e);
         samp.d = load.c.con.getImageData(0,0,load.c.can.width,load.c.can.height);
         console.log(samp.d);
-        ren.pix(samp.d, samp.c);
+        // ren.pix(samp.d, samp.c);
+
+        // sampling data
+        // sub sample rate 
+        // original bitmap = 512x512 = 262144
+        // sampled bitmap = 32x32 = 1024
+        // pixel block size = 16x16 = 256
+        samp.e = [];
+        for (var i = 0; i < 1024; i++) {
+            // sample coords
+            var ex = i % 32;
+            var ey = (i / 32) >>> 0;
+            // index into original
+            var px = (ex * 16 * 4) >>> 0;
+            var py = (ey * 16 * 4) >>> 0;
+            var pi = ((py * 512) + px) >>> 0;
+            // evaluate block
+        }
     }
 }
 // save
