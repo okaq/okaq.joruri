@@ -112,6 +112,7 @@ var q = {
         st.update("import mode  -  " + q.path + " loaded. Click right button to sample");
         st.render();
         load.ren();
+        samp.start();
     }
 }
 // net
@@ -612,6 +613,19 @@ var samp = {
         dom.remove(samp.c);
     },
     "render": function() {
+    },
+    "start": function() {
+        // handle click
+        // get image data
+        // sample
+        // render
+        samp.c.can.addEventListener("click", samp.sample, false);
+    },
+    "sample": function(e) {
+        console.log(e);
+        samp.d = load.c.con.getImageData(0,0,load.c.can.width,load.c.can.height);
+        console.log(samp.d);
+        ren.pix(samp.d, samp.c);
     }
 }
 // save
