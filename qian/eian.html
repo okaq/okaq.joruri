@@ -642,6 +642,37 @@ var samp = {
             var py = (ey * 16 * 4) >>> 0;
             var pi = ((py * 512) + px) >>> 0;
             // evaluate block
+            var f0 = samp.thr(pi);
+            if (f0 == true) {
+                samp.e[i] = 0;
+            } else {
+                samp.e[i] = 255;
+            }
+        }
+        ren.grid(samp.e, samp.c);
+    },
+    "thr": function(i0) {
+        // loop over block of pixel values
+        // tally white black pixels
+        // determine criterion
+        // only need to count one rgba channel
+        var bc = 0;
+        var wc = 0;
+        var t0 = 0.25; // threshold
+        for (var i = 0; i < 256; i++) {
+            var x0 = i % 16;
+            var y0 = (i / 16) >>> 0;
+            var i1 = ((x0 * 4) + (y0 * 4 * 512) + i0) >>> 0;
+            if (samp.d.data[i1] == 0) {
+                bc = bc + 1;
+            } else {
+                wc = wc + 1;
+            }
+        }
+        if ((bc / 256) >= t0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
