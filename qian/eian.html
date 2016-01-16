@@ -749,6 +749,24 @@ var ren = {
     },
     "img": function(img0, c0) {
         c0.con.drawImage(img0, 0, 0);
+    },
+    "grid": function(d0, c0) {
+        // grid of rects
+        // bkgd
+        c0.con.fillStyle = rgba.mono(255);
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
+        // pixle blocks - hard coded values
+        c0.con.fillStyle = rgba.mono(0);
+        for (var i = 0; i < d0.length; i++) {
+            if (d0[i] == 255) {
+                continue;
+            }
+            var x0 = i % 32;
+            var y0 = (i / 32) >>> 0;
+            var x1 = (x0 * 16) >>> 0;
+            var y1 = (y0 * 16) >>> 0;
+            c0.con.fillRect(x1,y1,32,32);
+        }
     }
 }
 // colors
