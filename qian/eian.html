@@ -122,6 +122,13 @@ var q = {
         // n.b. []byte encodes as base64 string
         // save as json string to disk
         // embed directly in web app client page for grid render
+        if (q.state == "imp") {
+            q.data = samp.e.slice(0);
+        } else {
+            // q.data = canv.d.slice(0);
+            q.data = canv.data();
+        }
+        console.log(q.data);
     }
 }
 // net
@@ -568,6 +575,16 @@ var canv = {
             // console.log(i, d0, m0);
             ren.bmp(d0, canv.f[i]);
         }
+    },
+    "data": function() {
+        // brush index data resolved to monochrome byte array
+        d0 = [];
+        for (var i = 0; i < canv.d.length; i++) {
+            var i0 = canv.d[i];
+            var b0 = brush.a[i0];
+            d0[i] = b0;
+        }
+        return d0;
     }
 }
 // load image
@@ -699,6 +716,7 @@ var save = {
     },
     "click": function(e) {
         console.log(e);
+        q.save();
     },
     "add": function() {
         dom.add(save.c);
