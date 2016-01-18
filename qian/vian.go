@@ -92,9 +92,14 @@ func SaveHandler(w http.ResponseWriter, r *http.Request) {
         fmt.Println(err)
     }
     fmt.Println(d0)
-    s0 := fmt.Sprintf("Recived %d bytes, json save!", len(d0))
+    s0 := fmt.Sprintf("Received %d bytes, json save!", len(d0))
     b0 := []byte(s0)
     w.Write(b0)
+    // instead of pipe or copy
+    // use ioutil.ReadAll(r.Body)
+    // and ioutil.WriteFile(s0,b0,0666)
+    // wrapped in stand alone func Save(name string)
+    // obtain file name from stdin
 }
 
 func VianHandler(w http.ResponseWriter, r *http.Request) {
