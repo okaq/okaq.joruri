@@ -83,6 +83,20 @@ func LoadHandler(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte(s1))
 }
 
+func SaveHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(r)
+    var d0 []int
+    dec := json.NewDecoder(r.Body)
+    err := dec.Decode(&d0)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(d0)
+    s0 := fmt.Sprintf("Recived %d bytes, json save!", len(d0))
+    b0 := []byte(s0)
+    w.Write(b0)
+}
+
 func VianHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r)
     http.ServeFile(w,r,INDEX)
@@ -113,5 +127,6 @@ func main() {
     http.HandleFunc("/", VianHandler)
     http.HandleFunc("/user", UserHandler)
     http.HandleFunc("/load", LoadHandler)
+    http.HandleFunc("/save", SaveHandler)
     http.ListenAndServe(":8008", nil)
 }

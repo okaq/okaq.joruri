@@ -129,6 +129,7 @@ var q = {
             q.data = canv.data();
         }
         console.log(q.data);
+        net.save();
     }
 }
 // net
@@ -174,6 +175,31 @@ var net = {
     "loaded": function(text) {
         console.log("img src path: " + text);
         q.loaded(text);
+    },
+    "save": function() {
+        // post json byte array data
+        // receive response file saved or err msg
+
+        // json data
+        var d0 = JSON.stringify(q.data);
+        // headers
+        var h0 = {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        }
+        var opts = {
+            "method": "post",
+            "headers": h0,
+            "body": d0
+        };
+        window.fetch("/save",opts).then(net.saved).catch(net.error);
+ 
+        // separate calls for import and draw
+        // to save files in own dirs
+    },
+    "saved": function(response) {
+        console.log(response);
+        response.text().then(function(text){console.log("file saved: " + text);});
     }
 }
 // scene
