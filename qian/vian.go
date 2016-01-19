@@ -106,6 +106,7 @@ func SaveHandler(w http.ResponseWriter, r *http.Request) {
     // nato - vector drawings for import
     // neto - draw tool json save
     // nito - import tool json save
+    // noto - test render thumbs
 }
 
 func DiskHandler(w http.ResponseWriter, r *http.Request, p string) {
