@@ -8,6 +8,7 @@ import (
     "math/rand"
     "net/http"
     "os"
+    "strings"
     "time"
 )
 
@@ -100,14 +101,44 @@ func SaveHandler(w http.ResponseWriter, r *http.Request) {
     // and ioutil.WriteFile(s0,b0,0666)
     // wrapped in stand alone func Save(name string)
     // obtain file name from stdin
+
+    // dir layout
+    // nato - vector drawings for import
+    // neto - draw tool json save
+    // nito - import tool json save
+}
+
+func DiskHandler(w http.ResponseWriter, r *http.Request, p string) {
+    var err error
+    fmt.Println(r)
+    var b0 []byte
+    b0, err = ioutil.ReadAll(r.Body)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println("File to save: ")
+    var s0 string
+    s0, err = V.ReadString('\n')
+    if err != nil {
+        fmt.Println(err)
+    }
+    s0 = strings.TrimSpace(s0)
+    s1 := fmt.Sprintf("%s%s", p, s0)
+    err = ioutil.WriteFile(s1, b0, 0666)
+    if err != nil {
+        fmt.Println(err)
+    }
+    s2 := fmt.Sprintf("Received %d bytes, json save to file: %s!", len(b0), s1)
+    b1 := []byte(s2)
+    w.Write(b1)
 }
 
 func IsaveHandler(w http.ResponseWriter, r *http.Request) {
-    SaveHandler(w,r)
+    DiskHandler(w,r,"nito/")
 }
 
 func DsaveHandler(w http.ResponseWriter, r *http.Request) {
-    SaveHandler(w,r)
+    DiskHandler(w,r,"neto/")
 }
 
 func VianHandler(w http.ResponseWriter, r *http.Request) {
@@ -140,7 +171,7 @@ func main() {
     http.HandleFunc("/", VianHandler)
     http.HandleFunc("/user", UserHandler)
     http.HandleFunc("/load", LoadHandler)
-    http.HandleFunc("/save", SaveHandler)
+    // http.HandleFunc("/save", SaveHandler)
     http.HandleFunc("/isave", IsaveHandler)
     http.HandleFunc("/dsave", DsaveHandler)
     http.ListenAndServe(":8008", nil)
