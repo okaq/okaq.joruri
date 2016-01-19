@@ -124,12 +124,14 @@ var q = {
         // embed directly in web app client page for grid render
         if (q.state == "imp") {
             q.data = samp.e.slice(0);
+            net.isave();
         } else {
             // q.data = canv.d.slice(0);
             q.data = canv.data();
+            net.dsave();
         }
-        console.log(q.data);
-        net.save();
+        // console.log(q.data);
+        // net.save();
     }
 }
 // net
@@ -176,7 +178,7 @@ var net = {
         console.log("img src path: " + text);
         q.loaded(text);
     },
-    "save": function() {
+    "save": function(path0) {
         // post json byte array data
         // receive response file saved or err msg
 
@@ -192,14 +194,23 @@ var net = {
             "headers": h0,
             "body": d0
         };
-        window.fetch("/save",opts).then(net.saved).catch(net.error);
- 
+        // window.fetch("/save",opts).then(net.saved).catch(net.error);
+        window.fetch(path0,opts).then(net.saved).catch(net.error);
+
         // separate calls for import and draw
         // to save files in own dirs
+    },
+    "isave": function() {
+        net.save("/isave");
+    },
+    "dsave": function() {
+        net.save("/dsave");
     },
     "saved": function(response) {
         console.log(response);
         response.text().then(function(text){console.log("file saved: " + text);});
+        // update status - file saved
+        // refresh for new bitmap
     }
 }
 // scene

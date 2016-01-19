@@ -91,7 +91,7 @@ func SaveHandler(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         fmt.Println(err)
     }
-    fmt.Println(d0)
+    // fmt.Println(d0)
     s0 := fmt.Sprintf("Received %d bytes, json save!", len(d0))
     b0 := []byte(s0)
     w.Write(b0)
@@ -100,6 +100,14 @@ func SaveHandler(w http.ResponseWriter, r *http.Request) {
     // and ioutil.WriteFile(s0,b0,0666)
     // wrapped in stand alone func Save(name string)
     // obtain file name from stdin
+}
+
+func IsaveHandler(w http.ResponseWriter, r *http.Request) {
+    SaveHandler(w,r)
+}
+
+func DsaveHandler(w http.ResponseWriter, r *http.Request) {
+    SaveHandler(w,r)
 }
 
 func VianHandler(w http.ResponseWriter, r *http.Request) {
@@ -133,5 +141,7 @@ func main() {
     http.HandleFunc("/user", UserHandler)
     http.HandleFunc("/load", LoadHandler)
     http.HandleFunc("/save", SaveHandler)
+    http.HandleFunc("/isave", IsaveHandler)
+    http.HandleFunc("/dsave", DsaveHandler)
     http.ListenAndServe(":8008", nil)
 }
