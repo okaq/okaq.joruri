@@ -26,7 +26,7 @@ var q = {
         q.start = window.performance.now();
 
         // subsystems
-        q.subs = [dom];
+        q.subs = [dom,sce];
         q.subs.forEach(function(el){el.init();});
 
         // motd
@@ -42,6 +42,20 @@ var q = {
         console.log("okaq joruri qian noto running...");
         console.log("json bitmap art assets thumb render test");
         console.log("conflict is relative. harmony, absolute -tohei");
+
+        ren.test(sce.a);
+    }
+}
+// scene
+var sce = {
+    "init": function() {
+        sce.a = dom.canvas([1920,1080,0,0]);
+        sce.a.can.dataset.x = "bkgd";
+        sce.a.can.addEventListener("click", sce.click, false);
+        dom.add(sce.a);
+    },
+    "click": function(e) {
+        console.log(e);
     }
 }
 // dom
@@ -66,6 +80,13 @@ var dom = {
     },
     "remove": function(c0) {
         dom.alpha.removeChild(c0.can);
+    }
+}
+// render
+var ren = {
+    "test": function(c0) {
+        c0.con.fillStyle = rgba.rand();
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     }
 }
 // colors
