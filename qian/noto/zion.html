@@ -44,9 +44,10 @@ var q = {
         console.log("conflict is relative. harmony, absolute -tohei");
 
         ren.test(sce.a);
-        q.start();
+
+        q.begin();
     },
-    "start": function() {
+    "begin": function() {
         // status bar top
         // navi left, draw and imp buttons
         // fetch dir lists for neto nito
@@ -54,6 +55,8 @@ var q = {
         // display 32x32 thumbs
         // click thumb to zoom 1024x1024
         // click zoom to return thumbs
+        ren.test(sce.b);
+        ren.test(sce.c);
     }
 }
 // scene
@@ -63,6 +66,11 @@ var sce = {
         sce.a.can.dataset.x = "bkgd";
         sce.a.can.addEventListener("click", sce.click, false);
         dom.add(sce.a);
+        // panes
+        sce.b = dom.canvas([920,1040,20,20]);
+        dom.add(sce.b);
+        sce.c = dom.canvas([920,1040,980,20]);
+        dom.add(sce.c);
     },
     "click": function(e) {
         console.log(e);
