@@ -3,6 +3,7 @@
 package main
 
 import (
+    "encoding/json"
     "fmt"
     "io/ioutil"
     "net/http"
@@ -15,6 +16,8 @@ const (
 var (
     Neto []string
     Nito []string
+    NetoB []byte
+    NitoB []byte
 )
 
 func NotoHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +41,17 @@ func Pop() {
     Neto = Paths("../neto")
     Nito = Paths("../nito")
     fmt.Println(Neto, Nito)
+    // json encode
+    var err error
+    NetoB, err = json.Marshal(Neto)
+    if err != nil {
+        fmt.Println(err)
+    }
+    NitoB, err = json.Marshal(Nito)
+    if err != nil {
+        fmt.Println(err)
+    }
+    fmt.Println(NetoB, NitoB)
 }
 
 func Paths(d0 string) []string {
