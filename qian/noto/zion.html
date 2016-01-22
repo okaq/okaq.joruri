@@ -65,7 +65,16 @@ var xhr = {
     "lists": function() {
         // fetch neto, nito dir lists
         // generate json urls async load
-        xhr.r = ["/neto/", "/nito/"];
+        xhr.r = ["/neto", "/nito"];
+        window.fetch(xhr.r[0]).then(xhr.json).catch(xhr.err);
+        window.fetch(xhr.r[1]).then(xhr.json).catch(xhr.err);
+    },
+    "err": function(msg) {
+        console.log(msg);
+    },
+    "json": function(response) {
+        // promise returns parsed json
+        response.json().then(function(d0){console.log(d0);});
     }
 }
 // scene

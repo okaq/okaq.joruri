@@ -27,12 +27,16 @@ func NotoHandler(w http.ResponseWriter, r *http.Request) {
 
 func NetoHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r)
-    w.Write([]byte("ok neto"))
+    // w.Write([]byte("ok neto"))
+    w.Header().Set("Content-type", "application/json")
+    w.Write(NetoB)
 }
 
 func NitoHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r)
-    w.Write([]byte("ok nito"))
+    // w.Write([]byte("ok nito"))
+    w.Header().Set("Content-type", "application/json")
+    w.Write(NitoB)
 }
 
 
