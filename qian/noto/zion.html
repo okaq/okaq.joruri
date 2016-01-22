@@ -90,6 +90,19 @@ var xhr = {
         // load bitmap data from list
         xhr.draw.json = json;
         xhr.draw.bmp = [];
+        for (var i = 0; i < xhr.draw.json.length; i++) {
+            var f0 = xhr.draw.json[i];
+            var p0 = "/draw/" + f0;
+            window.fetch(p0)
+                .then(function(response){
+                        response.json()
+                        .then(function(json){
+                            xhr.draw.bmp[i] = json;
+                            console.log(i, xhr.draw.bmp[i]);
+                            // render at grid position i
+                            })
+                        })
+        }
     },
     "limp": function(response) {
         // get import bitmap list
@@ -99,6 +112,20 @@ var xhr = {
         // load bitmap data from list
         xhr.imp.json = json;
         xhr.imp.bmp = [];
+        for (var i = 0; i < xhr.imp.json.length; i++) {
+            var f0 = xhr.imp.json[i];
+            var p0 = "/import/" + f0;
+            window.fetch(p0)
+                .then(function(response){
+                        response.json()
+                        .then(function(json){
+                            xhr.imp.bmp[i] = json;
+                            console.log(i, xhr.imp.bmp[i]);
+                            // render at grid position i
+                            })
+                        })
+        }
+ 
     }
 
 }
