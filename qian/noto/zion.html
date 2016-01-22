@@ -104,6 +104,9 @@ var xhr = {
                             })
                         })
         }
+        // for each grid element 
+        // create canvas element to click zoom
+
     },
     "limp": function(response) {
         // get import bitmap list
@@ -181,18 +184,18 @@ var ren = {
     "grid": function(bmp0, i0, c0) {
         // bmp size = 64x64
         // block size = 80x80 (8px margin)
-        var p0 = 64;
-        var b0 = 80;
         var m0 = 8;
-        var w0 = 2;
-        var h0 = 2;
+        var w0 = 8;
+        var h0 = 8;
+        var p0 = (32 * w0) >>> 0;
+        var b0 = (p0 + (2 * m0)) >>> 0;
         var x0 = ((i0 * b0) + m0) >>> 0;
         var y0 = m0;
         for (var i = 0; i < bmp0.length; i++) {
-            var x1 = ((i % 32) + x0) >>> 0;
-            var x2 = (x1 * w0) >>> 0;
-            var y1 = ((i / 32) + y0) >>> 0;
-            var y2 = (y1 * h0) >>> 0;
+            var x1 = (i % 32) >>> 0;
+            var x2 = ((x1 * w0) + m0) >>> 0;
+            var y1 = (i / 32) >>> 0;
+            var y2 = ((y1 * h0) + m0) >>> 0;
             c0.con.fillStyle = rgba.mono(bmp0[i]);
             c0.con.fillRect(x2,y2,w0,h0);
         }
