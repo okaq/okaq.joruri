@@ -38,7 +38,10 @@ func NitoHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-type", "application/json")
     w.Write(NitoB)
 }
-
+// handlers for bitmap json files
+// direct load into byte array and
+// write as byte array json mime type
+// no need for enc/decode
 
 func Pop() {
     // pre populate dir lists
@@ -81,5 +84,7 @@ func main() {
     http.HandleFunc("/", NotoHandler)
     http.HandleFunc("/neto", NetoHandler)
     http.HandleFunc("/nito", NitoHandler)
+    http.Handle("/draw/", http.StripPrefix("/draw/", http.FileServer(http.Dir("../neto"))))
+    http.Handle("/import/", http.StripPrefix("/import/", http.FileServer(http.Dir("../nito"))))
     http.ListenAndServe(":8000", nil)
 }
