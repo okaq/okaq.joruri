@@ -65,9 +65,13 @@ var xhr = {
     "lists": function() {
         // fetch neto, nito dir lists
         // generate json urls async load
+        // urls list
         xhr.r = ["/neto", "/nito"];
-        window.fetch(xhr.r[0]).then(xhr.json).catch(xhr.err);
-        window.fetch(xhr.r[1]).then(xhr.json).catch(xhr.err);
+        // data
+        xhr.draw = {};
+        xhr.imp = {};
+        window.fetch(xhr.r[0]).then(xhr.ldraw).catch(xhr.err);
+        window.fetch(xhr.r[1]).then(xhr.limp).catch(xhr.err);
     },
     "err": function(msg) {
         console.log(msg);
@@ -77,7 +81,26 @@ var xhr = {
         response.json().then(function(d0){console.log(d0);});
         // fetch and store individual json bitmaps
         // render in grid fashion
+    },
+    "ldraw": function(response) {
+        // get draw bitmap list
+        response.json().then(xhr.fdraw);
+    },
+    "fdraw": function(json) {
+        // load bitmap data from list
+        xhr.draw.json = json;
+        xhr.draw.bmp = [];
+    },
+    "limp": function(response) {
+        // get import bitmap list
+        response.json().then(xhr.fimp);
+    },
+    "fimp": function(json) {
+        // load bitmap data from list
+        xhr.imp.json = json;
+        xhr.imp.bmp = [];
     }
+
 }
 // scene
 var sce = {
