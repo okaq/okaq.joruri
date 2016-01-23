@@ -91,21 +91,25 @@ var xhr = {
         xhr.draw.json = json;
         xhr.draw.bmp = [];
         for (var i = 0; i < xhr.draw.json.length; i++) {
-            var f0 = xhr.draw.json[i];
+            var i0 = i;
+            var f0 = xhr.draw.json[i0];
             var p0 = "/draw/" + f0;
             window.fetch(p0)
                 .then(function(response){
                         response.json()
                         .then(function(json){
-                            xhr.draw.bmp[i] = json;
+                            xhr.draw.bmp[i0] = json;
                             // console.log(i, xhr.draw.bmp[i]);
                             // render at grid position i
-                            ren.grid(xhr.draw.bmp[i], i, sce.b);
+                            ren.grid(xhr.draw.bmp[i0], i0, sce.b);
                             })
                         })
         }
         // for each grid element 
         // create canvas element to click zoom
+
+        // strange async canvas render bug
+        // collect data, render on complete
     },
     "limp": function(response) {
         // get import bitmap list
@@ -116,16 +120,17 @@ var xhr = {
         xhr.imp.json = json;
         xhr.imp.bmp = [];
         for (var i = 0; i < xhr.imp.json.length; i++) {
-            var f0 = xhr.imp.json[i];
+            var i0 = i;
+            var f0 = xhr.imp.json[i0];
             var p0 = "/import/" + f0;
             window.fetch(p0)
                 .then(function(response){
                         response.json()
                         .then(function(json){
-                            xhr.imp.bmp[i] = json;
+                            xhr.imp.bmp[i0] = json;
                             // console.log(i, xhr.imp.bmp[i]);
                             // render at grid position i
-                            ren.grid(xhr.imp.bmp[i], i, sce.c);
+                            ren.grid(xhr.imp.bmp[i0], i0, sce.c);
                             })
                         })
         }
@@ -179,6 +184,7 @@ var ren = {
         c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     },
     "grid": function(bmp0, i0, c0) {
+        console.log(c0, i0);
         // bmp size = 64x64
         // block size = 80x80 (8px margin)
         var m0 = 8;
@@ -190,9 +196,9 @@ var ren = {
         var y0 = m0;
         for (var i = 0; i < bmp0.length; i++) {
             var x1 = (i % 32) >>> 0;
-            var x2 = ((x1 * w0) + m0) >>> 0;
+            var x2 = ((x1 * w0) + m0 + x0) >>> 0;
             var y1 = (i / 32) >>> 0;
-            var y2 = ((y1 * h0) + m0) >>> 0;
+            var y2 = ((y1 * h0) + m0 + y0) >>> 0;
             c0.con.fillStyle = rgba.mono(bmp0[i]);
             c0.con.fillRect(x2,y2,w0,h0);
         }
