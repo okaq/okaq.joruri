@@ -122,6 +122,9 @@ var xhr = {
         // load bitmap data from list
         xhr.imp.json = json;
         xhr.imp.bmp = [];
+        // xhr.imp.bmp is an array of objects
+        // each one contains the fetched data and a
+        // pre-layed out canvas for rendering upon fulfillment
         for (var i = 0; i < xhr.imp.json.length; i++) {
             var i0 = i;
             var f0 = xhr.imp.json[i0];
