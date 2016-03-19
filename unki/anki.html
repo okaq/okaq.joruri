@@ -41,6 +41,8 @@ var u = {
     "begin": function() {
         console.log("lets begin!");
         ren.rand(sce.a);
+        ren.rand(sce.b);
+        ren.rand(sce.c);
     }
 }
 // scene
@@ -48,6 +50,24 @@ var sce = {
     "init": function() {
         sce.a = dom.canvas([1920,1080,0,0]);
         dom.add(sce.a);
+        // two panes for bitmaps: load and sample
+        // click to load, once loaded, activate sampling click handler
+
+        // loader
+        sce.b = dom.canvas([512,512,300,284]);
+        dom.add(sce.b);
+        sce.b.can.dataset.x = "loader";
+        sce.b.can.addEventListener("click", sce.click, false);
+
+        // sampler
+        sce.c = dom.canvas([512,512,1112,284]);
+        dom.add(sce.c);
+        sce.c.can.dataset.x = "sampler";
+        sce.c.can.addEventListener("click", sce.click, false);
+    },
+    "click": function(e) {
+        console.log(e);
+        console.log("clicked button: " + e.target.dataset.x);
     }
 }
 // dom
