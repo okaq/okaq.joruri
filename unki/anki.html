@@ -43,6 +43,8 @@ var u = {
         ren.rand(sce.a);
         ren.rand(sce.b);
         ren.rand(sce.c);
+        u.state = 0; // loading: 0, sampling: 1
+        console.log("click to load sample bitmap from server");
     }
 }
 // scene
@@ -68,6 +70,14 @@ var sce = {
     "click": function(e) {
         console.log(e);
         console.log("clicked button: " + e.target.dataset.x);
+        // check state
+        if (u.state == 0) {
+            // loading state
+            // open xhr conn
+            // get and render bitmap
+        } else {
+            // sampling state
+        }
     }
 }
 // dom
