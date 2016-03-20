@@ -75,9 +75,31 @@ var sce = {
             // loading state
             // open xhr conn
             // get and render bitmap
+            xhr.open();
         } else {
             // sampling state
         }
+    }
+}
+// xhr
+var xhr = {
+    "open": function() {
+        // begin fetch connection
+        console.log("opening net conn");
+        window.fetch("/open")
+            .then(xhr.list)
+            .then(xhr.pop);
+    },
+    "list": function(response) {
+        // get image list from server
+        return response.text();
+    },
+    "pop": function(text) {
+        // populate a local list with parsed server results
+        console.log("server response: " + text);
+    },
+    "upload": function() {
+        // upload encoded json data binary bitmap
     }
 }
 // dom
