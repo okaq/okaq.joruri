@@ -70,6 +70,8 @@ var sce = {
     "click": function(e) {
         console.log(e);
         console.log("clicked button: " + e.target.dataset.x);
+        // check handler
+        // if (e.target.dataset.x == "loader")
         // check state
         if (u.state == 0) {
             // loading state
@@ -83,6 +85,9 @@ var sce = {
 }
 // xhr
 var xhr = {
+    "points": function() {
+        // all end points data list and state
+    },
     "open": function() {
         // begin fetch connection
         console.log("opening net conn");
@@ -93,6 +98,7 @@ var xhr = {
     "list": function(response) {
         // get image list from server
         return response.text();
+        // json array of bmp path strings
     },
     "pop": function(text) {
         // populate a local list with parsed server results
