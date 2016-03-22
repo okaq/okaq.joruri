@@ -32,6 +32,7 @@ func OpenHandler(w http.ResponseWriter, r *http.Request) {
     w.Write([]byte("ok bitmaps!"))
     // ioutil.Readdir returns []os.FileInfo
     // use len() to get dir size
+    // json encoding to output
 }
 
 func Paths() []string {
