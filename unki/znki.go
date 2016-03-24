@@ -20,6 +20,7 @@ const (
 
 var (
     SamplePaths []string
+    // cached json dirs
 )
 
 func AnkiHandler(w http.ResponseWriter, r *http.Request) {
