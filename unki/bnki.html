@@ -26,13 +26,25 @@ var u = {
         u.start = window.performance.now();
 
         // subsystems
-        u.subs = [dom];
+        u.subs = [dom,sce];
         u.subs.forEach(function(el){el.init();});
+
+        // begin
+        u.begin();
 
         // stats
         var done = window.performance.now();
         var total = done - u.start;
         console.log("total load time: " + total + "ms.");
+    },
+    "begin": function() {
+        // fetch 
+    }
+}
+// scene
+var sce = {
+    "init": function() {
+        // pre load all scene objs
     }
 }
 // dom
