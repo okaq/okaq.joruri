@@ -1,3 +1,115 @@
 <!DOCTYPE html>
-ok okaq gira joruri unki cnki patch beased texture synth tool
+<html lang="en">
+    <head id="zeta">
+        <title>okaq</title>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=1920,height=1080,initial-scale=1" />
+        <meta name="source" content="https://github.com/okaq" />
+        <meta name="creator" content="AQ<aq@okaq.com>" />
+        <meta name="date" content="2016-04-02" />
+        <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAMklEQVR4nGL5erSOgZaAiaamj1owasGoBaMWjFowasGoBaMWjFowasGoBVQEgAAAAP//mSsCe1au1uQAAAAASUVORK5CYII=" />
+        <style type="text/css">
+            html,body{width:1920px;height:1080px;margin:0px;padding:0px;border:0px;background-color:rgba(255,255,255,1.0);}
+        </style>
+        <script type="text/javascript">
+            // ok
+        console.log("okaq joruri unki cnki texture synth");
+        // async
+        (function(){
+         window.addEventListener("load",function(e){u.init(e);},false);
+     })();
+// unki
+var u = {
+    "init": function(e) {
+        console.log(e);
+        // start time
+        u.start = window.performance.now();
+
+        // subsystems
+        u.subs = [dom];
+        u.subs.forEach(function(el){el.init();});
+
+        // begin
+        u.begin();
+
+        // stats
+        var done = window.performance.now();
+        var total = done - u.start;
+        console.log("total load time: " + total + "ms.");
+    },
+    "begin": function() {
+        console.log("fetching patch master list");
+        // display thumbs or prompt text to retrieve
+    }
+}
+// dom
+var dom = {
+    "init": function() {
+        dom.alpha = document.getElementById("alpha");
+        console.log(dom.alpha);
+    },
+    "canvas": function(r0) {
+        var c0 = {};
+        c0.can = document.createElement("canvas");
+        c0.con = c0.can.getContext("2d");
+        c0.can.width = r0[0];
+        c0.can.height = r0[1];
+        c0.can.style.position = "absolute";
+        c0.can.style.top = r0[3] + "px";
+        c0.can.style.left = r0[2] + "px";
+        return c0;
+    },
+    "add": function(c0) {
+        dom.alpha.appendChild(c0.can);
+    },
+    "remove": function(c0) {
+        dom.alpha.removeChild(c0.can);
+    }
+}
+// colors
+var rgba = {
+    "rc": function() {
+        // return random rgba
+        var c0 = [
+            rgba.rb(),
+            rgba.rb(),
+            rgba.rb(),
+            1.0
+            ];
+        return c0;
+    },
+    "css": function(c0) {
+        // return css string
+        return "rgba(" + c0.join(",") + ")";
+    },
+    "rb": function() {
+        // random byte
+        return (Math.random() * 255) >>> 0;
+    },
+    "rba": function(size0) {
+        // random byte array length of input
+        var r0 = [];
+        for (var i = 0; i < size0; i++) {
+            r0.push(rgba.rb());
+        }
+        return r0;
+    },
+    "rand": function() {
+        return rgba.css(rgba.rc());
+    },
+    "mono": function(c0) {
+        return rgba.css([c0,c0,c0,1.0]);
+    },
+    "rmon": function() {
+        var c0 = rgba.rb();
+        return rgba.mono(c0);
+    }
+}
+
+</script>
+    </head>
+    <body id="alpha">
+    </body>
+</html>
+
 

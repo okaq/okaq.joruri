@@ -22,3 +22,7 @@ func main() {
     http.HandleFunc("/", CnkiHandler)
     http.ListenAndServe(":8800", nil)
 }
+
+// populate and cache dir of sample patch images
+// bitmap format is png, 256x256 or similar 2^N
+// serve files directly with appropriate header
