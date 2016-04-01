@@ -5,11 +5,17 @@ package main
 
 import (
     "fmt"
+    "io/ioutil"
     "net/http"
 )
 
 const (
     CNKI = "cnki.html"
+    SAMP = "sample"
+)
+
+var (
+    S []string // samples list
 )
 
 func CnkiHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,8 +23,22 @@ func CnkiHandler(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, CNKI)
 }
 
+func Samples() {
+    f0, err := ioutil.ReadDir(SAMP)
+    if err != nil {
+        fmt.Println(err)
+    }
+    S = make([]string, len(f0))
+    for i, f1 := range f0 {
+        // fmt.Println(f1.Name())
+        S[i] = f1.Name()
+    }
+    fmt.Println(S)
+}
+
 func main() {
     fmt.Println("starting unki web on localhost:8800")
+    Samples()
     http.HandleFunc("/", CnkiHandler)
     http.ListenAndServe(":8800", nil)
 }
