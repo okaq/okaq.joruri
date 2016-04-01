@@ -47,6 +47,14 @@ var u = {
 var xhr = {
     "master": function() {
         // dir list of sample pngs
+        fetch("/m")
+            .then(function(response) {
+                    console.log(response);
+                    return response.text()
+              })
+            .then(function(text) {
+                    console.log(text);
+              });
     }
 }
 // dom

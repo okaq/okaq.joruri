@@ -25,6 +25,11 @@ func CnkiHandler(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, CNKI)
 }
 
+func SamplesHandler(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(r)
+    w.Write([]byte("ok samples list!"))
+}
+
 func Samples() {
     f0, err := ioutil.ReadDir(SAMP)
     if err != nil {
@@ -48,6 +53,7 @@ func main() {
     fmt.Println("starting unki web on localhost:8800")
     Samples()
     http.HandleFunc("/", CnkiHandler)
+    http.HandleFunc("/m", SamplesHandler)
     http.ListenAndServe(":8800", nil)
 }
 
