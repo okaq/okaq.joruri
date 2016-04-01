@@ -4,6 +4,7 @@
 package main
 
 import (
+    "encoding/json"
     "fmt"
     "io/ioutil"
     "net/http"
@@ -16,6 +17,7 @@ const (
 
 var (
     S []string // samples list
+    B []byte // samples json
 )
 
 func CnkiHandler(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +35,13 @@ func Samples() {
         // fmt.Println(f1.Name())
         S[i] = f1.Name()
     }
-    fmt.Println(S)
+    // fmt.Println(S)
+    // var err error
+    B, err = json.Marshal(S)
+    if err != nil {
+        fmt.Println(err)
+    }
+    // fmt.Println(B)
 }
 
 func main() {
