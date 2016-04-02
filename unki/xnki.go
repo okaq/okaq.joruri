@@ -27,7 +27,8 @@ func CnkiHandler(w http.ResponseWriter, r *http.Request) {
 
 func SamplesHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Println(r)
-    w.Write([]byte("ok samples list!"))
+    // w.Write([]byte("ok samples list!"))
+    w.Write(B)
 }
 
 func Samples() {
