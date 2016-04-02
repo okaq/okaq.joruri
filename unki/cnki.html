@@ -87,6 +87,18 @@ var xhr = {
                 var i0 = document.createElement("img");
                 i0.src = b0;
                 dom.alpha.appendChild(i0);
+                console.log(i0.width, i0.height);
+                // no data for image dimesion properties
+                var c0 = dom.canvas([512,512,384,384]);
+                dom.add(c0);
+                var i1 = new window.Image();
+                i1.addEventListener("load", function() {
+                        console.log(i1.width, i1.height);
+                        // image dims = 71x74 ok
+                        c0.con.drawImage(i1, 0, 0);
+                    });
+                i1.setAttribute("src", b0);
+                c0.con.drawImage(i0, 0, 0);
              })
     }
 }
