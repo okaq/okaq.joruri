@@ -31,6 +31,10 @@ func SamplesHandler(w http.ResponseWriter, r *http.Request) {
     w.Write(B)
 }
 
+// func BmpHandler(w http.ResponseWriter, r *http.Request) {
+//     fmt.Println(r)
+// }
+
 func Samples() {
     f0, err := ioutil.ReadDir(SAMP)
     if err != nil {
@@ -55,6 +59,7 @@ func main() {
     Samples()
     http.HandleFunc("/", CnkiHandler)
     http.HandleFunc("/m", SamplesHandler)
+    http.Handle("/sample/", http.StripPrefix("/sample/", http.FileServer(http.Dir("./sample"))))
     http.ListenAndServe(":8800", nil)
 }
 
