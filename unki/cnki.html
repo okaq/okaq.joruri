@@ -84,6 +84,9 @@ var xhr = {
                 var b0 = URL.createObjectURL(blob);
                 console.log(b0);
                 // create and populate canvas with image src
+                var i0 = document.createElement("img");
+                i0.src = b0;
+                dom.alpha.appendChild(i0);
              })
     }
 }
