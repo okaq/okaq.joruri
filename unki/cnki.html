@@ -69,13 +69,22 @@ var xhr = {
                     // populate a series of buttons with thumbs
                     // for each image in sample pack
                     // click event will load into sampler pane
+                    xhr.bitmap("dome.png");
               });
     },
     "bitmap": function(bmp0) {
         // input file name of bitmap to fetch
         // full path is "sample/a.png"
-        // var p0 = "sample/" + bmp0;
-        // fetch(p0)
+        var p0 = "sample/" + bmp0;
+        fetch(p0)
+            .then(function(response){
+                return response.blob();
+             })
+            .then(function(blob){
+                var b0 = URL.createObjectURL(blob);
+                console.log(b0);
+                // create and populate canvas with image src
+             })
     }
 }
 // dom
