@@ -59,7 +59,11 @@ var xhr = {
                     console.log(json);
                     xhr.a = json;
                     // timeout to fetch and render a png
-                    console.log(xhr.a[0]);
+                    for (var i = 0; i < xhr.a.length; i++) {
+                        console.log(i, xhr.a[i]);
+                        // add grid canvas block
+                        // event listener and dataset id props
+                    }
                     // fetch as type png
                     // use blob response pattern
                     // create an image element
