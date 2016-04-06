@@ -63,6 +63,7 @@ var xhr = {
                         console.log(i, xhr.a[i]);
                         // add grid canvas block
                         // event listener and dataset id props
+                        xhr.bitmap2(i, xhr.a[i]);
                     }
                     // fetch as type png
                     // use blob response pattern
@@ -75,8 +76,12 @@ var xhr = {
                     // click event will load into sampler pane
                     // image pixel data to generate stats
                     // rgba histogram, entropy
-                    xhr.bitmap("dome.png");
+                    // xhr.bitmap("dome.png");
               });
+    },
+    "bitmap2": function(i0, bmp0) {
+        // add canvas object to current grid
+        // fetch, gen stats  and render
     },
     "bitmap": function(bmp0) {
         // input file name of bitmap to fetch
