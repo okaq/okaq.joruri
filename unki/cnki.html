@@ -86,6 +86,19 @@ var xhr = {
         // add canvas object to current grid
         sce.add(i0);
         // fetch, gen stats  and render
+        var p0 = "sample/" + bmp0;
+        fetch(p0)
+            .then(function(response){
+                return response.blob();
+             })
+            .then(function(blob){
+                var b0 = URL.createObjectURL(blob);
+                var i1 = new window.Image();
+                i1.addEventListener("load", function() {
+                        sce.b[i0].con.drawImage(i1, 8, 8);
+                    });
+                i1.setAttribute("src", b0);
+             });
     },
     "bitmap": function(bmp0) {
         // input file name of bitmap to fetch
