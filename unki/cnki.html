@@ -26,7 +26,7 @@ var u = {
         u.start = window.performance.now();
 
         // subsystems
-        u.subs = [dom];
+        u.subs = [dom,lay,sce];
         u.subs.forEach(function(el){el.init();});
 
         // begin
@@ -38,6 +38,7 @@ var u = {
         console.log("total load time: " + total + "ms.");
     },
     "begin": function() {
+        ren.rand(sce.a);
         console.log("fetching patch master list");
         // display thumbs or prompt text to retrieve
         xhr.master();
@@ -114,10 +115,25 @@ var xhr = {
              })
     }
 }
+// scene
+var sce = {
+    "init": function() {
+        // bkgd
+        sce.a = dom.canvas(lay.a);
+        dom.add(sce.a);
+    }
+}
 // layout
 var lay = {
+    "init": function() {
+        // bkgd
+        lay.a = [1920,1080,0,0];
+    },
     "grid": function(n0) {
         // create fixed grid full page
+        // fixed height 512
+        var h0 = 512;
+        var w0 = (1920 / n0) >>> 0;
     }
 }
 // dom
@@ -142,6 +158,13 @@ var dom = {
     },
     "remove": function(c0) {
         dom.alpha.removeChild(c0.can);
+    }
+}
+// render
+var ren = {
+    "rand": function(c0) {
+        c0.con.fillStyle = rgba.rand();
+        c0.con.fillRect(0,0,c0.can.width,c0.can.height);
     }
 }
 // colors
