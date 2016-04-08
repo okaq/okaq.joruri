@@ -61,6 +61,7 @@ var xhr = {
                     xhr.a = json;
                     // timeout to fetch and render a png
                     lay.grid(xhr.a.length);
+                    sce.grid();
                     for (var i = 0; i < xhr.a.length; i++) {
                         console.log(i, xhr.a[i]);
                         // add grid canvas block
@@ -83,6 +84,7 @@ var xhr = {
     },
     "bitmap2": function(i0, bmp0) {
         // add canvas object to current grid
+        sce.add(i0);
         // fetch, gen stats  and render
     },
     "bitmap": function(bmp0) {
@@ -121,6 +123,15 @@ var sce = {
         // bkgd
         sce.a = dom.canvas(lay.a);
         dom.add(sce.a);
+    },
+    "grid": function() {
+        sce.b = [];
+    },
+    "add": function(i0) {
+        sce.b[i0] = dom.canvas(lay.b[i0]);
+        dom.add(sce.b[i0]);
+        ren.rand(sce.b[i0]);
+        // attach dataset id and click event handler
     }
 }
 // layout
@@ -134,6 +145,12 @@ var lay = {
         // fixed height 512
         var h0 = 512;
         var w0 = (1920 / n0) >>> 0;
+        var my = 284;
+        lay.b = [];
+        for (var i = 0; i < n0; i++) {
+            var x0 = (w0 * i) >>> 0;
+            lay.b[i] = [w0,h0,x0,my];
+        }
     }
 }
 // dom
