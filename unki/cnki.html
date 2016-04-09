@@ -145,6 +145,12 @@ var sce = {
         dom.add(sce.b[i0]);
         ren.rand(sce.b[i0]);
         // attach dataset id and click event handler
+        sce.b[i0].can.dataset.x = "grid_" + i0;
+        sce.b[i0].can.addEventListener("click", sce.click, false);
+    },
+    "click": function(e) {
+        console.log(e);
+        console.log(e.target.dataset.x);
     }
 }
 // layout
